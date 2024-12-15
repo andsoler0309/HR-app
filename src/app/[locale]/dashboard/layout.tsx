@@ -3,6 +3,12 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import Sidebar from '@/components/Sidebar'
 import Navbar from '@/components/Navbar'
+import { constructMetadata } from '@/lib/metadata'
+
+export const metadata = constructMetadata({
+  title: 'PeoplerHR',
+  description: 'View and manage your HR analytics, employee data, and company metrics.',
+})
 
 export default async function DashboardLayout({
   children,

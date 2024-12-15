@@ -1,21 +1,20 @@
 import './../globals.css';
 import {NextIntlClientProvider} from 'next-intl';
 import {notFound} from 'next/navigation';
+import { constructMetadata } from '@/lib/metadata'
+import SchemaOrg from '@/components/SchemaOrg'
+
+export const metadata = constructMetadata()
+
+export const viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: 'white' },
+    { media: '(prefers-color-scheme: dark)', color: 'black' },
+  ],
+}
 
 export const dynamic = 'force-dynamic';
 
-// Add metadata configuration
-export const metadata = {
-  title: {
-    default: 'PEOPLER',
-    template: '%s | Your Site Name'
-  },
-  icons: {
-    icon: '/logo.svg', // This will look for icon.png in the public folder
-    shortcut: '/favicon.ico',
-    apple: '/apple-icon.png',
-  }
-}
 
 export async function generateStaticParams() {
   return [{locale: 'en'}, {locale: 'es'}];
@@ -37,6 +36,9 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
+      <head>
+        <SchemaOrg />
+      </head>
       <body className="bg-background">
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
