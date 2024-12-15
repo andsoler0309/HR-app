@@ -2,20 +2,77 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .input-base {
+    @apply w-full px-3 py-2.5 bg-card border border-card-border rounded-lg shadow-sm text-foreground placeholder-text-muted/70 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-foreground hover:bg-primary/90 focus:ring-2 focus:ring-primary/20 disabled:opacity-50 transition-colors;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-rich-black hover:bg-secondary/90 focus:ring-2 focus:ring-secondary/20 disabled:opacity-50 transition-colors;
+  }
+}
+
+/* React Day Picker customization */
+.rdp {
+  --rdp-cell-size: 40px;
+  --rdp-accent-color: #CF5C36; /* flame */
+  --rdp-background-color: #050517; /* rich black */
+  margin: 0;
+}
+
+.rdp-day_selected:not([disabled]) { 
+  color: #D3D5D7; /* platinum */
+  background-color: #CF5C36; /* flame */
+}
+
+.rdp-day_selected:hover:not([disabled]) {
+  background-color: #CF5C36; /* flame */
+}
+
+/* Utility classes */
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* New scrollbar utilities */
+  .scrollbar-custom {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(88, 63, 63, 0.8) rgb(5 5 23 / 0.5);
+  }
+
+  .scrollbar-custom::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-track {
+    background: rgb(5 5 23 / 0.5);
+    border-radius: 5px;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    background: rgb(203 203 203 / 0.8);
+    border-radius: 5px;
+    border: 2px solid rgb(5 5 23);
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background: rgb(203 203 203);
+  }
 }

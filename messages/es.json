@@ -1,0 +1,822 @@
+{
+    "common": {
+        "loading": "Cargando...",
+        "error": "Ocurrió un error",
+        "noData": "No hay datos disponibles",
+        "company": "Nombre de la Empresa"
+    },
+    "LoginPage": {
+        "title": "Bienvenido de nuevo",
+        "subtitle": "Inicia sesión en tu cuenta para continuar",
+        "emailLabel": "Correo electrónico",
+        "passwordLabel": "Contraseña",
+        "rememberMe": "Recordarme",
+        "forgotPassword": "¿Olvidaste tu contraseña?",
+        "signInButton": "Iniciar sesión",
+        "signingIn": "Iniciando sesión...",
+        "noAccount": "¿No tienes una cuenta?",
+        "createAccount": "Crear nueva cuenta",
+        "errorOccurred": "Ha ocurrido un error",
+        "enterEmailPlaceholder": "Ingresa tu correo electrónico",
+        "enterPasswordPlaceholder": "Ingresa tu contraseña"
+    },
+    "register": {
+        "createAccount": "Crea tu cuenta",
+        "startManaging": "Empieza a gestionar tus proyectos hoy",
+        "fullName": "Nombre completo",
+        "enterFullName": "Ingresa tu nombre completo",
+        "emailAddress": "Correo electrónico",
+        "enterEmail": "Ingresa tu correo electrónico",
+        "password": "Contraseña",
+        "createPassword": "Crea una contraseña",
+        "confirmPassword": "Confirmar contraseña",
+        "enterConfirmPassword": "Confirma tu contraseña",
+        "companyName": "Nombre de la empresa",
+        "enterCompanyName": "Ingresa el nombre de tu empresa",
+        "creatingAccount": "Creando cuenta...",
+        "createAccountButton": "Crear cuenta",
+        "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+        "signInInstead": "Iniciar sesión",
+        "errorOccurred": "Ocurrió un error durante el registro",
+        "passwordValidation": {
+            "nameMin": "El nombre debe tener al menos 2 caracteres",
+            "invalidEmail": "Correo electrónico inválido",
+            "minLength": "La contraseña debe tener al menos 6 caracteres",
+            "uppercase": "La contraseña debe contener al menos una letra mayúscula",
+            "number": "La contraseña debe contener al menos un número",
+            "match": "Las contraseñas no coinciden",
+            "companyMin": "El nombre de la empresa debe tener al menos 2 caracteres"
+        }
+    },
+    "employees": {
+        "title": "Empleados",
+        "addEmployee": "Agregar Empleado",
+        "editEmployee": "Editar Empleado",
+        "alerts": {
+            "documentSuccess": {
+                "title": "Documento Creado Exitosamente",
+                "message": "{{name}}, tu documento ha sido creado."
+            },
+            "policyRequired": {
+                "title": "Política Requerida",
+                "message": "Por favor, crea al menos una política de tiempo libre antes de generar acceso al portal."
+            }
+        },
+        "search": {
+            "placeholder": "Buscar empleados...",
+            "allDepartments": "Todos los Departamentos"
+        },
+        "actions": {
+            "export": "Exportar",
+            "accessToken": "Token de Acceso",
+            "generateAccess": "Generar Acceso",
+            "edit": "Editar",
+            "generateDocument": "Generar Documento",
+            "generateSignature": "Generar Firma",
+            "editEmployee": "Editar Empleado",
+            "deleteEmployee": "Eliminar Empleado"
+        },
+        "table": {
+            "name": "Nombre",
+            "email": "Correo Electrónico",
+            "position": "Posición",
+            "department": "Departamento",
+            "status": "Estado",
+            "type": "Tipo",
+            "hireDate": "Fecha de Contratación",
+            "workingStatus": "Estado Laboral",
+            "actions": "Acciones",
+            "token": "Token",
+            "loading": "Cargando...",
+            "noEmployees": "No se encontraron empleados.",
+            "na": "N/D"
+        },
+        "status": {
+            "active": "Activo",
+            "inactive": "Inactivo",
+            "fullTime": "Tiempo Completo",
+            "partTime": "Medio Tiempo",
+            "contract": "Contrato",
+            "intern": "Practicante",
+            "working": "Trabajando",
+            "notWorking": "No Trabajando"
+        },
+        "form": {
+            "firstName": "Nombre",
+            "lastName": "Apellido",
+            "email": "Correo Electrónico",
+            "documentId": "ID de Documento",
+            "phone": "Teléfono",
+            "department": "Departamento",
+            "position": "Posición",
+            "employeeType": "Tipo de Empleado",
+            "hireDate": "Fecha de Contratación",
+            "salary": "Salario",
+            "birthday": "Cumpleaños",
+            "isActive": "Está Activo",
+            "selectDepartment": "Selecciona Departamento",
+            "selectEmployeeType": "Selecciona Tipo de Empleado",
+            "addNewEmployee": "Agregar Nuevo Empleado",
+            "updateEmployee": "Actualizar Empleado",
+            "cancel": "Cancelar",
+            "create": "Crear",
+            "update": "Actualizar",
+            "validation": {
+                "firstNameRequired": "El nombre es obligatorio",
+                "lastNameRequired": "El apellido es obligatorio",
+                "invalidEmail": "Correo electrónico inválido",
+                "departmentRequired": "Por favor, selecciona un departamento",
+                "positionRequired": "La posición es obligatoria",
+                "invalidManagerId": "ID de gerente inválido",
+                "invalidStatus": "Estado inválido",
+                "invalidEmployeeType": "Tipo de empleado inválido",
+                "hireDateRequired": "La fecha de contratación es obligatoria",
+                "birthdayRequired": "El cumpleaños es obligatorio",
+                "documentIdRequired": "El ID de documento es obligatorio"
+            },
+            "employeeTypeOptions": {
+                "fullTime": "Tiempo Completo",
+                "partTime": "Medio Tiempo",
+                "contract": "Contrato",
+                "intern": "Practicante"
+            },
+            "isActiveOptions": {
+                "true": "Activo",
+                "false": "Inactivo"
+            }
+        },
+        "error": {
+            "saveError": "Ocurrió un error al guardar el empleado",
+            "noAuthenticatedUser": "No hay un usuario autenticado"
+        },
+        "dashboard": {
+            "totalEmployees": "Total de Empleados",
+            "activeEmployees": "Empleados Activos",
+            "inactiveEmployees": "Empleados Inactivos"
+        },
+        "portalAccess": {
+            "title": "Acceso al Portal",
+            "accessToken": "Token de Acceso",
+            "shareToken": "Comparte este token con el empleado",
+            "generating": "Generando...",
+            "generateAccess": "Generar Acceso"
+        },
+        "upcomingAnniversaries": {
+            "title": "Aniversarios Laborales",
+            "noUpcoming": "No hay próximos aniversarios laborales en los próximos 30 días",
+            "today": "¡Hoy!",
+            "tomorrow": "Mañana",
+            "inDays": "En {days} días",
+            "yearsOfServiceAnniversary": "Aniversario de {yearsOfService} años",
+            "joined": "Se unió el"
+        },
+        "upcomingBirthdays": {
+            "title": "Próximos Cumpleaños",
+            "noUpcoming": "No hay próximos cumpleaños en los próximos 30 días",
+            "today": "¡Hoy!",
+            "tomorrow": "Mañana",
+            "inDays": "En {days} días"
+        }
+    },
+    "landing": {
+        "heroTitle": "Simplifica la Gestión de tu Talento con",
+        "heroSubtitle": "Una solución integral de RRHH para gestionar empleados, tiempo, nómina, vacaciones y documentación desde un solo lugar. Diseñado para empresas en crecimiento.",
+        "tryFree": "Prueba Gratis",
+        "fundamentalFeatures": "Características Fundamentales",
+        "centralizeOptimize": "Centraliza y optimiza la administración de tu equipo con un conjunto completo de herramientas adaptadas al contexto colombiano.",
+        "basicEmployeeMgmt": "Gestión Básica de Empleados",
+        "manualAttendance": "Asistencia y Tiempo",
+        "basicPayroll": "Nómina Básica",
+        "vacations": "Vacaciones",
+        "documentation": "Documentación",
+        "testimonialsTitle": "Lo Que Dicen Nuestros Clientes",
+        "testimonialsSubtitle": "PEOPLER impulsa la eficiencia y la satisfacción del equipo en cientos de empresas.",
+        "anaQuote": "\"Gracias a PEOPLER, nuestra gestión de empleados es más transparente y ordenada. Ahorramos tiempo y mejoramos la experiencia interna.\"",
+        "juanQuote": "\"La integración con el sistema colombiano de seguridad social y la facilidad para manejar vacaciones nos ha hecho la vida mucho más simple.\"",
+        "pricingTitle": "Precios Claros y Justos",
+        "pricingSubtitle": "Sin costos ocultos. Cancela en cualquier momento.",
+        "freePlan": "Plan Gratuito",
+        "freePlanDesc": "Para pequeñas operaciones o prueba inicial",
+        "max1Employee": "1 empleado máximo",
+        "upTo2Documents": "Hasta 2 documentos",
+        "basicFunctions": "Funciones básicas",
+        "premiumPlan": "Plan Premium",
+        "premiumPlanDesc": "Todo lo que necesitas para la gestión de RRHH",
+        "unlimitedEmployees": "Hasta 50 empleados",
+        "completeDocsMgmt": "Gestión completa de documentos",
+        "advancedVacations": "Gestión avanzada de vacaciones",
+        "startFreeTrial": "Comenzar Prueba Gratis",
+        "readyToOptimize": "¿Listo para Optimizar tu RRHH?",
+        "getStartedFree": "Comienza con una prueba gratuita y descubre cómo PEOPLER puede transformar la forma en que gestionas tu equipo.",
+        "signUpNow": "Registrarme Ahora",
+        "languageEnglish": "English",
+        "languageSpanish": "Español",
+        "personalInfoStorage": "Almacenamiento de información personal y laboral",
+        "importantDocsRegistry": "Registro de documentos importantes (contratos, certificaciones)",
+        "simpleDashboard": "Dashboard simple con conteo de empleados activos/inactivos",
+        "manualEntryRegistry": "Registro manual de entradas/salidas",
+        "colombianHolidays": "Calendario integrado de días festivos colombianos",
+        "baseSalaryCalc": "Cálculo de salario base",
+        "mandatoryDeductions": "Gestión de deducciones obligatorias (salud, pensión)",
+        "simplePayslips": "Generación de colillas de pago simples",
+        "socialSecuritySupport": "Soporte para el sistema de seguridad social colombiano",
+        "vacationRequest": "Solicitud y aprobación de vacaciones",
+        "automaticDaysCalc": "Cálculo automático de días disponibles",
+        "teamAbsenceCalendar": "Calendario de ausencias del equipo",
+        "basicTemplates": "Plantillas básicas de documentos laborales comunes",
+        "secureStorage": "Almacenamiento seguro de documentación",
+        "electronicSignature": "Función de firma electrónica simple",
+        "copyright": "© {year} PEOPLER. Todos los derechos reservados.",
+        "operationsManager": "Gerente de Operaciones",
+        "hrDirector": "Director de RRHH",
+        "free": "GRATIS",
+        "premiumPrice": "$20.000 COP",
+        "perMonth": "/mes",
+        "allRightsReserved": "Todos los derechos reservados.",
+        "employeePortal": "Portal del Empleado"
+    },
+    "navbar": {
+        "signOut": "Cerrar sesión"
+    },
+    "sidebar": {
+        "employees": "Empleados",
+        "departments": "Departamentos",
+        "documents": "Documentos",
+        "timeOff": "Tiempo Libre",
+        "salary": "Salario",
+        "settings": "Configuraciones"
+    },
+    "departments": {
+        "title": "Departamentos",
+        "addDepartment": "Agregar Departamento",
+        "noDepartments": "No hay departamentos todavía",
+        "getStarted": "Comienza creando tu primer departamento",
+        "loadingDepartments": "Cargando departamentos...",
+        "errorFetchingDepartments": "Error al obtener departamentos",
+        "deleteDepartmentError": "Error al eliminar el departamento",
+        "noDescription": "No se proporcionó descripción",
+        "actions": {
+            "editDepartment": "Editar Departamento",
+            "deleteDepartment": "Eliminar Departamento"
+        },
+        "form": {
+            "editDepartment": "Editar Departamento",
+            "addDepartment": "Agregar Departamento",
+            "name": "Nombre",
+            "description": "Descripción",
+            "cancel": "Cancelar",
+            "create": "Crear",
+            "update": "Actualizar",
+            "validation": {
+                "nameRequired": "El nombre es obligatorio"
+            },
+            "departmentDistribution": "Distribución de Departamentos",
+            "loading": "Cargando...",
+            "error": "Error al obtener la distribución de departamentos",
+            "noData": "No hay datos de departamentos disponibles"
+        }
+    },
+    "documents": {
+        "header": {
+            "title": "Documentos"
+        },
+        "buttons": {
+            "newCategory": "Nueva Categoría",
+            "uploadDocument": "Subir Documento",
+            "cancel": "Cancelar",
+            "createCategory": "Crear Categoría",
+            "creating": "Creando...",
+            "newTemplate": "Nueva Plantilla",
+            "editTemplate": "Editar Plantilla",
+            "saveTemplate": "Guardar Plantilla",
+            "deleteTemplate": "Eliminar Plantilla",
+            "preview": "Vista Previa",
+            "save": "Guardar",
+            "requireSignature": "Requerir Firma Electrónica",
+            "enableSignature": "Habilitar si este documento requiere firmas electrónicas",
+            "employeeSignature": "Firma del Empleado",
+            "managerSignature": "Firma del Gerente",
+            "upload": "Subir",
+            "uploading": "Subiendo...",
+            "signDocument": "Firmar Documento"
+        },
+        "tabs": {
+            "documents": "Documentos",
+            "templates": "Plantillas"
+        },
+        "search": {
+            "placeholder": "Buscar documentos..."
+        },
+        "filters": {
+            "allCategories": "Todas las Categorías",
+            "allEmployees": "Todos los Empleados"
+        },
+        "category": {
+            "documentsCount": "{count} documentos",
+            "createTitle": "Crear Categoría",
+            "categoryName": "Nombre de la Categoría",
+            "enterCategoryName": "Ingrese el nombre de la categoría",
+            "description": "Descripción",
+            "enterCategoryDescription": "Ingrese la descripción de la categoría",
+            "error": {
+                "noAuthenticatedUser": "No hay un usuario autenticado",
+                "noProfileFound": "No se encontró el perfil",
+                "createError": "Ocurrió un error al crear la categoría"
+            }
+        },
+        "templates": {
+            "header": "Plantillas de Documentos",
+            "newTemplate": "Nueva Plantilla",
+            "editTemplate": "Editar Plantilla",
+            "saveTemplate": "Guardar Plantilla",
+            "deleteTemplate": "Eliminar Plantilla",
+            "templateName": "Nombre de la Plantilla",
+            "enterTemplateName": "Ingrese el nombre de la plantilla...",
+            "category": "Categoría",
+            "selectCategory": "Seleccione una categoría...",
+            "description": "Descripción",
+            "enterDescription": "Ingrese la descripción...",
+            "requireSignature": "Requerir Firma Electrónica",
+            "enableSignature": "Habilitar si este documento requiere firmas electrónicas",
+            "requiredSignatures": "Firmas Requeridas",
+            "employeeSignature": "Firma del Empleado",
+            "managerSignature": "Firma del Gerente",
+            "templateContent": "Contenido de la Plantilla",
+            "enterTemplateContent": "Ingrese el contenido de la plantilla...",
+            "availableVariables": "Variables disponibles:",
+            "previewWithEmployee": "Vista previa con datos del empleado (Opcional)",
+            "previewWithoutEmployee": "Vista previa sin datos del empleado",
+            "previewSection": "Vista Previa",
+            "loadingTemplates": "Cargando plantillas...",
+            "noTemplates": "No se encontraron plantillas. ¡Crea tu primera plantilla!",
+            "confirmDelete": "¿Está seguro de que desea eliminar esta plantilla?",
+            "error": {
+                "noAuthenticatedUser": "No hay un usuario autenticado",
+                "unknownError": "Ocurrió un error desconocido"
+            }
+        },
+        "uploadModal": {
+            "title": "Subir Documento",
+            "uploadAFile": "Subir un archivo",
+            "orDragAndDrop": "o arrastra y suelta",
+            "fileTypes": "PDF, DOC, DOCX, XLS, XLSX hasta 10MB",
+            "selected": "Seleccionado: {fileName}",
+            "documentName": "Nombre del Documento",
+            "enterDocumentName": "Ingrese el nombre del documento",
+            "category": "Categoría",
+            "selectCategory": "Seleccione una categoría",
+            "employee": "Empleado",
+            "selectEmployee": "Seleccione un empleado",
+            "description": "Descripción",
+            "enterDescription": "Ingrese la descripción del documento",
+            "error": {
+                "noAuthenticatedUser": "No hay un usuario autenticado",
+                "resourceLimitExceeded": "Ha excedido el número permitido de documentos.",
+                "uploadError": "Error al subir el documento"
+            }
+        },
+        "loading": "Cargando documentos...",
+        "delete": {
+            "confirm": "¿Está seguro de que desea eliminar este documento?"
+        },
+        "uploadVersionModal": {
+            "title": "Subir Nueva Versión",
+            "file": "Archivo",
+            "uploadAFile": "Subir un archivo",
+            "orDragAndDrop": "o arrastra y suelta",
+            "fileTypes": "Mismo tipo de archivo que el documento original",
+            "changesDescription": "Descripción de los Cambios",
+            "enterChangesDescription": "Describe los cambios en esta versión...",
+            "cancel": "Cancelar",
+            "uploadVersion": "Subir Versión",
+            "uploading": "Subiendo..."
+        },
+        "viewer": {
+            "lastModified": "Última modificación {date}",
+            "download": "Descargar",
+            "share": "Compartir",
+            "versionHistory": "Historial de Versiones",
+            "currentVersion": "Versión Actual",
+            "versionNumber": "v{version}",
+            "versionDate": "{date}"
+        },
+        "generateDocumentModal": {
+            "title": "Generar Documento para {firstName} {lastName}",
+            "selectTemplate": "Seleccionar Plantilla",
+            "selectTemplatePlaceholder": "Elige una plantilla...",
+            "cancel": "Cancelar",
+            "generateDocument": "Generar Documento",
+            "loadingTemplates": "Cargando plantillas...",
+            "noTemplates": "No hay plantillas disponibles. Por favor, crea una primero.",
+            "error": {
+                "noAuthenticatedUser": "No hay un usuario autenticado",
+                "resourceLimitExceeded": "Ha excedido el número permitido de documentos.",
+                "unknownError": "Ocurrió un error desconocido"
+            }
+        },
+        "signaturePad": {
+            "dialogTitle": "Firma Electrónica",
+            "clear": "Limpiar",
+            "cancel": "Cancelar",
+            "saveSignature": "Guardar Firma",
+            "error": {
+                "noAuthenticatedUser": "No hay un usuario autenticado",
+                "unknownError": "Ocurrió un error desconocido",
+                "saveError": "Error al guardar la firma"
+            }
+        }
+    },
+    "TimeOffPage": {
+        "title": "Gestión de Ausencias",
+        "buttons": {
+            "refreshing": "Actualizando...",
+            "refreshBalances": "Actualizar Saldos",
+            "showYearlyBreakdown": "Mostrar desglose anual",
+            "hideYearlyBreakdown": "Ocultar desglose anual",
+            "createPolicy": "Crear Política",
+            "updatePolicy": "Actualizar Política",
+            "creating": "Creando...",
+            "updating": "Actualizando...",
+            "cancel": "Cancelar"
+        },
+        "placeholders": {
+            "searchEmployee": "Buscar empleado...",
+            "selectPolicyType": "Seleccionar Tipo de Política",
+            "policyName": "Ingrese el nombre de la política",
+            "daysPerYear": "ej., 15",
+            "maxCarryForward": "ej., 5",
+            "description": "Descripción opcional para la política"
+        },
+        "balanceTypes": {
+            "SICK": "Licencia por Enfermedad",
+            "VACATION": "Vacaciones",
+            "PERSONAL": "Personal",
+            "BEREAVEMENT": "Duelo",
+            "OTHER": "Otro"
+        },
+        "labels": {
+            "total": "Total",
+            "used": "Usados",
+            "left": "Restantes",
+            "yearlyBreakdown": "Desglose Anual"
+        },
+        "units": {
+            "days": "días"
+        },
+        "tabs": {
+            "calendar": "Calendario",
+            "requests": "Solicitudes",
+            "policies": "Políticas"
+        },
+        "errors": {
+            "policyNotFound": "Política no encontrada para el tipo de ausencia: {leaveType}",
+            "requestNotFound": "Solicitud con ID {requestId} no encontrada.",
+            "invalidRequestType": "Tipo de solicitud inválido: {type}",
+            "balanceNotFound": "Saldo de ausencias no encontrado para el empleado y la política.",
+            "insufficientBalance": "Saldo de ausencias insuficiente.",
+            "unexpected": "Ocurrió un error inesperado."
+        },
+        "balances": {
+            "balanceTypes": {
+                "SICK": "Licencia por Enfermedad",
+                "VACATION": "Vacaciones",
+                "PERSONAL": "Personal",
+                "BEREAVEMENT": "Duelo",
+                "OTHER": "Otro"
+            },
+            "labels": {
+                "total": "Total",
+                "used": "Usados",
+                "left": "Restantes",
+                "yearlyBreakdown": "Desglose Anual"
+            },
+            "units": {
+                "days": "días"
+            },
+            "buttons": {
+                "showYearlyBreakdown": "Mostrar desglose anual",
+                "hideYearlyBreakdown": "Ocultar desglose anual"
+            },
+            "messages": {
+                "noBalances": "No hay saldos disponibles."
+            }
+        },
+        "createPolicyModal": {
+            "title": "Crear Nueva Política",
+            "fields": {
+                "policyName": "Nombre de la Política",
+                "policyType": "Tipo de Política",
+                "daysPerYear": "Días Por Año",
+                "carriesForward": "Trasladar",
+                "maxCarryForward": "Máximo Traslado",
+                "description": "Descripción"
+            },
+            "placeholders": {
+                "policyName": "Ingrese el nombre de la política",
+                "daysPerYear": "ej., 15",
+                "maxCarryForward": "ej., 5",
+                "description": "Descripción opcional para la política"
+            }
+        },
+        "editPolicyModal": {
+            "title": "Editar Política",
+            "fields": {
+                "policyName": "Nombre de la Política",
+                "policyType": "Tipo de Política",
+                "daysPerYear": "Días Por Año",
+                "carriesForward": "Trasladar",
+                "maxCarryForward": "Máximo Traslado",
+                "description": "Descripción"
+            },
+            "placeholders": {
+                "policyName": "Ingrese el nombre de la política",
+                "daysPerYear": "ej., 15",
+                "maxCarryForward": "ej., 5",
+                "description": "Descripción opcional para la política"
+            },
+            "options": {
+                "vacation": "Vacaciones",
+                "sickLeave": "Licencia por Enfermedad",
+                "personal": "Personal",
+                "bereavement": "Duelo",
+                "other": "Otro"
+            },
+            "errors": {
+                "nameMin": "El nombre de la política debe tener al menos 3 caracteres",
+                "invalidType": "Por favor seleccione un tipo de política válido",
+                "daysPerYearMin": "Los días por año deben ser un número positivo",
+                "maxCarryForwardMin": "El máximo traslado debe ser un número positivo",
+                "descriptionMax": "La descripción puede tener como máximo 500 caracteres",
+                "maxCarryForwardRequired": "El máximo traslado es requerido si se habilita trasladar",
+                "unexpected": "Ocurrió un error inesperado."
+            },
+            "buttons": {
+                "cancel": "Cancelar",
+                "updatePolicy": "Actualizar Política",
+                "updating": "Actualizando..."
+            }
+        },
+        "policiesManagement": {
+            "title": "Gestionar Políticas de Ausencias",
+            "buttons": {
+                "createPolicy": "Crear Política"
+            },
+            "tableHeaders": {
+                "policyName": "Nombre de la Política",
+                "type": "Tipo",
+                "daysPerYear": "Días/Año",
+                "carriesForward": "Trasladar",
+                "actions": "Acciones"
+            },
+            "labels": {
+                "yes": "Sí",
+                "no": "No"
+            },
+            "actions": {
+                "edit": "Editar",
+                "delete": "Eliminar"
+            },
+            "messages": {
+                "noPolicies": "No se encontraron políticas."
+            },
+            "confirmDelete": "¿Está seguro de que desea eliminar esta política? Esta acción no se puede deshacer.",
+            "alertDeleteFailed": "No se pudo eliminar la política. Por favor, inténtelo de nuevo.",
+            "alertDeleteSuccess": "Política eliminada exitosamente."
+        },
+        "requestTimeOffModal": {
+            "title": "Solicitar Ausencia",
+            "fields": {
+                "leaveType": "Tipo de Ausencia",
+                "startDate": "Fecha de Inicio",
+                "endDate": "Fecha de Fin",
+                "reason": "Razón"
+            },
+            "placeholders": {
+                "selectLeaveType": "Seleccionar Tipo de Ausencia",
+                "reason": "Por favor, proporcione una razón para su solicitud de ausencia"
+            },
+            "buttons": {
+                "cancel": "Cancelar",
+                "submitRequest": "Enviar Solicitud",
+                "submitting": "Enviando..."
+            },
+            "labels": {
+                "totalWorkingDays": "Total de días laborales"
+            },
+            "errors": {
+                "selectLeaveType": "Por favor, seleccione un tipo de ausencia",
+                "reasonMin": "Por favor, proporcione una razón",
+                "reasonMax": "La razón puede tener como máximo 500 caracteres",
+                "maxCarryForwardRequired": "El máximo traslado es requerido si se habilita trasladar",
+                "insufficientBalance": "Saldo de ausencias insuficiente",
+                "unexpected": "Ocurrió un error inesperado."
+            }
+        },
+        "timeOffRequests": {
+            "loading": "Cargando solicitudes...",
+            "tabs": {
+                "pending": "Pendientes",
+                "approved": "Aprobadas",
+                "rejected": "Rechazadas"
+            },
+            "messages": {
+                "noPending": "No hay solicitudes pendientes.",
+                "noApproved": "No hay solicitudes aprobadas.",
+                "noRejected": "No hay solicitudes rechazadas."
+            },
+            "requestCard": {
+                "fields": {
+                    "type": "Tipo",
+                    "dates": "Fechas",
+                    "totalDays": "Total de días",
+                    "reason": "Razón"
+                },
+                "status": {
+                    "PENDING": "PENDIENTE",
+                    "APPROVED": "APROBADA",
+                    "REJECTED": "RECHAZADA"
+                },
+                "buttons": {
+                    "approve": "Aprobar",
+                    "reject": "Rechazar"
+                },
+                "alerts": {
+                    "overlap": "Advertencia: Esta solicitud se superpone con otras ausencias aprobadas"
+                }
+            }
+        }
+    },
+    "SalaryPage": {
+        "salaryManagement": "Gestión de Salarios",
+        "summary": "Resumen",
+        "employeesPayroll": "Nómina de Empleados",
+        "payrollPeriods": "Períodos de Nómina",
+        "configuration": "Configuración",
+        "loading": "Cargando...",
+        "errorFetchingPayrollConfig": "Error al obtener la configuración de nómina."
+    },
+    "PayrollSummary": {
+        "totalEmployees": "Total de Empleados",
+        "totalGrossSalaries": "Total Salarios Brutos",
+        "averageSalary": "Promedio",
+        "netPayroll": "Nómina Neta",
+        "deductions": "Deducciones",
+        "salaryDistribution": "Distribución de Salarios",
+        "loadingSummary": "Cargando resumen..."
+    },
+    "EmployeePayrollTable": {
+        "title": "Nómina de Empleados",
+        "export": "Exportar a Excel",
+        "loadingEmployees": "Cargando empleados...",
+        "employee": "Empleado",
+        "position": "Cargo",
+        "baseSalary": "Salario Base",
+        "health": "Salud",
+        "pension": "Pensión",
+        "solidarityFund": "F. Solidaridad",
+        "withholding": "Retención",
+        "totalDeductions": "Total Deducciones",
+        "netSalary": "Salario Neto"
+    },
+    "PortalLogin": {
+        "title": "Portal del Empleado",
+        "subtitle": "Accede a tu portal de autoservicio de empleados",
+        "emailLabel": "Correo electrónico",
+        "emailPlaceholder": "Correo Corporativo",
+        "tokenLabel": "Token de Acceso",
+        "tokenPlaceholder": "Token de Acceso",
+        "signInButton": "Iniciar sesión",
+        "signInLoading": "Iniciando sesión...",
+        "errorInvalidCredentials": "Correo electrónico o token de acceso inválidos"
+    },
+    "PortalDashboard": {
+        "title": "Portal del Empleado",
+        "logout": "Cerrar sesión",
+        "employeeInformation": "Información del Empleado",
+        "department": "Departamento",
+        "email": "Correo Electrónico",
+        "role": "Rol",
+        "submitRequest": "Enviar una Solicitud",
+        "myRequests": "Mis Solicitudes"
+    },
+    "RequestForm": {
+        "errorMessage": "Error al enviar la solicitud",
+        "requestTypeLabel": "Tipo de Solicitud",
+        "timeOffRequest": "Solicitud de Permiso",
+        "startDateLabel": "Fecha de Inicio",
+        "endDateLabel": "Fecha de Finalización",
+        "leaveTypeLabel": "Tipo de Permiso",
+        "selectLeaveType": "Seleccionar tipo de permiso",
+        "reasonLabel": "Motivo",
+        "reasonPlaceholder": "Por favor, indique el motivo de su solicitud...",
+        "submitButton": "Enviar Solicitud",
+        "submitting": "Enviando...",
+        "invalidSession": "Sesión de usuario inválida",
+        "missingDates": "Por favor seleccione ambas fechas de inicio y finalización"
+    },
+    "RequestList": {
+        "loading": "Cargando solicitudes...",
+        "noRequests": "No se encontraron solicitudes",
+        "submittedOn": "Enviado el",
+        "timeOffRange": "{start} al {end}",
+        "pending": "Pendiente",
+        "approved": "Aprobado",
+        "rejected": "Rechazado"
+    },
+    "AttendanceTracker": {
+        "title": "Seguimiento de Asistencia",
+        "clockIn": "Registrar Entrada",
+        "clockOut": "Registrar Salida",
+        "lastClockIn": "Última Entrada",
+        "lastClockOut": "Última Salida",
+        "loading": "Cargando..."
+    },
+    "SettingsPage": {
+        "title": "Gestión Salarial",
+        "profileSettings": "Configuración del Perfil",
+        "profilePicture": "Foto de Perfil",
+        "fullName": "Nombre Completo",
+        "companyName": "Nombre de la Empresa",
+        "email": "Correo Electrónico",
+        "saveChanges": "Guardar Cambios",
+        "saving": "Guardando...",
+        "subscription": "Suscripción",
+        "currentPlan": "Plan Actual",
+        "premium": "Premium",
+        "free": "Gratis",
+        "active": "Activo",
+        "limited": "Limitado",
+        "planFeatures": "Características del Plan",
+        "unlimitedEmployees": "Empleados ilimitados",
+        "freeLimitEmployees": "{count} empleados (Límite gratuito)",
+        "documentManagement": "Gestión de documentos",
+        "advancedReports": "Informes avanzados",
+        "cancelSubscription": "Cancelar Suscripción",
+        "reactivateSubscription": "Reactivar Suscripción",
+        "subscriptionWillEnd": "Tu suscripción finalizará el {date}"
+    },
+    "CancelSubscriptionModal": {
+        "title": "Cancelar Suscripción",
+        "errorOccurred": "Ocurrió un error",
+        "whyCancelling": "¿Por qué estás cancelando?",
+        "selectReason": "Selecciona un motivo",
+        "reasons": {
+            "too_expensive": "Demasiado caro",
+            "not_using_it_enough": "No lo uso lo suficiente",
+            "missing_features": "Faltan funciones",
+            "found_another_solution": "Encontré otra solución",
+            "technical_issues": "Problemas técnicos",
+            "other": "Otro"
+        },
+        "otherSpecify": "Por favor especifica",
+        "placeholderSpecify": "Cuéntanos más...",
+        "importantNote": "Nota Importante:",
+        "noteList": {
+            "activeUntilEnd": "Tu suscripción permanecerá activa hasta el final del período de facturación actual.",
+            "accessPremium": "Aún tendrás acceso a todas las funciones premium hasta entonces.",
+            "noRefunds": "No se emitirán reembolsos por el período de facturación actual.",
+            "reactivateAnytime": "Puedes reactivar tu suscripción en cualquier momento."
+        },
+        "keepSubscription": "Mantener Suscripción",
+        "confirmCancellation": "Confirmar Cancelación",
+        "cancelling": "Cancelando..."
+    },
+    "PayUSubscriptionForm": {
+        "upgradeButton": "Actualizar a Premium - {amount} {currency}/mes",
+        "errorFetchingSignature": "Error al obtener la firma de pago. Por favor, inténtalo de nuevo.",
+        "errorProcessingSubscription": "Error al procesar la suscripción. Por favor, inténtalo de nuevo."
+    },
+    "verifyEmail": {
+        "checkEmail": "Revisa tu correo",
+        "sentVerificationLink": "Te hemos enviado un enlace de verificación",
+        "emailSent": "Enviamos un correo a {email}",
+        "clickLink": "Haz clic en el enlace de tu correo para verificar tu cuenta",
+        "afterVerification": "Después de la verificación, podrás iniciar sesión en tu cuenta",
+        "returnToLogin": "Volver al inicio de sesión",
+        "didNotReceiveEmail": "¿No recibiste el correo? Revisa tu carpeta de spam",
+        "clickToResend": "haz clic aquí para reenviar"
+    },
+    "ForgotPasswordPage": {
+      "title": "Recuperar Contraseña",
+      "subtitle": "Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña",
+      "emailLabel": "Correo electrónico",
+      "enterEmailPlaceholder": "Ingresa tu correo electrónico",
+      "sending": "Enviando enlace...",
+      "sendResetLink": "Enviar enlace",
+      "backToLogin": "Volver al inicio de sesión",
+      "checkEmail": "Revisa tu correo electrónico para encontrar el enlace",
+      "errorOccurred": "Ocurrió un error al enviar el enlace"
+    },
+    "ResetPasswordPage": {
+      "title": "Restablecer Contraseña",
+      "subtitle": "Ingresa tu nueva contraseña abajo",
+      "newPasswordLabel": "Nueva contraseña",
+      "enterNewPasswordPlaceholder": "Ingresa tu nueva contraseña",
+      "confirmPasswordLabel": "Confirmar contraseña",
+      "confirmPasswordPlaceholder": "Confirma tu nueva contraseña",
+      "updating": "Actualizando contraseña...",
+      "updatePassword": "Actualizar contraseña",
+      "passwordsDoNotMatch": "Las contraseñas no coinciden",
+      "errorOccurred": "Ocurrió un error al restablecer la contraseña"
+    }
+}
