@@ -1,4 +1,4 @@
-export type OvertimeType = 'REGULAR' | 'NIGHT' | 'SUNDAY' | 'HOLIDAY'
+export type OvertimeType = 'REGULAR' | 'NIGHT' | 'SUNDAY' | 'HOLIDAY' | 'SUNDAY_HOLIDAY' | 'NIGHT_SUNDAY_HOLIDAY'
 
 interface OvertimeRate {
   type: OvertimeType

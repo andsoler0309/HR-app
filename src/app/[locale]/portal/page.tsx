@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { useTranslations } from 'next-intl';
+import { PortalUser } from '@/types/portal';
 
 export default function PortalLogin() {
   const t = useTranslations('PortalLogin');
@@ -52,17 +53,14 @@ export default function PortalLogin() {
         throw new Error('Employee not found');
       }
 
-      const portalUser = {
+      const portalUser: PortalUser = {
         id: accessData[0].id,
         employee_id: accessData[0].employee_id,
         email: accessData[0].email,
         first_name: employeeData.first_name,
         last_name: employeeData.last_name,
         company_id: employeeData.company_id,
-        department: {
-          id: employeeData.department?.id,
-          name: employeeData.department?.name,
-        },
+        department: employeeData.department as unknown as { id: string; name: string },
         position: employeeData.position,
       };
 

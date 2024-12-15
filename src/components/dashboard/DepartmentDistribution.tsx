@@ -12,9 +12,9 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82ca9d'
 
 interface DepartmentCount {
   departments: {
-    name: string;
     id: string;
-  };
+    name: string;
+  }[];
 }
 
 interface ChartData {
@@ -51,12 +51,13 @@ export default function DepartmentDistribution() {
         `)
         .eq('company_id', companyId)
         .not('department_id', 'is', null)
+        .returns<DepartmentCount[]>();
 
       if (countError) throw countError
 
       const counts = departmentCounts.reduce((acc: Record<string, number>, current) => {
         // Get department name directly from the departments object
-        const deptName = current.departments.name;
+        const deptName = current.departments[0]?.name;
         if (!deptName) return acc;
         acc[deptName] = (acc[deptName] || 0) + 1;
         return acc;

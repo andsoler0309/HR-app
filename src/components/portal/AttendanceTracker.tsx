@@ -6,28 +6,37 @@ import { Button } from '@/components/ui/button';
 import { supabase } from '@/lib/supabase';
 import { useTranslations } from 'next-intl';
 import type { TimeOffRequest } from '@/types/timeoff';
+import type { Employee, EmployeeAttendance } from '@/types/employee'; // Assuming the types are in this file
 
-const AttendanceTracker = ({ user }) => {
+interface AttendanceTrackerProps {
+  user: {
+    employee_id: string;
+    company_id: string;
+  };
+}
+
+const AttendanceTracker: React.FC<AttendanceTrackerProps> = ({ user }) => {
   const t = useTranslations('AttendanceTracker');
-  const [isCheckedIn, setIsCheckedIn] = useState(false);
-  const [lastAttendance, setLastAttendance] = useState(null);
-  const [attendanceRecords, setAttendanceRecords] = useState([]);
+  const [isCheckedIn, setIsCheckedIn] = useState<boolean>(false);
+  const [lastAttendance, setLastAttendance] = useState<EmployeeAttendance | null>(null);
+  const [attendanceRecords, setAttendanceRecords] = useState<EmployeeAttendance[]>([]);
   const [timeOffRequests, setTimeOffRequests] = useState<TimeOffRequest[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     fetchCurrentStatus();
     fetchTimeOffRequests();
   }, [user]);
 
-  const fetchCurrentStatus = async () => {
+  const fetchCurrentStatus = async (): Promise<void> => {
     try {
       const { data, error } = await supabase
         .from('employee_attendance')
         .select('*')
         .eq('employee_id', user.employee_id)
         .order('created_at', { ascending: false })
-        .limit(1);
+        .limit(1)
+        .returns<EmployeeAttendance[]>();
 
       if (error) throw error;
 
@@ -42,7 +51,7 @@ const AttendanceTracker = ({ user }) => {
     }
   };
 
-  const fetchTimeOffRequests = async () => {
+  const fetchTimeOffRequests = async (): Promise<void> => {
     try {
       const { data, error } = await supabase
         .from('time_off_requests')
@@ -50,7 +59,8 @@ const AttendanceTracker = ({ user }) => {
           *,
           employee:employee_id(*)
         `)
-        .eq('employee_id', user.employee_id);
+        .eq('employee_id', user.employee_id)
+        .returns<TimeOffRequest[]>();
 
       if (error) throw error;
       setTimeOffRequests(data || []);
@@ -59,7 +69,7 @@ const AttendanceTracker = ({ user }) => {
     }
   };
 
-  const handleClockInOut = async () => {
+  const handleClockInOut = async (): Promise<void> => {
     try {
       if (!isCheckedIn) {
         // Clock In
@@ -72,7 +82,7 @@ const AttendanceTracker = ({ user }) => {
           });
 
         if (error) throw error;
-      } else {
+      } else if (lastAttendance) {
         // Clock Out
         const { error } = await supabase
           .from('employee_attendance')
@@ -90,7 +100,7 @@ const AttendanceTracker = ({ user }) => {
     }
   };
 
-  const formatTime = (date) => {
+  const formatTime = (date: string): string => {
     return new Date(date).toLocaleTimeString('es-CO', {
       day: '2-digit',
       month: '2-digit',
@@ -102,7 +112,6 @@ const AttendanceTracker = ({ user }) => {
 
   return (
     <div className="space-y-8">
-      {/* Clock In/Out Card */}
       <Card>
         <CardHeader>
           <CardTitle>{t('title')}</CardTitle>
@@ -126,7 +135,7 @@ const AttendanceTracker = ({ user }) => {
                 <p className="text-lg text-sunset">
                   {isCheckedIn ? t('lastClockIn') : t('lastClockOut')}:{' '}
                   <span className="font-bold text-platinum">
-                    {formatTime(isCheckedIn ? lastAttendance.clock_in : lastAttendance.clock_out)}
+                    {formatTime(isCheckedIn ? lastAttendance.clock_in : lastAttendance.clock_out || '')}
                   </span>
                 </p>
               </div>

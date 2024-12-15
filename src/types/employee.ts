@@ -1,4 +1,5 @@
-export type EmploymentStatus = 'FULL_TIME' | 'PART_TIME' | 'CONTRACT' | 'INTERN'
+export type EmploymentStatus = 'FULL_TIME' | 'PART_TIME' | 'CONTRACTOR' | 'TEMPORARY';
+
 
 export interface EmployeeAttendance {
   id: string;
@@ -38,4 +39,26 @@ export interface Department {
   id: string
   name: string
   description?: string
+}
+
+export interface Deducciones {
+  salud: number;
+  pension: number;
+  fondoSolidaridad: number;
+  retencionFuente: number;
+  aporteEmpleador: {
+    salud: number;
+    pension: number;
+    parafiscales: {
+      sena: number;
+      icbf: number;
+      cajaCompensacion: number;
+    };
+  };
+  total: number;
+}
+
+export interface EmployeeWithPayroll extends Employee {
+  deducciones: Deducciones;
+  salarioNeto: number;
 }

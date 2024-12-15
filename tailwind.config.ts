@@ -5,8 +5,10 @@ const config: {
   plugins: any[];
   theme: {
     extend: {
+      animation: { [key: string]: string };
+      keyframes: { [key: string]: { [key: string]: { opacity: string | number } } };
       boxShadow: { md: string; sm: string; lg: string };
-      fontSize: { xl: string; "2xl": string; sm: string; xs: string; lg: string; base: string };
+      fontSize: { xl: string; "2xl": string; sm: string; xs: string; lg: string; base: string; md: string };
       colors: {
         foreground: string;
         "text-muted": string;

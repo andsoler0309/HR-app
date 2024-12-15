@@ -16,16 +16,30 @@ import { calcularDeducciones, formatCurrency } from '@/lib/payrollUtils';
 import type { Employee } from '@/types/employee';
 import { useTranslations } from 'next-intl';
 
+// Define interfaces for the deductions and employee with payroll info
+interface Deducciones {
+  salud: number;
+  pension: number;
+  fondoSolidaridad: number;
+  retencionFuente: number;
+  total: number;
+}
+
+interface EmployeeWithPayroll extends Employee {
+  deducciones: Deducciones;
+  salarioNeto: number;
+}
+
 export default function EmployeePayrollTable() {
   const t = useTranslations('EmployeePayrollTable');
-  const [employees, setEmployees] = useState<Employee[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [employees, setEmployees] = useState<EmployeeWithPayroll[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     fetchEmployees();
   }, []);
 
-  async function fetchEmployees() {
+  async function fetchEmployees(): Promise<void> {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
@@ -40,16 +54,17 @@ export default function EmployeePayrollTable() {
           )
         `)
         .eq('is_active', true)
-        .eq('company_id', user.id);
+        .eq('company_id', user.id)
+        .returns<Employee[]>();
 
       if (error) throw error;
 
-      const employeesWithDeductions = data.map((emp) => {
-        const deducciones = calcularDeducciones(emp.salary, emp.status);
+      const employeesWithDeductions: EmployeeWithPayroll[] = data.map((emp) => {
+        const deducciones = calcularDeducciones(emp.salary || 0, emp.status);
         return {
           ...emp,
           deducciones,
-          salarioNeto: emp.salary - deducciones.total,
+          salarioNeto: (emp.salary || 0) - deducciones.total,
         };
       });
 
@@ -61,7 +76,7 @@ export default function EmployeePayrollTable() {
     }
   }
 
-  const exportToExcel = () => {
+  const exportToExcel = (): void => {
     const csvContent = [
       // Headers
       [
@@ -142,7 +157,7 @@ export default function EmployeePayrollTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {employees.map((employee: Employee) => (
+            {employees.map((employee: EmployeeWithPayroll) => (
               <TableRow key={employee.id}>
                 <TableCell className="font-medium text-platinum">
                   {employee.first_name} {employee.last_name}

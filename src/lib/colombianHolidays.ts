@@ -33,7 +33,7 @@ interface Holiday {
           date.setDate(date.getDate() + daysUntilMonday);
         }
       }
-      return { ...holiday, date };
+      return { ...holiday, date: holiday.date };
     });
   }
   

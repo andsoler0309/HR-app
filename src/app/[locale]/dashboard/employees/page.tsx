@@ -51,25 +51,14 @@ export default function EmployeesPage() {
     fetchDepartments();
     fetchExistingTokens();
     fetchPolicies();
-    fetchCurrentUser();
     fetchEmployeesWithAttendance();
   }, []);
 
-  async function fetchCurrentUser() {
-    try {
-      const {
-        data: { user },
-        error,
-      } = await supabase.auth.getUser();
-      if (error) throw error;
-      setCurrentUser(user);
-    } catch (error) {
-      console.error("Error fetching current user:", error);
-    }
-  }
-
   async function fetchDocuments() {
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
       const { data, error } = await supabase
         .from("documents")
         .select(
@@ -79,7 +68,7 @@ export default function EmployeesPage() {
           employee:employee_id(*)
         `
         )
-        .eq("company_id", currentUser?.id)
+        .eq("company_id", user.id)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
@@ -92,11 +81,15 @@ export default function EmployeesPage() {
   async function fetchEmployees() {
     try {
       setLoading(true);
+
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
       const { data, error } = await supabase.from("employees").select(`
           *,
           department:department_id(id, name)
         `)
-        .eq("company_id", currentUser?.id);
+        .eq("company_id", user.id);
 
       if (error) throw error;
       setEmployees(data || []);
@@ -110,13 +103,17 @@ export default function EmployeesPage() {
   async function fetchEmployeesWithAttendance() {
     try {
       setLoading(true);
+
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
       // First, fetch employees
       const { data: employeesData, error: employeesError } =
         await supabase.from("employees").select(`
           *,
           department:department_id(id, name)
         `)
-        .eq("company_id", currentUser?.id);
+        .eq("company_id", user.id);
 
       if (employeesError) throw employeesError;
 
@@ -129,7 +126,7 @@ export default function EmployeesPage() {
         .select("*")
         .gte("clock_in", today.toISOString())
         .is("clock_out", null)
-        .eq("company_id", currentUser?.id);
+        .eq("company_id", user.id);
 
       if (attendanceError) throw attendanceError;
 
@@ -152,10 +149,13 @@ export default function EmployeesPage() {
 
   async function fetchPolicies() {
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
       const { data, error } = await supabase
         .from("time_off_policies")
         .select("*")
-        .eq("company_id", currentUser?.id);
+        .eq("company_id", user.id);
 
       if (error) throw error;
       setPolicies(data || []);
@@ -166,7 +166,10 @@ export default function EmployeesPage() {
 
   async function fetchDepartments() {
     try {
-      const { data, error } = await supabase.from("departments").select("*").eq("company_id", currentUser?.id);
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase.from("departments").select("*").eq("company_id", user.id);
 
       if (error) {
         console.log("Supabase error:", error);
@@ -181,10 +184,12 @@ export default function EmployeesPage() {
 
   async function fetchExistingTokens() {
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
       const { data, error } = await supabase
         .from("employee_portal_access")
-        .select("employee_id, access_token")
-        .eq("company_id", currentUser?.id);
+        .select("employee_id, access_token");
 
       if (error) throw error;
 

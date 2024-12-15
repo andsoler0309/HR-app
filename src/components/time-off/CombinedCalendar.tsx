@@ -263,21 +263,21 @@ export default function CombinedCalendar({ timeOffRequests, user, loading }: Com
                   </span>
                 </div>
                 <div className="mt-2 text-sm text-sunset space-y-1">
-                  {event.extendedProps.type === 'attendance' && (
+                  {event.extendedProps.type === 'attendance' && 'clockIn' in event.extendedProps && (
                     <>
                       <p>Clock In: {new Date(event.extendedProps.clockIn).toLocaleTimeString()}</p>
-                      {event.extendedProps.clockOut && (
+                      {'clockOut' in event.extendedProps && event.extendedProps.clockOut && (
                         <p>Clock Out: {new Date(event.extendedProps.clockOut).toLocaleTimeString()}</p>
                       )}
                     </>
                   )}
-                  {event.extendedProps.type === 'timeoff' && (
+                  {event.extendedProps.type === 'timeoff' && 'status' in event.extendedProps && (
                     <>
                       <p>Status: {event.extendedProps.status}</p>
-                      {event.extendedProps.reason && <p>Reason: {event.extendedProps.reason}</p>}
+                      {'reason' in event.extendedProps && event.extendedProps.reason && <p>Reason: {event.extendedProps.reason}</p>}
                     </>
                   )}
-                  {event.extendedProps.type === 'holiday' && (
+                  {event.extendedProps.type === 'holiday' && 'description' in event.extendedProps && (
                     <p>{event.extendedProps.description}</p>
                   )}
                 </div>

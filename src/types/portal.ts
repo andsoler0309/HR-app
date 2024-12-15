@@ -13,7 +13,6 @@ export interface PortalUser {
       id: string
       name: string
     }
-    role: string
   }
 
 export interface PortalRequest {

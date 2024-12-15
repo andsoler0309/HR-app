@@ -18,7 +18,7 @@ const employeeSchema = z.object({
     phone: z.string().optional(),
     department_id: z.string().uuid('validation.departmentRequired'),
     position: z.string().min(2, 'validation.positionRequired'),
-    status: z.enum(['FULL_TIME', 'PART_TIME', 'CONTRACT', 'INTERN'], {
+    status: z.enum(['FULL_TIME', 'PART_TIME', 'CONTRACTOR', 'TEMPORARY'], {
         errorMap: () => ({ message: 'validation.invalidStatus' }),
     }),
     hire_date: z.string().nonempty('validation.hireDateRequired'),
