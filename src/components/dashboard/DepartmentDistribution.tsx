@@ -14,7 +14,7 @@ interface DepartmentCount {
   departments: {
     id: string;
     name: string;
-  }[];
+  };
 }
 
 interface ChartData {
@@ -57,13 +57,13 @@ export default function DepartmentDistribution() {
 
       const counts = departmentCounts.reduce((acc: Record<string, number>, current) => {
         // Get department name directly from the departments object
-        const deptName = current.departments[0]?.name;
+        const deptName = current.departments?.name;
+
         if (!deptName) return acc;
         acc[deptName] = (acc[deptName] || 0) + 1;
         return acc;
       }, {});
 
-      console.log('counts', counts)
       // Format data for the pie chart 
       const chartData = Object.entries(counts).map(([name, value]) => ({
         name,
@@ -144,7 +144,7 @@ export default function DepartmentDistribution() {
                 dataKey="value"
                 label={({ name, value }) => `${name}: ${value}`}
               >
-                {data.map((entry, index) => (
+                {data.map((_, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
