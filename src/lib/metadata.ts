@@ -28,7 +28,7 @@ const defaultMetadata = {
 export const siteConfig = {
   name: 'PeoplerHR',
   url: 'https://www.peoplerhr.com',
-  ogImage: 'https://www.peoplerhr.com/og-image.jpg',
+  ogImage: 'https://www.peoplerhr.com/logo.svg',
   description: defaultMetadata.description,
   links: {
     twitter: 'https://twitter.com/peoplerhr',

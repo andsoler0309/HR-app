@@ -39,9 +39,9 @@ export default function LandingPage() {
       {/* Navigation */}
       <nav className="fixed w-full bg-card/70 backdrop-blur-sm z-50 border-b border-navbar-border">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 h-16 flex items-center justify-between">
-          <h1 className="text-xl font-bold text-primary tracking-tight">
+          <Link href={`/${locale}`} className="text-xl font-bold text-primary tracking-tight">
             PEOPLER
-          </h1>
+          </Link>
 
           <div className="flex space-x-4">
             <LanguageSwitcher
@@ -62,10 +62,10 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <header className="pt-28 pb-20 px-6 sm:px-8 text-center">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mt-16">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mt-16">
           {t("heroTitle")}
           <span className="block text-sunset mt-2">PEOPLER</span>
-        </h2>
+        </h1>
         <p className="mt-6 max-w-2xl mx-auto text-base sm:text-lg text-text-muted leading-relaxed">
           {t("heroSubtitle")}
         </p>
