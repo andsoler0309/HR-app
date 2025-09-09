@@ -76,7 +76,7 @@ export default function CombinedCalendar({ timeOffRequests, user, loading }: Com
     // Time off requests
     ...timeOffRequests.map(request => ({
       id: request.id,
-      title: `Time Off: ${request.type.replace('_', ' ')}`,
+      title: `Time Off: ${(request.type || 'UNKNOWN').replace('_', ' ')}`,
       start: request.start_date,
       end: request.end_date,
       backgroundColor: 

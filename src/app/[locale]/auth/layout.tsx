@@ -1,4 +1,20 @@
 import React from "react"
+import { constructMetadata } from '@/lib/metadata';
+
+export async function generateMetadata({ params }: { params: { locale: string } }) {
+  const isSpanish = params.locale === 'es';
+  
+  return constructMetadata({
+    title: isSpanish 
+      ? 'Autenticación - PeoplerHR'
+      : 'Authentication - PeoplerHR',
+    description: isSpanish
+      ? 'Inicia sesión o regístrate en PeoplerHR para gestionar tu equipo y procesos de RRHH.'
+      : 'Sign in or register to PeoplerHR to manage your team and HR processes.',
+    locale: params.locale,
+    noIndex: true, // Auth pages shouldn't be indexed
+  });
+}
 
 export default function AuthLayout({
   children,
