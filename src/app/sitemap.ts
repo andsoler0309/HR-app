@@ -2,25 +2,63 @@
 import { MetadataRoute } from 'next'
  
 export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = 'https://www.peoplerhr.com'
+  
   return [
     {
-      url: 'https://www.peoplerhr.com',
+      url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: 'yearly',
+      changeFrequency: 'monthly',
       priority: 1,
     },
     {
-      url: 'https://www.peoplerhr.com/dashboard',
+      url: `${baseUrl}/en`,
       lastModified: new Date(),
-      changeFrequency: 'daily',
+      changeFrequency: 'monthly',
+      priority: 1,
+    },
+    {
+      url: `${baseUrl}/es`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 1,
+    },
+    {
+      url: `${baseUrl}/en/auth/login`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/es/auth/login`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/en/auth/register`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
       priority: 0.8,
     },
     {
-      url: 'https://www.peoplerhr.com/dashboard/employees',
+      url: `${baseUrl}/es/auth/register`,
       lastModified: new Date(),
-      changeFrequency: 'daily',
+      changeFrequency: 'yearly',
       priority: 0.8,
     },
-    // Add other important routes
+    // Dashboard pages (lower priority as they're authenticated)
+    {
+      url: `${baseUrl}/en/dashboard`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/es/dashboard`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.5,
+    },
   ]
 }

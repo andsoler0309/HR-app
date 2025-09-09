@@ -6,6 +6,17 @@ import { useRouter, useParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { Mail, Lock, AlertCircle, Loader2 } from 'lucide-react'
 import {useTranslations} from 'next-intl'
+import { Metadata } from 'next'
+
+// Static metadata since this is a client component
+export const metadata: Metadata = {
+  title: 'Sign In - PeoplerHR',
+  description: 'Sign in to your PeoplerHR account to manage your team and HR processes.',
+  robots: {
+    index: false,
+    follow: false,
+  },
+}
 
 
 type LoginFormValues = {

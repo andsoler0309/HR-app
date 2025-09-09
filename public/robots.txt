@@ -2,5 +2,17 @@ User-agent: *
 Allow: /
 Disallow: /auth/*
 Disallow: /api/*
+Disallow: /dashboard/*
+Disallow: /onboarding/*
+Disallow: /portal/*
+
+# Important pages to crawl
+Allow: /en
+Allow: /es
+Allow: /en/auth/register
+Allow: /es/auth/register
 
 Sitemap: https://www.peoplerhr.com/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1

@@ -4,7 +4,19 @@ import {notFound} from 'next/navigation';
 import { constructMetadata } from '@/lib/metadata'
 import SchemaOrg from '@/components/SchemaOrg'
 
-export const metadata = constructMetadata()
+export async function generateMetadata({ params }: { params: { locale: string } }) {
+  const isSpanish = params.locale === 'es';
+  
+  return constructMetadata({
+    title: isSpanish 
+      ? 'PeoplerHR - Sistema de Gestión de Recursos Humanos'
+      : 'PeoplerHR - Human Resources Management System',
+    description: isSpanish
+      ? 'Solución completa de gestión de RRHH para empresas modernas. Gestiona empleados, vacaciones, documentos y más.'
+      : 'Complete HR management solution for modern businesses. Manage employees, time off, documents, and more.',
+    locale: params.locale,
+  });
+}
 
 export const viewport = {
   themeColor: [

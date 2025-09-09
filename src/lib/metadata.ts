@@ -42,21 +42,40 @@ export function constructMetadata({
   image = siteConfig.ogImage,
   icons = '/logo.svg',
   noIndex = false,
+  locale = 'en',
+  alternateLanguages = true,
 }: {
   title?: string
   description?: string
   image?: string
   icons?: string
   noIndex?: boolean
+  locale?: string
+  alternateLanguages?: boolean
 } = {}): Metadata {
+  
+  const canonical = locale === 'en' 
+    ? siteConfig.url 
+    : `${siteConfig.url}/${locale}`;
+
+  const alternates = alternateLanguages ? {
+    canonical,
+    languages: {
+      'en': siteConfig.url,
+      'es': `${siteConfig.url}/es`,
+      'x-default': siteConfig.url,
+    }
+  } : undefined;
+
   return {
     ...defaultMetadata,
     title,
     description,
+    alternates,
     openGraph: {
       title,
       description,
-      url: siteConfig.url,
+      url: canonical,
       siteName: siteConfig.name,
       images: [
         {
@@ -66,7 +85,7 @@ export function constructMetadata({
           alt: title,
         },
       ],
-      locale: 'en_US',
+      locale: locale === 'es' ? 'es_ES' : 'en_US',
       type: 'website',
     },
     twitter: {
