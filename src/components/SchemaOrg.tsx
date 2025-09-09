@@ -2,35 +2,50 @@ export default function SchemaOrg() {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "PeoplerHR",
-    "alternateName": "PEOPLER",
-    "url": "https://www.peoplerhr.com",
-    "logo": "https://www.peoplerhr.com/logo.svg",
+    "name": "NodoHR",
+    "alternateName": "NodoHR System",
+    "url": "https://nodohr.com",
+    "logo": "https://nodohr.com/logo.svg",
     "description": "Complete HR management solution for modern businesses. Manage employees, time off, documents, and more.",
     "foundingDate": "2024",
     "contactPoint": {
       "@type": "ContactPoint",
-      "contactType": "customer service",
-      "email": "support@peoplerhr.com"
+      "email": "support@nodohr.com"
     },
     "sameAs": [
-      "https://twitter.com/peoplerhr",
-      "https://github.com/peoplerhr"
+      "https://twitter.com/nodohr",
+      "https://github.com/nodohr"
     ]
-  };
+  }
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "NodoHR",
+    "author": {
+      "@type": "Organization",
+      "name": "NodoHR"
+    },
+    "url": "https://nodohr.com",
+    "description": "Complete HR management solution for modern businesses. Manage employees, time off, documents, payroll, and more.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "NodoHR"
+    }
+  }
 
   const softwareSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": "PeoplerHR",
-    "alternateName": "PEOPLER",
+    "name": "NodoHR",
+    "alternateName": "NODO",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "Web",
-    "url": "https://www.peoplerhr.com",
+    "url": "https://nodohr.com",
     "description": "Complete HR management solution for modern businesses. Manage employees, time off, documents, payroll, and more.",
     "creator": {
       "@type": "Organization",
-      "name": "PeoplerHR"
+      "name": "NodoHR"
     },
     "offers": [
       {
@@ -57,7 +72,7 @@ export default function SchemaOrg() {
       "HR Analytics",
       "Multi-language Support"
     ],
-    "screenshot": "https://www.peoplerhr.com/logo.svg",
+    "screenshot": "https://nodohr.com/logo.svg",
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "4.8",

@@ -2,10 +2,10 @@
 import { Metadata } from 'next'
 
 const defaultMetadata = {
-  title: 'PeoplerHR - Human Resources Management System',
+  title: 'NodoHR - Human Resources Management System',
   description: 'Complete HR management solution for modern businesses. Manage employees, time off, documents, and more.',
-  applicationName: 'PeoplerHR',
-  authors: [{ name: 'PeoplerHR' }],
+  applicationName: 'NodoHR',
+  authors: [{ name: 'NodoHR' }],
   keywords: [
     'HR software',
     'HR management',
@@ -16,8 +16,8 @@ const defaultMetadata = {
     'HR analytics',
     'workforce management'
   ],
-  creator: 'PeoplerHR',
-  publisher: 'PeoplerHR',
+  creator: 'NodoHR',
+  publisher: 'NodoHR',
   formatDetection: {
     email: false,
     address: false,
@@ -26,13 +26,13 @@ const defaultMetadata = {
 }
 
 export const siteConfig = {
-  name: 'PeoplerHR',
-  url: 'https://www.peoplerhr.com',
-  ogImage: 'https://www.peoplerhr.com/logo.svg',
+  name: 'NodoHR',
+  url: 'https://nodohr.com',
+  ogImage: 'https://nodohr.com/logo.svg',
   description: defaultMetadata.description,
   links: {
-    twitter: 'https://twitter.com/peoplerhr',
-    github: 'https://github.com/peoplerhr',
+    twitter: 'https://twitter.com/nodohr',
+    github: 'https://github.com/nodohr',
   },
 }
 
@@ -93,7 +93,7 @@ export function constructMetadata({
       title,
       description,
       images: [image],
-      creator: '@peoplerhr',
+      creator: '@nodohr',
     },
     icons,
     metadataBase: new URL(siteConfig.url),

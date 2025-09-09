@@ -200,7 +200,7 @@ const Sidebar = () => {
   return (
     <div className="flex flex-col w-64 bg-card shadow-md border-r border-navbar-border">
       <div className="flex items-center justify-center h-20 border-b border-navbar-border">
-        <h1 className="text-2xl font-bold text-primary">PEOPLER</h1>
+        <h1 className="text-2xl font-bold text-primary">NodoHR</h1>
       </div>
       <nav className="flex-grow">
         <ul className="flex flex-col py-4">

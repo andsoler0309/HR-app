@@ -77,7 +77,7 @@ const testimonials = [
     role: "HR Director",
     company: "TechCorp",
     image: "/api/placeholder/100/100",
-    quote: "PEOPLER transformed our HR operations. What used to take hours now takes minutes."
+    quote: "NodoHR transformed our HR operations. What used to take hours now takes minutes."
   },
   {
     name: "David Chen",
@@ -103,7 +103,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex-shrink-0 flex items-center">
-              <h1 className="text-2xl font-bold text-primary">PEOPLER</h1>
+              <h1 className="text-2xl font-bold text-primary">NodoHR</h1>
             </div>
             <div className="flex items-center space-x-8">
               <a href="#features" className="text-platinum hover:text-sunset transition-colors">Features</a>
@@ -236,7 +236,7 @@ export default function LandingPage() {
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="text-xl font-semibold text-platinum">Free Plan</h3>
-                  <p className="mt-2 text-sunset">Perfect for trying out PEOPLER</p>
+                  <p className="mt-2 text-sunset">Perfect for trying out NodoHR</p>
                 </div>
                 <div className="text-right">
                   <p className="text-3xl font-bold text-platinum">$0</p>
@@ -309,7 +309,7 @@ export default function LandingPage() {
               <div className="mt-8 space-y-6">
                 <div className="flex items-center">
                   <Mail className="h-6 w-6 text-primary mr-3" />
-                  <span className="text-platinum">support@peopler.com</span>
+                  <span className="text-platinum">support@nodohr.com</span>
                 </div>
                 <div className="flex items-center">
                   <Phone className="h-6 w-6 text-primary mr-3" />
@@ -357,7 +357,7 @@ export default function LandingPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <h2 className="text-3xl font-extrabold text-platinum">Frequently Asked Questions</h2>
-              <p className="mt-4 text-lg text-sunset">Everything you need to know about PEOPLER</p>
+              <p className="mt-4 text-lg text-sunset">Everything you need to know about NodoHR</p>
             </div>
   
             <div className="mt-12 grid gap-8 lg:grid-cols-2">
@@ -368,7 +368,7 @@ export default function LandingPage() {
   
               <div className="bg-card p-6 rounded-lg border border-card-border">
                 <h3 className="text-lg font-semibold text-platinum">Can I import data from other systems?</h3>
-                <p className="mt-2 text-sunset">Yes, PEOPLER supports data import from Excel, CSV, and common HR systems. We also provide an API for custom integrations.</p>
+                <p className="mt-2 text-sunset">Yes, NodoHR supports data import from Excel, CSV, and common HR systems. We also provide an API for custom integrations.</p>
               </div>
   
               <div className="bg-card p-6 rounded-lg border border-card-border">
@@ -393,7 +393,7 @@ export default function LandingPage() {
                   Ready to transform your HR management?
                 </h2>
                 <p className="mt-4 text-lg text-platinum/90 max-w-2xl">
-                  Join thousands of companies already using PEOPLER to streamline their HR operations.
+                  Join thousands of companies already using NodoHR to streamline their HR operations.
                 </p>
                 <div className="mt-8 flex flex-col sm:flex-row gap-4">
                   <Link
@@ -420,7 +420,7 @@ export default function LandingPage() {
           <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               <div className="space-y-4">
-                <h1 className="text-xl font-bold text-primary">PEOPLER</h1>
+                <h1 className="text-xl font-bold text-primary">NodoHR</h1>
                 <p className="text-sunset">Next generation HR management for modern businesses</p>
               </div>
               
@@ -454,7 +454,7 @@ export default function LandingPage() {
   
             <div className="mt-12 pt-8 border-t border-card-border">
               <div className="flex flex-col md:flex-row justify-between items-center">
-                <p className="text-sunset">© 2024 PEOPLER. All rights reserved.</p>
+                <p className="text-sunset">© 2024 NodoHR. All rights reserved.</p>
                 <div className="flex space-x-6 mt-4 md:mt-0">
                   <a href="#twitter" className="text-sunset hover:text-primary">Twitter</a>
                   <a href="#linkedin" className="text-sunset hover:text-primary">LinkedIn</a>

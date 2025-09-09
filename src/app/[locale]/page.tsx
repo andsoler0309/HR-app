@@ -39,8 +39,8 @@ export default function LandingPage() {
       {/* Navigation */}
       <nav className="fixed w-full bg-card/70 backdrop-blur-sm z-50 border-b border-navbar-border">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 h-16 flex items-center justify-between">
-          <Link href={`/${locale}`} className="text-xl font-bold text-primary tracking-tight">
-            PEOPLER
+                    <Link href={`/${locale}`} className="text-xl font-bold text-primary tracking-tight">
+            NodoHR
           </Link>
 
           <div className="flex space-x-4">
@@ -73,7 +73,7 @@ export default function LandingPage() {
       <header className="pt-28 pb-20 px-6 sm:px-8 text-center">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mt-16">
           {t("heroTitle")}
-          <span className="block text-sunset mt-2">PEOPLER</span>
+          <span className="block text-sunset mt-2">NodoHR</span>
         </h1>
         <p className="mt-6 max-w-2xl mx-auto text-base sm:text-lg text-text-muted leading-relaxed">
           {t("heroSubtitle")}
@@ -367,9 +367,9 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="bg-card border-t border-navbar-border">
         <div className="max-w-7xl mx-auto py-8 px-6 sm:px-8 flex flex-col sm:flex-row items-center justify-between">
-          <h1 className="text-xl font-bold text-primary">PEOPLER</h1>
+          <h1 className="text-xl font-bold text-primary">NodoHR</h1>
           <p className="text-text-muted mt-4 sm:mt-0 text-sm">
-            © {new Date().getFullYear()} PEOPLER. {t("allRightsReserved")}
+            © {new Date().getFullYear()} NodoHR. {t("allRightsReserved")}
           </p>
         </div>
       </footer>

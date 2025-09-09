@@ -7,7 +7,7 @@ export default function LandingPage() {
       {/* Navigation */}
       <nav className="fixed w-full bg-card/70 backdrop-blur-sm z-50 border-b border-navbar-border">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 h-16 flex items-center justify-between">
-          <h1 className="text-xl font-bold text-primary tracking-tight">PEOPLER</h1>
+          <h1 className="text-xl font-bold text-primary tracking-tight">NodoHR</h1>
           <Link 
             href="/auth/register"
             className="inline-flex items-center px-4 py-2 border border-black text-sm font-medium rounded-md text-black bg-primary hover:bg-primary transition-colors"
@@ -21,7 +21,7 @@ export default function LandingPage() {
       <header className="pt-28 pb-20 px-6 sm:px-8 text-center">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mt-16">
           Simplifica la Gestión de tu Talento con
-          <span className="block text-sunset mt-2">PEOPLER</span>
+          <span className="block text-sunset mt-2">NodoHR</span>
         </h2>
         <p className="mt-6 max-w-2xl mx-auto text-base sm:text-lg text-text-muted leading-relaxed">
           Una solución integral de RRHH para gestionar empleados, tiempo, nómina, vacaciones y documentación desde un solo lugar. Diseñado para empresas en crecimiento.
@@ -167,14 +167,14 @@ export default function LandingPage() {
             Lo Que Dicen Nuestros Clientes
           </h3>
           <p className="mt-4 max-w-3xl mx-auto text-text-muted leading-relaxed">
-            PEOPLER impulsa la eficiencia y la satisfacción del equipo en cientos de empresas.
+            NodoHR impulsa la eficiencia y la satisfacción del equipo en cientos de empresas.
           </p>
         </div>
 
         <div className="mt-12 max-w-5xl mx-auto grid grid-cols-1 gap-8 sm:grid-cols-2 text-left">
           <div className="bg-card p-6 rounded-lg shadow-md border border-card-border">
             <p className="text-text-muted italic">
-              "Gracias a PEOPLER, nuestra gestión de empleados es más transparente y ordenada. Ahorramos tiempo y mejoramos la experiencia interna."
+              "Gracias a NodoHR, nuestra gestión de empleados es más transparente y ordenada. Ahorramos tiempo y mejoramos la experiencia interna."
             </p>
             <div className="mt-4 text-foreground font-semibold">— Ana, Gerente de Operaciones</div>
           </div>
@@ -278,7 +278,7 @@ export default function LandingPage() {
       <section className="py-20 px-6 sm:px-8 text-center">
         <h3 className="text-2xl sm:text-3xl font-extrabold text-foreground">¿Listo para Optimizar tu RRHH?</h3>
         <p className="mt-4 text-text-muted max-w-xl mx-auto leading-relaxed">
-          Comienza con una prueba gratuita y descubre cómo PEOPLER puede transformar la forma en que gestionas tu equipo.
+          Comienza con una prueba gratuita y descubre cómo NodoHR puede transformar la forma en que gestionas tu equipo.
         </p>
         <div className="mt-8">
           <Link
@@ -293,9 +293,9 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="bg-card border-t border-navbar-border">
         <div className="max-w-7xl mx-auto py-8 px-6 sm:px-8 flex flex-col sm:flex-row items-center justify-between">
-          <h1 className="text-xl font-bold text-primary">PEOPLER</h1>
+          <h1 className="text-xl font-bold text-primary">NodoHR</h1>
           <p className="text-text-muted mt-4 sm:mt-0 text-sm">
-            © 2024 PEOPLER. Todos los derechos reservados.
+            © 2024 NodoHR. Todos los derechos reservados.
           </p>
         </div>
       </footer>

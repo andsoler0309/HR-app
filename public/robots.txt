@@ -12,7 +12,7 @@ Allow: /es
 Allow: /en/auth/register
 Allow: /es/auth/register
 
-Sitemap: https://www.peoplerhr.com/sitemap.xml
+Sitemap: https://nodohr.com/sitemap.xml
 
 # Crawl delay
 Crawl-delay: 1

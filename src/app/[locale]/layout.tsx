@@ -7,10 +7,12 @@ import SchemaOrg from '@/components/SchemaOrg'
 export async function generateMetadata({ params }: { params: { locale: string } }) {
   const isSpanish = params.locale === 'es';
   
+  const title = isSpanish
+    ? 'NodoHR - Sistema de Gestión de Recursos Humanos'
+    : 'NodoHR - Human Resources Management System';
+    
   return constructMetadata({
-    title: isSpanish 
-      ? 'PeoplerHR - Sistema de Gestión de Recursos Humanos'
-      : 'PeoplerHR - Human Resources Management System',
+    title,
     description: isSpanish
       ? 'Solución completa de gestión de RRHH para empresas modernas. Gestiona empleados, vacaciones, documentos y más.'
       : 'Complete HR management solution for modern businesses. Manage employees, time off, documents, and more.',

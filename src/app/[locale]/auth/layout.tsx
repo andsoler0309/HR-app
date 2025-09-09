@@ -4,13 +4,17 @@ import { constructMetadata } from '@/lib/metadata';
 export async function generateMetadata({ params }: { params: { locale: string } }) {
   const isSpanish = params.locale === 'es';
   
+  const title = isSpanish
+    ? 'Autenticación - NodoHR'
+    : 'Authentication - NodoHR';
+    
+  const description = isSpanish
+    ? 'Inicia sesión o regístrate en NodoHR para gestionar tu equipo y procesos de RRHH.'
+    : 'Sign in or register to NodoHR to manage your team and HR processes.';
+  
   return constructMetadata({
-    title: isSpanish 
-      ? 'Autenticación - PeoplerHR'
-      : 'Authentication - PeoplerHR',
-    description: isSpanish
-      ? 'Inicia sesión o regístrate en PeoplerHR para gestionar tu equipo y procesos de RRHH.'
-      : 'Sign in or register to PeoplerHR to manage your team and HR processes.',
+    title,
+    description,
     locale: params.locale,
     noIndex: true, // Auth pages shouldn't be indexed
   });

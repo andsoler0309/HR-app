@@ -6,7 +6,7 @@ import Navbar from '@/components/Navbar'
 import { constructMetadata } from '@/lib/metadata'
 
 export const metadata = constructMetadata({
-  title: 'PeoplerHR',
+  title: 'NodoHR',
   description: 'View and manage your HR analytics, employee data, and company metrics.',
 })
 
