@@ -22,7 +22,7 @@ export interface Employee {
   hire_date: string
   birthday: string
   salary?: number
-  manager_id?: string
+  // manager_id?: string
   profile_image?: string
   created_at: string
   updated_at?: string

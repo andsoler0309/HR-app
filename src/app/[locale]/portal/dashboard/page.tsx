@@ -91,7 +91,7 @@ export default function PortalDashboard() {
             </div>
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
-                <div className="h-8 w-8 rounded-full bg-flame flex items-center justify-center">
+                <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center">
                   <span className="text-platinum font-medium">
                     {user.first_name?.[0]}
                     {user.last_name?.[0]}

@@ -11,6 +11,10 @@ import { ErrorMessage } from '@/components/ui/error-message';
 import { checkResourceLimits } from '@/lib/subscriptions-limits';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
+import { 
+  SubscriptionLimitNotification, 
+  isSubscriptionLimitError 
+} from '@/components/shared/SubscriptionLimitNotification';
 
 const departmentSchema = z.object({
   name: z.string().min(2, 'nameRequired'),
@@ -29,6 +33,7 @@ interface Props {
 export default function DepartmentFormModal({ isOpen, onClose, department, onSuccess }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [subscriptionLimitError, setSubscriptionLimitError] = useState<any>(null);
   const { companyId } = useCompany();
   const isEditing = !!department;
   const t = useTranslations('departments.form');
@@ -85,13 +90,28 @@ export default function DepartmentFormModal({ isOpen, onClose, department, onSuc
 
       reset();
       onSuccess();
-      onClose();
+      handleClose();
     } catch (err) {
+      // Handle subscription limit errors specially
+      if (isSubscriptionLimitError(err)) {
+        setSubscriptionLimitError(err);
+        setError(null);
+        setIsLoading(false);
+        return;
+      }
+      
       console.error('Error saving department:', err);
       setError(t('error.saveDepartment'));
+      setSubscriptionLimitError(null);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleClose = () => {
+    setError(null);
+    setSubscriptionLimitError(null);
+    onClose();
   };
 
   if (!isOpen) return null;
@@ -102,6 +122,13 @@ export default function DepartmentFormModal({ isOpen, onClose, department, onSuc
         <h2 className="text-2xl font-semibold mb-6 text-platinum">
           {isEditing ? t('editDepartment') : t('addDepartment')}
         </h2>
+
+        {subscriptionLimitError && (
+          <SubscriptionLimitNotification 
+            error={subscriptionLimitError} 
+            onClose={() => setSubscriptionLimitError(null)}
+          />
+        )}
 
         {error && <ErrorMessage message={error} className="mb-6" />}
 
@@ -145,7 +172,7 @@ export default function DepartmentFormModal({ isOpen, onClose, department, onSuc
           <div className="flex justify-end items-center gap-3 pt-4">
             <Button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               variant="secondary"
               className="px-4 py-2.5 rounded-lg text-sm font-medium"
               disabled={isLoading}

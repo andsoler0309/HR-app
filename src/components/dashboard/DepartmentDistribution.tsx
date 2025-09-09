@@ -87,7 +87,7 @@ export default function DepartmentDistribution() {
         </CardHeader>
         <CardContent>
           <div className="h-[300px] flex items-center justify-center">
-            <div className="w-8 h-8 border-2 border-flame/20 border-t-flame rounded-full animate-spin" />
+            <div className="w-8 h-8 border-2 border-primary/20 border-t-flame rounded-full animate-spin" />
           </div>
         </CardContent>
       </Card>

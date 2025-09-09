@@ -8,6 +8,10 @@ import jsPDF from 'jspdf';
 import { formatCurrency } from '@/lib/payrollUtils';
 import { checkResourceLimits } from '@/lib/subscriptions-limits';
 import { useTranslations } from 'next-intl';
+import { 
+  SubscriptionLimitNotification, 
+  isSubscriptionLimitError 
+} from '@/components/shared/SubscriptionLimitNotification';
 
 interface GenerateDocumentModalProps {
   isOpen: boolean;
@@ -24,6 +28,7 @@ const GenerateDocumentModal = ({ isOpen, onClose, employee, onSuccess }: Generat
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [subscriptionLimitError, setSubscriptionLimitError] = useState<any>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -58,9 +63,11 @@ const GenerateDocumentModal = ({ isOpen, onClose, employee, onSuccess }: Generat
   };
 
   const handleClose = () => {
-    setError(null)
-    onClose()
-  }
+    setError(null);
+    setSubscriptionLimitError(null);
+    setSelectedTemplate(null);
+    onClose();
+  };
 
   const generateDocument = async () => {
     if (!selectedTemplate) return;
@@ -125,8 +132,7 @@ const GenerateDocumentModal = ({ isOpen, onClose, employee, onSuccess }: Generat
           requires_signature: selectedTemplate.requires_signature,
           generated_from_template: selectedTemplate.id,
           status: selectedTemplate.requires_signature ? 'pending_signature' : 'active',
-          version: 1,
-          uploaded_by: user.id
+          version: 1
         })
         .select()
         .single();
@@ -148,11 +154,20 @@ const GenerateDocumentModal = ({ isOpen, onClose, employee, onSuccess }: Generat
       }
 
       onSuccess();
-      onClose();
+      handleClose();
 
     } catch (err: any) {
+      // Handle subscription limit errors specially
+      if (isSubscriptionLimitError(err)) {
+        setSubscriptionLimitError(err);
+        setError(null);
+        setLoading(false);
+        return;
+      }
+      
       console.error('Error generating document:', err);
       setError(err instanceof Error ? err.message : t('error.unknownError'));
+      setSubscriptionLimitError(null);
     } finally {
       setLoading(false);
     }
@@ -169,7 +184,7 @@ const GenerateDocumentModal = ({ isOpen, onClose, employee, onSuccess }: Generat
           </h2>
           <button 
             onClick={handleClose} 
-            className="text-sunset hover:text-flame text-2xl"
+            className="text-sunset hover:text-primary text-2xl"
           >
             ×
           </button>
@@ -180,6 +195,13 @@ const GenerateDocumentModal = ({ isOpen, onClose, employee, onSuccess }: Generat
             <AlertCircle className="w-4 h-4 flex-shrink-0" />
             <p className="text-sm">{error}</p>
           </div>
+        )}
+
+        {subscriptionLimitError && (
+          <SubscriptionLimitNotification
+            error={subscriptionLimitError}
+            onClose={handleClose}
+          />
         )}
 
         <div className="space-y-8">
@@ -194,13 +216,13 @@ const GenerateDocumentModal = ({ isOpen, onClose, employee, onSuccess }: Generat
                   onClick={() => setSelectedTemplate(template)}
                   className={`p-3 rounded-lg border cursor-pointer transition-all
                     ${template.id === selectedTemplate?.id
-                      ? 'border-flame bg-flame/5'
-                      : 'border-card-border hover:border-flame/50'
+                      ? 'border-primary bg-primary/5'
+                      : 'border-card-border hover:border-primary/50'
                     }`}
                 >
                   <div className="flex items-start gap-3">
                     <FileText className={`w-5 h-5 ${
-                      template.id === selectedTemplate?.id ? 'text-flame' : 'text-sunset'
+                      template.id === selectedTemplate?.id ? 'text-primary' : 'text-sunset'
                     }`} />
                     <div>
                       <h3 className="font-medium text-platinum">{template.name}</h3>
@@ -209,7 +231,7 @@ const GenerateDocumentModal = ({ isOpen, onClose, employee, onSuccess }: Generat
                       )}
                       {template.requires_signature && (
                         <div className="flex gap-2 mt-2">
-                          <span className="text-xs bg-flame/10 text-flame px-2 py-1 rounded-full">
+                          <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
                             {tButtons('requireSignature')}
                           </span>
                         </div>

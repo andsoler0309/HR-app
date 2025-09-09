@@ -66,7 +66,7 @@ const UpcomingAnniversaries = ({ employees }: AnniversaryCardProps) => {
         <CardTitle className="text-xl font-bold text-platinum">
           {t('title')}
         </CardTitle>
-        <Calendar className="w-5 h-5 text-flame" />
+        <Calendar className="w-5 h-5 text-primary" />
       </CardHeader>
       <CardContent>
         {upcomingAnniversaries.length === 0 ? (
@@ -81,7 +81,7 @@ const UpcomingAnniversaries = ({ employees }: AnniversaryCardProps) => {
                   className="flex items-center justify-between p-3 rounded-lg bg-background/50 border border-card-border"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-flame/10 flex items-center justify-center text-base text-flame">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-base text-primary">
                       {employee.first_name[0]?.toLowerCase()}{employee.last_name[0]?.toLowerCase()}
                     </div>
                     <div>
@@ -96,7 +96,7 @@ const UpcomingAnniversaries = ({ employees }: AnniversaryCardProps) => {
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-1">
-                    <span className="px-3 py-1 rounded-full text-sm font-medium bg-flame/10 text-flame">
+                    <span className="px-3 py-1 rounded-full text-sm font-medium bg-primary/10 text-primary">
                       {employee.daysUntil === 0 
                         ? t('today') 
                         : employee.daysUntil === 1 

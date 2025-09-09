@@ -18,10 +18,21 @@ export default function TimeOffCalendar({ requests, loading }: TimeOffCalendarPr
 
   requests = requests.filter(request => request.status !== 'REJECTED')
 
+  // Helper function to determine the display name for the time off type
+  const getTypeDisplay = (request: TimeOffRequest) => {
+    if (request.policy?.name) {
+      return request.policy.name
+    }
+    if (request.type) {
+      return request.type.replace('_', ' ')
+    }
+    return 'Time Off'
+  }
+
   // Transform requests into calendar events
   const events = requests.map(request => ({
     id: request.id,
-    title: `${request.employee?.first_name} ${request.employee?.last_name} - ${request.type.replace('_', ' ')}`,
+    title: `${request.employee?.first_name} ${request.employee?.last_name} - ${getTypeDisplay(request)}`,
     start: request.start_date,
     end: request.end_date,
     backgroundColor: 
@@ -55,7 +66,7 @@ export default function TimeOffCalendar({ requests, loading }: TimeOffCalendarPr
     return (
       <div className="flex items-center justify-center h-96 text-sunset">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-6 h-6 border-2 border-flame/20 border-t-flame rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-primary/20 border-t-flame rounded-full animate-spin" />
           <span>Loading calendar...</span>
         </div>
       </div>

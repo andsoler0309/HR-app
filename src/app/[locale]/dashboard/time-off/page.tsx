@@ -97,6 +97,10 @@ export default function TimeOffPage() {
               first_name,
               last_name,
               department:department_id(name)
+            ),
+            policy:policy_id(
+              name,
+              type
             )
           `)
           .eq('company_id', companyId),
@@ -119,6 +123,13 @@ export default function TimeOffPage() {
       if (regularRequests.error) throw regularRequests.error
       if (portalRequests.error) throw portalRequests.error
 
+      // Transform regular requests to include policy type
+      const transformedRegularRequests = regularRequests.data.map(request => ({
+        ...request,
+        type: request.policy?.type,
+        source: 'TIME_OFF_REQUESTS' as const
+      }))
+
       // Transform portal requests to match time off request format
       const transformedPortalRequests = portalRequests.data.map(request => ({
         id: request.id,
@@ -136,7 +147,7 @@ export default function TimeOffPage() {
       }))
 
       // Combine both types of requests
-      return [ ...regularRequests.data, ...transformedPortalRequests]
+      return [ ...transformedRegularRequests, ...transformedPortalRequests]
     } catch (error) {
       console.error('Error fetching requests:', error)
       return []
@@ -164,12 +175,12 @@ export default function TimeOffPage() {
         // Initialize with the first balance entry
         acc[key] = {
           ...balance,
-          total_days: Number(balance.total_days) + Number(balance.carried_over),
+          total_days: Number(balance.total_days),
           used_days: Number(balance.used_days),
         };
       } else {
         // Add subsequent years' balances
-        acc[key].total_days += Number(balance.total_days) + Number(balance.carried_over);
+        acc[key].total_days += Number(balance.total_days);
         acc[key].used_days += Number(balance.used_days);
       }
       
@@ -236,15 +247,45 @@ export default function TimeOffPage() {
 
 
       // 3. Fetch the relevant time_off_balance
-      const { data: balanceData, error: balanceError } = await supabase
+      let { data: balanceData, error: balanceError } = await supabase
         .from('time_off_balances')
         .select('*')
         .eq('employee_id', employee_id)
         .eq('policy_id', policy_id)
         .eq('year', new Date().getFullYear())
-        .single();
+        .maybeSingle(); // Use maybeSingle instead of single
 
       if (balanceError) throw balanceError;
+
+      // If no balance exists, create one
+      if (!balanceData) {
+        // First, get the policy to know how many days per year
+        const { data: policyData, error: policyError } = await supabase
+          .from('time_off_policies')
+          .select('days_per_year')
+          .eq('id', policy_id)
+          .single();
+
+        if (policyError) throw policyError;
+
+        // Create the balance
+        const { data: newBalance, error: createError } = await supabase
+          .from('time_off_balances')
+          .insert({
+            employee_id,
+            company_id,
+            policy_id,
+            year: new Date().getFullYear(),
+            total_days: policyData.days_per_year,
+            used_days: 0
+          })
+          .select()
+          .single();
+
+        if (createError) throw createError;
+        
+        balanceData = newBalance;
+      }
 
       if (!balanceData) {
         throw new Error(t('errors.balanceNotFound')) // Use translation for error message
@@ -252,7 +293,7 @@ export default function TimeOffPage() {
 
       // 4. Calculate the new used_days and remaining_days
       const newUsedDays = parseFloat(balanceData.used_days.toString()) + days;
-      const totalAvailableDays = parseFloat(balanceData.total_days.toString()) + parseFloat(balanceData.carried_over.toString());
+      const totalAvailableDays = parseFloat(balanceData.total_days.toString());
 
       if (newUsedDays > totalAvailableDays) {
         throw new Error(t('errors.insufficientBalance')) // Use translation for error message
@@ -265,17 +306,16 @@ export default function TimeOffPage() {
         .from('time_off_requests')
         .insert({
           employee_id,
-          company_id: companyId,
+          company_id,
           policy_id,
           start_date,
           end_date,
-          days,
-          type: leave_type,
+          total_days: days,
           status: 'APPROVED',
           reason,
-          created_at: new Date().toISOString(),
         })
-        .select();
+        .select()
+        .single();
 
       if (insertError) throw insertError;
 
@@ -404,7 +444,7 @@ export default function TimeOffPage() {
   
                       <div className="h-2 bg-background rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-flame rounded-full transition-all"
+                          className="h-full bg-primary rounded-full transition-all"
                           style={{
                             width: `${Math.min(
                               (balance.used_days / balance.total_days) * 100,

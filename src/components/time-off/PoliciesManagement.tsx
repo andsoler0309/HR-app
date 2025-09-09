@@ -75,7 +75,7 @@ export default function PoliciesManagement({ policies, onPolicyChange }: Policie
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                 <button
                   onClick={() => handleEdit(policy)}
-                  className="text-flame hover:text-vanilla mr-4"
+                  className="text-primary hover:text-vanilla mr-4"
                 >
                   {t('policiesManagement.actions.edit')}
                 </button>

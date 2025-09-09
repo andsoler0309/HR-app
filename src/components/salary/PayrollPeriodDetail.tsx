@@ -192,7 +192,7 @@ export default function PayrollPeriodDetail({ periodId, onClose, onUpdate }: Pro
           )}
           <button
             onClick={onClose}
-            className="p-2 text-sunset hover:text-flame"
+            className="p-2 text-sunset hover:text-primary"
           >
             <X className="h-5 w-5" />
           </button>

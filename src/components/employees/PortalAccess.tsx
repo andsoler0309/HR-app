@@ -23,6 +23,9 @@ export default function PortalAccess({ employee }: PortalAccessProps) {
     try {
       setLoading(true);
       
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      
       // Generate random token
       const newToken = Math.random().toString(36).substring(2, 15);
       
@@ -31,6 +34,7 @@ export default function PortalAccess({ employee }: PortalAccessProps) {
         .insert({
           employee_id: employee.id,
           email: employee.email,
+          company_id: user.id,
           access_token: newToken
         });
 

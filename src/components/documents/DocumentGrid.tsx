@@ -39,7 +39,7 @@ export default function DocumentGrid({
       return (
         <button
           onClick={() => onSignRequest(document)}
-          className="inline-flex items-center gap-2 px-3 py-1.5 text-sm bg-flame text-white rounded-lg"
+          className="inline-flex items-center gap-2 px-3 py-1.5 text-sm bg-primary text-white rounded-lg"
         >
           <PenLine className="w-4 h-4" />
           {t('signDocument')}
@@ -65,7 +65,7 @@ export default function DocumentGrid({
           >
             <div className="flex flex-col items-center">
               {/* File Type Icon */}
-              <div className="w-16 h-16 bg-flame/10 rounded-xl flex items-center justify-center text-flame mb-4">
+              <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-4">
                 {getFileIcon(document.file_type)}
               </div>
   
@@ -75,7 +75,7 @@ export default function DocumentGrid({
                   {document.name}
                 </h3>
                 {document.category?.name && (
-                  <span className="inline-flex px-2 py-0.5 text-xs font-medium rounded-full bg-flame/10 text-flame">
+                  <span className="inline-flex px-2 py-0.5 text-xs font-medium rounded-full bg-primary/10 text-primary">
                     {document.category.name}
                   </span>
                 )}
@@ -97,14 +97,14 @@ export default function DocumentGrid({
             {renderActions(document)}
             <button
               onClick={() => onDownload(document)}
-              className="p-2 text-sunset hover:text-flame hover:bg-background rounded-lg transition-colors"
+              className="p-2 text-sunset hover:text-primary hover:bg-background rounded-lg transition-colors"
               title="Download"
             >
               <DownloadCloud className="w-4 h-4" />
             </button>
             <button
               onClick={() => onShare(document)}
-              className="p-2 text-sunset hover:text-flame hover:bg-background rounded-lg transition-colors"
+              className="p-2 text-sunset hover:text-primary hover:bg-background rounded-lg transition-colors"
               title="Share"
             >
               <Share2 className="w-4 h-4" />

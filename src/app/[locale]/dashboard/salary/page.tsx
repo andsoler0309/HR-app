@@ -58,7 +58,7 @@ export default function SalaryPage() {
                 <TabsTrigger 
                   value="summary"
                   className="inline-flex items-center gap-2 px-4 py-3 text-md font-medium
-                  data-[state=active]:text-platinum data-[state=active]:border-b-2 data-[state=active]:border-flame 
+                  data-[state=active]:text-platinum data-[state=active]:border-b-2 data-[state=active]:border-primary 
                   text-sunset hover:text-vanilla rounded-none bg-transparent"
                 >
                   <LineChart className="w-4 h-4" />
@@ -67,7 +67,7 @@ export default function SalaryPage() {
                 <TabsTrigger 
                   value="employees"
                   className="inline-flex items-center gap-2 px-4 py-3 text-md font-medium
-                  data-[state=active]:text-platinum data-[state=active]:border-b-2 data-[state=active]:border-flame 
+                  data-[state=active]:text-platinum data-[state=active]:border-b-2 data-[state=active]:border-primary 
                   text-sunset hover:text-vanilla rounded-none bg-transparent"
                 >
                   <Users className="w-4 h-4" />
@@ -77,7 +77,7 @@ export default function SalaryPage() {
                 <TabsTrigger 
                   value="periods"
                   className="inline-flex items-center gap-2 px-4 py-3 text-md font-medium
-                  data-[state=active]:text-platinum data-[state=active]:border-b-2 data-[state=active]:border-flame 
+                  data-[state=active]:text-platinum data-[state=active]:border-b-2 data-[state=active]:border-primary 
                   text-sunset hover:text-vanilla rounded-none bg-transparent"
                 >
                   <Wallet className="w-4 h-4" />
@@ -86,7 +86,7 @@ export default function SalaryPage() {
                 <TabsTrigger 
                   value="config"
                   className="inline-flex items-center gap-2 px-4 py-3 text-md font-medium
-                  data-[state=active]:text-platinum data-[state=active]:border-b-2 data-[state=active]:border-flame 
+                  data-[state=active]:text-platinum data-[state=active]:border-b-2 data-[state=active]:border-primary 
                   text-sunset hover:text-vanilla rounded-none bg-transparent"
                 >
                   <Settings className="w-4 h-4" />
@@ -100,7 +100,7 @@ export default function SalaryPage() {
               {loading ? (
                 <div className="flex items-center justify-center h-64 text-sunset">
                   <div className="flex flex-col items-center gap-3">
-                    <div className="w-6 h-6 border-2 border-flame/20 border-t-flame rounded-full animate-spin" />
+                    <div className="w-6 h-6 border-2 border-primary/20 border-t-flame rounded-full animate-spin" />
                     <span>{t('loading')}</span>
                   </div>
                 </div>

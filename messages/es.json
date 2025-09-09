@@ -18,7 +18,9 @@
         "createAccount": "Crear nueva cuenta",
         "errorOccurred": "Ha ocurrido un error",
         "enterEmailPlaceholder": "Ingresa tu correo electrónico",
-        "enterPasswordPlaceholder": "Ingresa tu contraseña"
+        "enterPasswordPlaceholder": "Ingresa tu contraseña",
+        "backToHome": "Volver",
+        "backToHomeAria": "Volver"
     },
     "register": {
         "createAccount": "Crea tu cuenta",
@@ -38,6 +40,8 @@
         "alreadyHaveAccount": "¿Ya tienes una cuenta?",
         "signInInstead": "Iniciar sesión",
         "errorOccurred": "Ocurrió un error durante el registro",
+        "backToHome": "Volver",
+        "backToHomeAria": "Volver",
         "passwordValidation": {
             "nameMin": "El nombre debe tener al menos 2 caracteres",
             "invalidEmail": "Correo electrónico inválido",
@@ -51,15 +55,21 @@
     "employees": {
         "title": "Empleados",
         "addEmployee": "Agregar Empleado",
+        "goToPortal": "Portal del Empleado",
         "editEmployee": "Editar Empleado",
         "alerts": {
             "documentSuccess": {
                 "title": "Documento Creado Exitosamente",
-                "message": "{{name}}, tu documento ha sido creado."
+                "message": "El documento ha sido creado."
             },
             "policyRequired": {
                 "title": "Política Requerida",
                 "message": "Por favor, crea al menos una política de tiempo libre antes de generar acceso al portal."
+            },
+            "departmentRequired": {
+                "title": "Departamento Requerido",
+                "message": "Para crear empleados, primero necesitas crear al menos un departamento.",
+                "createNow": "Crear departamento ahora"
             }
         },
         "search": {
@@ -143,11 +153,12 @@
             "isActiveOptions": {
                 "true": "Activo",
                 "false": "Inactivo"
+            },
+            "error": {
+                "saveError": "Ocurrió un error al guardar el empleado",
+                "noAuthenticatedUser": "No hay un usuario autenticado",
+                "duplicateDocumentId": "Ya existe un empleado con este ID de documento"
             }
-        },
-        "error": {
-            "saveError": "Ocurrió un error al guardar el empleado",
-            "noAuthenticatedUser": "No hay un usuario autenticado"
         },
         "dashboard": {
             "totalEmployees": "Total de Empleados",
@@ -197,12 +208,12 @@
         "pricingSubtitle": "Sin costos ocultos. Cancela en cualquier momento.",
         "freePlan": "Plan Gratuito",
         "freePlanDesc": "Para pequeñas operaciones o prueba inicial",
-        "max1Employee": "1 empleado máximo",
-        "upTo2Documents": "Hasta 2 documentos",
+        "max1Employee": "3 empleados máximo",
+        "upTo2Documents": "Hasta 2 documentos por empleado",
         "basicFunctions": "Funciones básicas",
         "premiumPlan": "Plan Premium",
         "premiumPlanDesc": "Todo lo que necesitas para la gestión de RRHH",
-        "unlimitedEmployees": "Hasta 50 empleados",
+        "unlimitedEmployees": "Hasta 100 empleados",
         "completeDocsMgmt": "Gestión completa de documentos",
         "advancedVacations": "Gestión avanzada de vacaciones",
         "startFreeTrial": "Comenzar Prueba Gratis",
@@ -230,10 +241,11 @@
         "operationsManager": "Gerente de Operaciones",
         "hrDirector": "Director de RRHH",
         "free": "GRATIS",
-        "premiumPrice": "$20.000 COP",
+        "premiumPrice": "$40.000 COP",
         "perMonth": "/mes",
         "allRightsReserved": "Todos los derechos reservados.",
-        "employeePortal": "Portal del Empleado"
+        "employeePortal": "Portal del Empleado",
+        "login": "Ingresar"
     },
     "navbar": {
         "signOut": "Cerrar sesión"
@@ -244,6 +256,9 @@
         "documents": "Documentos",
         "timeOff": "Tiempo Libre",
         "salary": "Salario",
+        "performance": "Rendimiento",
+        "reports": "Reportes",
+        "audit": "Auditoría",
         "settings": "Configuraciones"
     },
     "departments": {
@@ -272,7 +287,9 @@
             },
             "departmentDistribution": "Distribución de Departamentos",
             "loading": "Cargando...",
-            "error": "Error al obtener la distribución de departamentos",
+            "error": {
+                "saveDepartment": "Error al guardar el departamento"
+            },
             "noData": "No hay datos de departamentos disponibles"
         }
     },
@@ -298,7 +315,8 @@
             "managerSignature": "Firma del Gerente",
             "upload": "Subir",
             "uploading": "Subiendo...",
-            "signDocument": "Firmar Documento"
+            "signDocument": "Firmar Documento",
+            "generateDocument": "Generar Documento"
         },
         "tabs": {
             "documents": "Documentos",
@@ -376,6 +394,18 @@
             }
         },
         "loading": "Cargando documentos...",
+        "emptyState": {
+            "noDocuments": {
+                "title": "No hay documentos",
+                "subtitle": "Aún no has subido ningún documento. Comienza subiendo tu primer documento.",
+                "action": "Subir primer documento"
+            },
+            "noCategories": {
+                "title": "No hay categorías disponibles",
+                "subtitle": "Antes de subir documentos, necesitas crear al menos una categoría para organizarlos.",
+                "action": "Crear primera categoría"
+            }
+        },
         "delete": {
             "confirm": "¿Está seguro de que desea eliminar este documento?"
         },
@@ -515,7 +545,29 @@
                 "policyName": "Ingrese el nombre de la política",
                 "daysPerYear": "ej., 15",
                 "maxCarryForward": "ej., 5",
-                "description": "Descripción opcional para la política"
+                "description": "Descripción opcional para la política",
+                "selectPolicyType": "Seleccionar Tipo de Política"
+            },
+            "labels": {
+                "policyType": "Tipo de Política",
+                "daysPerYear": "Número de días asignados por año",
+                "carriesForward": "¿Los días no usados se trasladan al próximo año?",
+                "maxCarryForward": "Número máximo de días que se pueden trasladar",
+                "description": "Descripción (opcional)"
+            },
+            "buttons": {
+                "cancel": "Cancelar",
+                "createPolicy": "Crear Política",
+                "creating": "Creando..."
+            },
+            "errors": {
+                "unexpected": "Ocurrió un error inesperado.",
+                "policyAlreadyExists": "Ya existe una política para el tipo de ausencia seleccionado.",
+                "companyIdMissing": "ID de empresa no encontrado.",
+                "creationFailed": "Error al crear la política."
+            },
+            "warnings": {
+                "noEmployees": "No se encontraron empleados para asignar la política."
             }
         },
         "editPolicyModal": {
@@ -744,16 +796,30 @@
         "currentPlan": "Plan Actual",
         "premium": "Premium",
         "free": "Gratis",
+        "pending": "Procesando...",
         "active": "Activo",
         "limited": "Limitado",
+        "pendingStatus": "Pendiente",
         "planFeatures": "Características del Plan",
-        "unlimitedEmployees": "Empleados ilimitados",
+        "unlimitedEmployees": "100 empleados maximo",
         "freeLimitEmployees": "{count} empleados (Límite gratuito)",
         "documentManagement": "Gestión de documentos",
         "advancedReports": "Informes avanzados",
         "cancelSubscription": "Cancelar Suscripción",
         "reactivateSubscription": "Reactivar Suscripción",
-        "subscriptionWillEnd": "Tu suscripción finalizará el {date}"
+        "subscriptionWillEnd": "Tu suscripción finalizará el {date}",
+        "subscribeToPremium": "Suscribirme al Plan Premium",
+        "processing": "Procesando...",
+        "monthlyPrice": "$40.000 COP/mes - Cancela cuando quieras",
+        "processingSubscription": "Procesando suscripción...",
+        "subscriptionBeingProcessed": "Tu suscripción está siendo procesada. Te notificaremos cuando esté activa."
+    },
+    "SubscriptionSuccess": {
+        "subscriptionActivated": "¡Suscripción Activada!",
+        "subscriptionActivatedMessage": "Tu suscripción Premium ha sido activada exitosamente. Ahora puedes disfrutar de todas las funcionalidades avanzadas.",
+        "subscriptionError": "Error en la Suscripción",
+        "subscriptionErrorMessage": "Hubo un problema al procesar tu suscripción. Por favor, intenta de nuevo o contacta soporte.",
+        "backToSettings": "Volver a Configuración"
     },
     "CancelSubscriptionModal": {
         "title": "Cancelar Suscripción",
@@ -818,5 +884,197 @@
       "updatePassword": "Actualizar contraseña",
       "passwordsDoNotMatch": "Las contraseñas no coinciden",
       "errorOccurred": "Ocurrió un error al restablecer la contraseña"
+    },
+    "performance": {
+      "title": "Evaluaciones de Rendimiento",
+      "addReview": "Agregar Evaluación",
+      "editReview": "Editar Evaluación",
+      "viewReview": "Ver Evaluación",
+      "createReview": "Crear Evaluación",
+      "searchEmployee": "Buscar empleado...",
+      "searchPlaceholder": "Buscar empleado...",
+      "allStatuses": "Todos los Estados",
+      "allRatings": "Todas las Calificaciones",
+      "exportPDF": "Exportar PDF",
+      "noReviews": "No se encontraron evaluaciones de rendimiento",
+      "createFirst": "Crea tu primera evaluación de rendimiento",
+      "confirmDelete": "¿Estás seguro de que quieres eliminar esta evaluación?",
+      "employee": "Empleado",
+      "position": "Posición",
+      "reviewer": "Evaluador",
+      "type": "Tipo",
+      "period": "Período",
+      "rating": "Calificación",
+      "totalReviews": "Total de Evaluaciones",
+      "completed": "Completadas",
+      "inProgress": "En Progreso",
+      "overdue": "Vencidas",
+      "avgRating": "Calificación Promedio",
+      "stats": {
+        "totalReviews": "Total de Evaluaciones",
+        "averageRating": "Calificación Promedio",
+        "completedReviews": "Completadas",
+        "pendingReviews": "Pendientes"
+      },
+      "status": {
+        "draft": "Borrador",
+        "in_progress": "En Progreso",
+        "inProgress": "En Progreso",
+        "completed": "Completada",
+        "approved": "Aprobada",
+        "overdue": "Vencida"
+      },
+      "form": {
+        "employee": "Empleado",
+        "selectEmployee": "Seleccionar un empleado",
+        "reviewer": "Evaluador",
+        "selectReviewer": "Seleccionar un evaluador",
+        "reviewPeriod": "Período de Evaluación",
+        "startDate": "Fecha de Inicio",
+        "endDate": "Fecha de Fin",
+        "overallRating": "Calificación General",
+        "goalsRating": "Calificación de Objetivos",
+        "skillsRating": "Calificación de Habilidades",
+        "communicationRating": "Calificación de Comunicación",
+        "goals": "Objetivos",
+        "achievements": "Logros",
+        "areasForImprovement": "Áreas de Mejora",
+        "managerComments": "Comentarios del Manager",
+        "employeeComments": "Comentarios del Empleado",
+        "status": "Estado",
+        "cancel": "Cancelar",
+        "save": "Guardar Evaluación",
+        "update": "Actualizar Evaluación",
+        "saving": "Guardando...",
+        "updating": "Actualizando..."
+      },
+      "detail": {
+        "reviewPeriod": "Período de Evaluación",
+        "overallRating": "Calificación General",
+        "ratings": "Calificaciones",
+        "goals": "Objetivos",
+        "skills": "Habilidades",
+        "communication": "Comunicación",
+        "goals_section": "Objetivos",
+        "achievements": "Logros",
+        "improvements": "Áreas de Mejora",
+        "managerComments": "Comentarios del Manager",
+        "employeeComments": "Comentarios del Empleado",
+        "exportPDF": "Exportar PDF",
+        "close": "Cerrar"
+      }
+    },
+    "reports": {
+      "title": "Reportes y Análisis",
+      "employee": "Reportes de Empleados",
+      "performance": "Reportes de Rendimiento",
+      "compliance": "Reportes de Cumplimiento",
+      "generateReport": "Generar Reporte",
+      "generating": "Generando...",
+      "exportPDF": "Exportar PDF",
+      "noData": "No hay datos disponibles para los criterios seleccionados",
+      "employeeReport": "Reporte de Empleados",
+      "employeeReportDesc": "Información completa y estadísticas de empleados",
+      "performanceReport": "Reporte de Rendimiento",
+      "performanceReportDesc": "Análisis de evaluaciones y calificaciones de empleados",
+      "timeOffReport": "Reporte de Tiempo Libre",
+      "timeOffReportDesc": "Análisis de vacaciones, licencias médicas y solicitudes de tiempo libre",
+      "payrollReport": "Reporte de Nómina",
+      "payrollReportDesc": "Análisis de salarios, deducciones y períodos de nómina",
+      "complianceReport": "Reporte de Cumplimiento",
+      "complianceReportDesc": "Cumplimiento de documentos y requisitos regulatorios",
+      "types": {
+        "employeeReport": {
+          "title": "Reporte de Empleados",
+          "allDepartments": "Todos los Departamentos",
+          "allPositions": "Todas las Posiciones",
+          "activeOnly": "Solo Activos",
+          "includeInactive": "Incluir Inactivos",
+          "totalEmployees": "Total de Empleados",
+          "byDepartment": "Por Departamento",
+          "byPosition": "Por Posición",
+          "byType": "Por Tipo de Empleado"
+        },
+        "performanceReport": {
+          "title": "Análisis de Rendimiento",
+          "dateRange": "Rango de Fechas",
+          "last30Days": "Últimos 30 Días",
+          "last90Days": "Últimos 90 Días",
+          "lastYear": "Último Año",
+          "allTime": "Todo el Tiempo",
+          "averageRating": "Calificación Promedio",
+          "totalReviews": "Total de Evaluaciones",
+          "ratingDistribution": "Distribución de Calificaciones",
+          "topPerformers": "Mejores Empleados",
+          "improvementNeeded": "Necesita Mejora"
+        },
+        "complianceReport": {
+          "title": "Resumen de Cumplimiento",
+          "documentStatus": "Estado de Documentos",
+          "signed": "Firmados",
+          "pending": "Pendiente de Firma",
+          "missing": "Documentos Faltantes",
+          "employeeCompliance": "Cumplimiento del Empleado",
+          "criticalIssues": "Problemas Críticos",
+          "upcomingDeadlines": "Fechas Límite Próximas"
+        }
+      }
+    },
+    "audit": {
+      "title": "Registros de Auditoría",
+      "searchLogs": "Buscar registros de auditoría...",
+      "allUsers": "Todos los Usuarios",
+      "allActions": "Todas las Acciones",
+      "allResources": "Todos los Recursos",
+      "allRiskLevels": "Todos los Niveles de Riesgo",
+      "exportCSV": "Exportar CSV",
+      "exportCsv": "Exportar CSV",
+      "viewDetails": "Ver Detalles",
+      "noLogs": "No se encontraron registros de auditoría",
+      "totalLogs": "Total de Registros",
+      "highRiskActions": "Acciones de Alto Riesgo",
+      "uniqueUsers": "Usuarios Únicos",
+      "recentActivity": "Actividad Reciente",
+      "filters": "Filtros",
+      "dateFrom": "Fecha Desde",
+      "dateTo": "Fecha Hasta",
+      "action": "Acción",
+      "riskLevel": {
+        "low": "Bajo",
+        "medium": "Medio",
+        "high": "Alto"
+      },
+      "actions": {
+        "create": "Crear",
+        "update": "Actualizar",
+        "delete": "Eliminar",
+        "view": "Ver",
+        "login": "Iniciar Sesión",
+        "logout": "Cerrar Sesión",
+        "export": "Exportar",
+        "import": "Importar"
+      },
+      "resources": {
+        "employee": "Empleado",
+        "department": "Departamento",
+        "document": "Documento",
+        "timeoff": "Tiempo Libre",
+        "performance": "Rendimiento",
+        "user": "Usuario",
+        "system": "Sistema"
+      },
+      "details": {
+        "title": "Detalles del Registro de Auditoría",
+        "timestamp": "Marca de Tiempo",
+        "user": "Usuario",
+        "action": "Acción",
+        "resource": "Recurso",
+        "resourceId": "ID del Recurso",
+        "riskLevel": "Nivel de Riesgo",
+        "ipAddress": "Dirección IP",
+        "userAgent": "Agente de Usuario",
+        "details": "Detalles Adicionales",
+        "close": "Cerrar"
+      }
     }
 }

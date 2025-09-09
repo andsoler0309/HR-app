@@ -10,6 +10,10 @@ import { Switch } from '@/components/ui/switch';
 import { Template, Category } from '@/types/template';
 import { checkResourceLimits } from '@/lib/subscriptions-limits';
 import { useTranslations } from 'next-intl';
+import { 
+  SubscriptionLimitNotification, 
+  isSubscriptionLimitError 
+} from '@/components/shared/SubscriptionLimitNotification';
 
 
 interface DocumentTemplateProps {
@@ -107,6 +111,7 @@ const DocumentTemplates = () => {
   const [currentTemplate, setCurrentTemplate] = useState<Template | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [subscriptionLimitError, setSubscriptionLimitError] = useState<any>(null);
   const [showPreview, setShowPreview] = useState(true);
   const [previewEmployee, setPreviewEmployee] = useState<Employee | null>(null);
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -242,7 +247,15 @@ const DocumentTemplates = () => {
       setIsEditing(false);
       fetchTemplates();
     } catch (err: any) {
+      // Handle subscription limit errors specially
+      if (isSubscriptionLimitError(err)) {
+        setSubscriptionLimitError(err);
+        setError(null);
+        return;
+      }
+      
       setError(err.message || t('error.unknownError'));
+      setSubscriptionLimitError(null);
     }
   };
 
@@ -302,7 +315,14 @@ const DocumentTemplates = () => {
         </button>
       </div>
 
-      {/* Error Message */}
+      {/* Error Messages */}
+      {subscriptionLimitError && (
+        <SubscriptionLimitNotification 
+          error={subscriptionLimitError} 
+          onClose={() => setSubscriptionLimitError(null)}
+        />
+      )}
+
       {error && (
         <div className="bg-error/10 border border-error/20 text-error rounded-lg p-4">
           {error}
@@ -407,7 +427,7 @@ const DocumentTemplates = () => {
                           type="checkbox"
                           checked={formData.required_signatures.includes('employee')}
                           onChange={() => handleRequiredSignaturesChange('employee')}
-                          className="rounded border-card-border text-flame focus:ring-flame"
+                          className="rounded border-card-border text-primary focus:ring-flame"
                         />
                         <span className="text-sm text-sunset">{t('employeeSignature')}</span>
                       </label>
@@ -416,7 +436,7 @@ const DocumentTemplates = () => {
                           type="checkbox"
                           checked={formData.required_signatures.includes('manager')}
                           onChange={() => handleRequiredSignaturesChange('manager')}
-                          className="rounded border-card-border text-flame focus:ring-flame"
+                          className="rounded border-card-border text-primary focus:ring-flame"
                         />
                         <span className="text-sm text-sunset">{t('managerSignature')}</span>
                       </label>
@@ -522,7 +542,7 @@ const DocumentTemplates = () => {
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-start gap-3">
-                    <div className="p-2 bg-flame/10 text-flame rounded-lg">
+                    <div className="p-2 bg-primary/10 text-primary rounded-lg">
                       <FileText className="w-5 h-5" />
                     </div>
                     <div>
@@ -538,7 +558,7 @@ const DocumentTemplates = () => {
                         </span>
                       )}
                       {template.requires_signature && (
-                        <span className="inline-block text-xs bg-flame/10 text-flame px-2 py-1 rounded-full">
+                        <span className="inline-block text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
                           {tButtons('requireSignature')}
                         </span>
                       )}

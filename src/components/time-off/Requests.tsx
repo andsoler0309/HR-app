@@ -84,7 +84,10 @@ export default function TimeOffRequests({
           </p>
           <div className="mt-2">
             <p className="text-sm text-sunset">
-              <span className="font-medium text-platinum">{t('timeOffRequests.requestCard.fields.type')}:</span> {request.type.replace('_', ' ')}
+              <span className="font-medium text-platinum">{t('timeOffRequests.requestCard.fields.type')}:</span> {
+                request.policy?.name || 
+                (request.type ? request.type.replace('_', ' ') : 'Time Off')
+              }
             </p>
             <p className="text-sm text-sunset">
               <span className="font-medium text-platinum">{t('timeOffRequests.requestCard.fields.dates')}:</span>{' '}
@@ -140,7 +143,7 @@ export default function TimeOffRequests({
   return (
     <Tabs defaultValue="pending" className="w-full">
       <TabsList className="grid grid-cols-3 w-full">
-        <TabsTrigger value="pending" className="flex items-center gap-2 text-sunset hover:text-flame data-[state=active]:text-flame">
+        <TabsTrigger value="pending" className="flex items-center gap-2 text-sunset hover:text-primary data-[state=active]:text-primary">
           {t('timeOffRequests.tabs.pending')}
           {pendingRequests.length > 0 && (
             <span className="bg-warning/10 text-warning text-xs px-2 py-0.5 rounded-full">
@@ -148,7 +151,7 @@ export default function TimeOffRequests({
             </span>
           )}
         </TabsTrigger>
-        <TabsTrigger value="approved" className="flex items-center gap-2 text-sunset hover:text-flame data-[state=active]:text-flame">
+        <TabsTrigger value="approved" className="flex items-center gap-2 text-sunset hover:text-primary data-[state=active]:text-primary">
           {t('timeOffRequests.tabs.approved')}
           {approvedRequests.length > 0 && (
             <span className="bg-success/10 text-success text-xs px-2 py-0.5 rounded-full">
@@ -156,7 +159,7 @@ export default function TimeOffRequests({
             </span>
           )}
         </TabsTrigger>
-        <TabsTrigger value="rejected" className="flex items-center gap-2 text-sunset hover:text-flame data-[state=active]:text-flame">
+        <TabsTrigger value="rejected" className="flex items-center gap-2 text-sunset hover:text-primary data-[state=active]:text-primary">
           {t('timeOffRequests.tabs.rejected')}
           {rejectedRequests.length > 0 && (
             <span className="bg-error/10 text-error text-xs px-2 py-0.5 rounded-full">

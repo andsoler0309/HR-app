@@ -10,25 +10,7 @@ const config: {
       boxShadow: { md: string; sm: string; lg: string };
       fontSize: { xl: string; "2xl": string; sm: string; xs: string; lg: string; base: string; md: string };
       colors: {
-        foreground: string;
-        "text-muted": string;
-        error: string;
-        "rich-black": string;
-        accent: string;
-        "text-secondary": string;
-        secondary: string;
-        "card-border": string;
-        platinum: string;
-        "navbar-border": string;
-        background: string;
-        success: string;
-        sunset: string;
-        warning: string;
-        flame: string;
-        card: string;
-        vanilla: string;
-        primary: string;
-        info: string
+        [key: string]: string;
       }
     }
   };
@@ -51,48 +33,50 @@ const config: {
         },
       },
       colors: {
-        // Base palette
-        // 'rich-black': '#050517',
-        // 'flame': '#CF5C36',
-        // 'sunset': '#EFC88B',
-        // 'vanilla': '#F4E3B2',
-        // 'platinum': '#D3D5D7',
-        'rich-black': '#050517',
-        'flame': '#e8673c',
-        'sunset': '#edc585',
-        'vanilla': '#F4E3B2',
-        'platinum': '#fafafa',
+        // Corporate HR color palette
+        'corporate-navy': '#1e293b',     // Deep navy for professional look
+        'corporate-blue': '#3b82f6',     // Modern blue for primary actions
+        'corporate-gray': '#64748b',     // Professional gray
+        'corporate-light': '#f8fafc',    // Clean light background
+        'corporate-white': '#ffffff',    // Pure white
+        'corporate-slate': '#475569',    // Medium slate for text
+        'corporate-border': '#e2e8f0',   // Light borders
         
-        
-        // Semantic colors
-        background: '#050517',    // rich black
-        foreground: '#D3D5D7',    // platinum
+        // Semantic colors - Corporate theme
+        background: '#f8fafc',           // Clean light background
+        foreground: '#1e293b',           // Dark navy text
         
         // Text variations
-        'text-secondary': '#EFC88B',  // sunset
-        'text-muted': 'rgb(211 213 215 / 0.7)',
+        'text-secondary': '#64748b',     // Professional gray
+        'text-muted': '#64748b', // Muted gray
         
         // UI Elements
-        // 'card': 'rgb(5 5 23 / 0.8)',
-        'card': 'rgb(5 5 23 / 0.8)',
-        'navbar-border': 'rgb(207 92 54 / 0.4)',
-        'card-border': 'rgba(203,203,203,0.8)',
+        'card': '#ffffff',               // Clean white cards
+        'card-foreground': '#1e293b',    // Dark navy text on cards
+        'navbar-border': '#e2e8f0',      // Light border
+        'card-border': '#e2e8f0',        // Consistent light borders
         
-        // Interactive
-        'primary': '#CF5C36',     // flame
-        'secondary': '#EFC88B',   // sunset
-        'accent': '#F4E3B2',      // vanilla
+        // Interactive elements
+        'primary': '#3b82f6',            // Professional blue
+        'secondary': '#64748b',          // Professional gray
+        'accent': '#06b6d4',             // Cyan accent for highlights
         
-        // Status
-        'success': '#4CAF50',
-        'warning': '#EFC88B',     // sunset
-        'error': '#CF5C36',       // flame
-        'info': '#F4E3B2',        // vanilla
+        // Status colors - Professional palette
+        'success': '#10b981',            // Modern green
+        'warning': '#f59e0b',            // Professional amber
+        'error': '#ef4444',              // Clean red
+        'info': '#06b6d4',
+        'normal-black': '#000000',        // Pure black
+        
+        // Additional corporate colors
+        'hover': '#f1f5f9',              // Light hover state
+        'muted': '#f8fafc',              // Muted background
+        'destructive': '#ef4444',        // Red for destructive actions
       },
       boxShadow: {
-        'sm': '0 2px 4px rgb(5 5 23 / 0.3)',
-        'md': '0 4px 6px rgb(5 5 23 / 0.4)',
-        'lg': '0 10px 15px rgb(5 5 23 / 0.5)',
+        'sm': '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+        'md': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+        'lg': '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
       },
       fontSize: {
         // Or define custom sizes:

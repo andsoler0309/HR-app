@@ -50,12 +50,21 @@ export default function LandingPage() {
               onSwitchToSpanish={switchToSpanish}
             />
 
-            <Link
-              href={`/${locale}/auth/register`}
-              className="inline-flex items-center px-4 py-2 border border-black text-sm font-medium rounded-md text-black bg-primary hover:bg-flame transition-colors"
-            >
-              {t("tryFree")} <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+            <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-4 items-center">
+              <Link
+                href={`/${locale}/auth/login`}
+                className="inline-flex items-center justify-center px-5 py-2 min-w-[120px] border border-primary text-primary bg-background font-semibold rounded-lg text-base hover:bg-primary/10 hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 shadow-none"
+              >
+                {t("login")}
+              </Link>
+              <Link
+                href={`/${locale}/auth/register`}
+                className="inline-flex items-center justify-center px-6 py-2 min-w-[160px] bg-primary text-black font-bold rounded-lg text-base shadow-lg hover:bg-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+              >
+                {t("tryFree")}
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </div>
           </div>
         </div>
       </nav>
@@ -72,7 +81,7 @@ export default function LandingPage() {
         <div className="mt-8">
           <Link
             href={`/${locale}/auth/register`}
-            className="inline-flex items-center px-6 py-3 border border-black text-base font-medium rounded-md text-black bg-primary hover:bg-flame transition-colors"
+            className="inline-flex items-center px-6 py-3 border border-black text-base font-medium rounded-md text-black bg-primary hover:bg-primary transition-colors"
           >
             {t("tryFree")}
           </Link>
@@ -281,7 +290,7 @@ export default function LandingPage() {
               <div className="mt-auto pt-8">
                 <Link
                   href={`/${locale}/auth/register`}
-                  className="block w-full bg-primary text-black text-center px-6 py-3 rounded-md font-medium hover:bg-flame transition-colors"
+                  className="block w-full bg-primary text-black text-center px-6 py-3 rounded-md font-medium hover:bg-primary transition-colors"
                 >
                   {t("tryFree")}
                 </Link>
@@ -327,7 +336,7 @@ export default function LandingPage() {
               <div className="mt-auto pt-8">
                 <Link
                   href={`/${locale}/auth/register`}
-                  className="block w-full bg-primary text-black text-center px-6 py-3 rounded-md font-medium hover:bg-flame transition-colors"
+                  className="block w-full bg-primary text-black text-center px-6 py-3 rounded-md font-medium hover:bg-primary transition-colors"
                 >
                   {t("startFreeTrial")}
                 </Link>
@@ -348,7 +357,7 @@ export default function LandingPage() {
         <div className="mt-8">
           <Link
             href={`/${locale}/auth/register`}
-            className="inline-flex items-center px-6 py-3 border border-black text-base font-medium rounded-md text-black bg-primary hover:bg-flame transition-colors"
+            className="inline-flex items-center px-6 py-3 border border-black text-base font-medium rounded-md text-black bg-primary hover:bg-primary transition-colors"
           >
             {t("signUpNow")}
           </Link>

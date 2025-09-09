@@ -121,7 +121,7 @@ export default function EmployeePayrollTable() {
     return (
       <div className="flex items-center justify-center h-64 text-sunset">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-6 h-6 border-2 border-flame/20 border-t-flame rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-primary/20 border-t-flame rounded-full animate-spin" />
           <span>{t('loadingEmployees')}</span>
         </div>
       </div>
@@ -134,7 +134,7 @@ export default function EmployeePayrollTable() {
         <h2 className="text-xl font-semibold text-platinum">{t('title')}</h2>
         <Button 
           onClick={exportToExcel}
-          className="inline-flex items-center gap-2 bg-flame hover:bg-flame/90"
+          className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90"
         >
           <Download className="w-4 h-4" />
           {t('export')}

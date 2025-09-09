@@ -37,14 +37,14 @@ function BalanceCard({ balance }: BalanceCardProps) {
             {balance.employee?.first_name} {balance.employee?.last_name}
           </p>
         </div>
-        <Battery size={20} className="text-flame" />
+        <Battery size={20} className="text-primary" />
       </div>
 
       {/* Accumulated Totals */}
       <div className="space-y-4">
         <div className="h-2 bg-background rounded-full overflow-hidden">
           <div
-            className="h-full bg-flame rounded-full transition-all"
+            className="h-full bg-primary rounded-full transition-all"
             style={{ width: `${Math.min(percentageUsed, 100)}%` }}
           />
         </div>
@@ -78,7 +78,7 @@ function BalanceCard({ balance }: BalanceCardProps) {
         {/* Expand/Collapse Button */}
         <button
           onClick={() => setExpanded(!expanded)}
-          className="flex items-center gap-2 text-sm text-sunset hover:text-flame transition-colors w-full justify-center mt-2"
+          className="flex items-center gap-2 text-sm text-sunset hover:text-primary transition-colors w-full justify-center mt-2"
         >
           {expanded ? (
             <>

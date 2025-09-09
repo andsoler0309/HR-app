@@ -10,7 +10,7 @@ export default function LandingPage() {
           <h1 className="text-xl font-bold text-primary tracking-tight">PEOPLER</h1>
           <Link 
             href="/auth/register"
-            className="inline-flex items-center px-4 py-2 border border-black text-sm font-medium rounded-md text-black bg-primary hover:bg-flame transition-colors"
+            className="inline-flex items-center px-4 py-2 border border-black text-sm font-medium rounded-md text-black bg-primary hover:bg-primary transition-colors"
           >
             Prueba Gratis <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
@@ -29,7 +29,7 @@ export default function LandingPage() {
         <div className="mt-8">
           <Link
             href="/auth/register"
-            className="inline-flex items-center px-6 py-3 border border-black text-base font-medium rounded-md text-black bg-primary hover:bg-flame transition-colors"
+            className="inline-flex items-center px-6 py-3 border border-black text-base font-medium rounded-md text-black bg-primary hover:bg-primary transition-colors"
           >
             Comenzar Prueba Gratis
           </Link>
@@ -224,7 +224,7 @@ export default function LandingPage() {
               <div className="mt-auto pt-8">
                 <Link
                   href="/auth/register"
-                  className="block w-full bg-primary text-black text-center px-6 py-3 rounded-md font-medium hover:bg-flame transition-colors"
+                  className="block w-full bg-primary text-black text-center px-6 py-3 rounded-md font-medium hover:bg-primary transition-colors"
                 >
                   Probar Gratis
                 </Link>
@@ -264,7 +264,7 @@ export default function LandingPage() {
               <div className="mt-auto pt-8">
                 <Link
                   href="/auth/register"
-                  className="block w-full bg-primary text-black text-center px-6 py-3 rounded-md font-medium hover:bg-flame transition-colors"
+                  className="block w-full bg-primary text-black text-center px-6 py-3 rounded-md font-medium hover:bg-primary transition-colors"
                 >
                   Comenzar Prueba Gratis
                 </Link>
@@ -283,7 +283,7 @@ export default function LandingPage() {
         <div className="mt-8">
           <Link
             href="/auth/register"
-            className="inline-flex items-center px-6 py-3 border border-black text-base font-medium rounded-md text-black bg-primary hover:bg-flame transition-colors"
+            className="inline-flex items-center px-6 py-3 border border-black text-base font-medium rounded-md text-black bg-primary hover:bg-primary transition-colors"
           >
             Registrarme Ahora
           </Link>

@@ -35,7 +35,7 @@ export default function DocumentList({
       return (
         <button
           onClick={() => onSignRequest(document)}
-          className="inline-flex items-center gap-2 px-3 py-1.5 text-sm bg-flame text-white rounded-lg"
+          className="inline-flex items-center gap-2 px-3 py-1.5 text-sm bg-primary text-white rounded-lg"
         >
           <PenLine className="w-4 h-4" />
           {t('signDocument')}
@@ -57,7 +57,7 @@ export default function DocumentList({
           key={document.id}
           className="flex items-center gap-4 p-4 hover:bg-background/50 transition-colors group"
         >
-          <div className="shrink-0 w-10 h-10 bg-flame/10 rounded-lg flex items-center justify-center text-flame">
+          <div className="shrink-0 w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
             <FileText className="w-5 h-5" />
           </div>
   
@@ -70,7 +70,7 @@ export default function DocumentList({
                 {document.name}
               </h3>
               {document.category?.name && (
-                <span className="inline-flex px-2 py-0.5 text-xs font-medium rounded-full bg-flame/10 text-flame">
+                <span className="inline-flex px-2 py-0.5 text-xs font-medium rounded-full bg-primary/10 text-primary">
                   {document.category.name}
                 </span>
               )}
@@ -99,14 +99,14 @@ export default function DocumentList({
             {renderActions(document)}
             <button
               onClick={() => onDownload(document)}
-              className="p-2 text-sunset hover:text-flame hover:bg-background rounded-lg transition-colors"
+              className="p-2 text-sunset hover:text-primary hover:bg-background rounded-lg transition-colors"
               title="Download"
             >
               <DownloadCloud className="w-4 h-4" />
             </button>
             <button
               onClick={() => onShare(document)}
-              className="p-2 text-sunset hover:text-flame hover:bg-background rounded-lg transition-colors"
+              className="p-2 text-sunset hover:text-primary hover:bg-background rounded-lg transition-colors"
               title="Share"
             >
               <Share2 className="w-4 h-4" />

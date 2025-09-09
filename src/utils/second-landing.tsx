@@ -103,14 +103,14 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex-shrink-0 flex items-center">
-              <h1 className="text-2xl font-bold text-flame">PEOPLER</h1>
+              <h1 className="text-2xl font-bold text-primary">PEOPLER</h1>
             </div>
             <div className="flex items-center space-x-8">
               <a href="#features" className="text-platinum hover:text-sunset transition-colors">Features</a>
               <a href="#pricing" className="text-platinum hover:text-sunset transition-colors">Pricing</a>
               <Link 
                 href="/auth/register" 
-                className="inline-flex items-center px-4 py-2 border border-flame text-sm font-medium rounded-md text-platinum bg-flame hover:bg-background hover:text-flame transition-colors"
+                className="inline-flex items-center px-4 py-2 border border-primary text-sm font-medium rounded-md text-platinum bg-primary hover:bg-background hover:text-primary transition-colors"
               >
                 Try it free <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
@@ -124,7 +124,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 text-center relative z-10">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-platinum tracking-tight">
             Next Generation
-            <span className="block text-flame mt-2">HR Management</span>
+            <span className="block text-primary mt-2">HR Management</span>
           </h1>
           <p className="mt-6 max-w-2xl mx-auto text-xl text-sunset">
             Streamline your HR operations with our intuitive, all-in-one platform. 
@@ -133,7 +133,7 @@ export default function LandingPage() {
           <div className="mt-8 flex justify-center space-x-4">
             <Link
               href="/auth/register"
-              className="inline-flex items-center px-8 py-3 border-2 border-flame text-base font-medium rounded-md text-platinum bg-flame hover:bg-background hover:text-flame transition-colors"
+              className="inline-flex items-center px-8 py-3 border-2 border-primary text-base font-medium rounded-md text-platinum bg-primary hover:bg-background hover:text-primary transition-colors"
             >
               Start Free Trial
             </Link>
@@ -148,15 +148,15 @@ export default function LandingPage() {
           {/* Stats */}
           <div className="mt-20 grid grid-cols-1 gap-8 sm:grid-cols-3">
             <div className="bg-card p-6 rounded-lg border border-card-border">
-              <div className="text-3xl font-bold text-flame">1000+</div>
+              <div className="text-3xl font-bold text-primary">1000+</div>
               <div className="text-platinum mt-2">Companies Trust Us</div>
             </div>
             <div className="bg-card p-6 rounded-lg border border-card-border">
-              <div className="text-3xl font-bold text-flame">50,000+</div>
+              <div className="text-3xl font-bold text-primary">50,000+</div>
               <div className="text-platinum mt-2">Employees Managed</div>
             </div>
             <div className="bg-card p-6 rounded-lg border border-card-border">
-              <div className="text-3xl font-bold text-flame">99.9%</div>
+              <div className="text-3xl font-bold text-primary">99.9%</div>
               <div className="text-platinum mt-2">Uptime</div>
             </div>
           </div>
@@ -178,9 +178,9 @@ export default function LandingPage() {
           <div className="mt-20">
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
               {features.map((feature, index) => (
-                <div key={index} className="bg-card p-6 rounded-lg border border-card-border hover:border-flame transition-colors">
-                  <div className="bg-flame/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                    <feature.icon className="h-6 w-6 text-flame" />
+                <div key={index} className="bg-card p-6 rounded-lg border border-card-border hover:border-primary transition-colors">
+                  <div className="bg-primary/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                    <feature.icon className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="text-lg font-semibold mb-2 text-platinum">{feature.title}</h3>
                   <p className="text-sunset">{feature.description}</p>
@@ -246,7 +246,7 @@ export default function LandingPage() {
               <ul className="mt-8 space-y-4">
                 {pricingFeatures.free.map((feature, index) => (
                   <li key={index} className="flex items-center text-platinum">
-                    <CheckCircle2 className="h-5 w-5 text-flame mr-3" />
+                    <CheckCircle2 className="h-5 w-5 text-primary mr-3" />
                     {feature}
                   </li>
                 ))}
@@ -254,7 +254,7 @@ export default function LandingPage() {
               <div className="mt-8">
                 <Link
                   href="/auth/register"
-                  className="block w-full text-center px-6 py-3 border border-flame text-platinum rounded-md font-medium hover:bg-flame transition-colors"
+                  className="block w-full text-center px-6 py-3 border border-primary text-platinum rounded-md font-medium hover:bg-primary transition-colors"
                 >
                   Get Started Free
                 </Link>
@@ -262,8 +262,8 @@ export default function LandingPage() {
             </div>
 
             {/* Premium Plan */}
-            <div className="bg-card rounded-lg border border-flame p-8 relative">
-              <div className="absolute top-0 right-0 bg-flame text-platinum px-3 py-1 rounded-bl-lg rounded-tr-lg text-sm font-medium">
+            <div className="bg-card rounded-lg border border-primary p-8 relative">
+              <div className="absolute top-0 right-0 bg-primary text-platinum px-3 py-1 rounded-bl-lg rounded-tr-lg text-sm font-medium">
                 POPULAR
               </div>
               <div className="flex justify-between items-start">
@@ -279,7 +279,7 @@ export default function LandingPage() {
               <ul className="mt-8 space-y-4">
                 {pricingFeatures.premium.map((feature, index) => (
                   <li key={index} className="flex items-center text-platinum">
-                    <CheckCircle2 className="h-5 w-5 text-flame mr-3" />
+                    <CheckCircle2 className="h-5 w-5 text-primary mr-3" />
                     {feature}
                   </li>
                 ))}
@@ -287,7 +287,7 @@ export default function LandingPage() {
               <div className="mt-8">
                 <Link
                   href="/auth/register?plan=premium"
-                  className="block w-full text-center px-6 py-3 bg-flame text-platinum rounded-md font-medium hover:bg-background hover:text-flame border border-flame transition-colors"
+                  className="block w-full text-center px-6 py-3 bg-primary text-platinum rounded-md font-medium hover:bg-background hover:text-primary border border-primary transition-colors"
                 >
                   Start Premium Trial
                 </Link>
@@ -308,11 +308,11 @@ export default function LandingPage() {
               </p>
               <div className="mt-8 space-y-6">
                 <div className="flex items-center">
-                  <Mail className="h-6 w-6 text-flame mr-3" />
+                  <Mail className="h-6 w-6 text-primary mr-3" />
                   <span className="text-platinum">support@peopler.com</span>
                 </div>
                 <div className="flex items-center">
-                  <Phone className="h-6 w-6 text-flame mr-3" />
+                  <Phone className="h-6 w-6 text-primary mr-3" />
                   <span className="text-platinum">+1 (555) 123-4567</span>
                 </div>
               </div>
@@ -342,7 +342,7 @@ export default function LandingPage() {
                 </div>
                 <button
                   type="submit"
-                  className="w-full px-6 py-3 bg-flame text-platinum rounded-md font-medium hover:bg-background hover:text-flame border border-flame transition-colors"
+                  className="w-full px-6 py-3 bg-primary text-platinum rounded-md font-medium hover:bg-background hover:text-primary border border-primary transition-colors"
                   >
                     Send Message
                   </button>
@@ -387,7 +387,7 @@ export default function LandingPage() {
         {/* CTA Section */}
         <div className="py-20 bg-card">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="bg-flame rounded-2xl p-8 md:p-12 relative overflow-hidden">
+            <div className="bg-primary rounded-2xl p-8 md:p-12 relative overflow-hidden">
               <div className="relative z-10">
                 <h2 className="text-3xl font-extrabold text-platinum max-w-2xl">
                   Ready to transform your HR management?
@@ -405,7 +405,7 @@ export default function LandingPage() {
                   </Link>
                   <a
                     href="#demo"
-                    className="inline-flex justify-center items-center px-8 py-3 border-2 border-platinum text-platinum rounded-md font-medium hover:bg-platinum hover:text-flame transition-colors"
+                    className="inline-flex justify-center items-center px-8 py-3 border-2 border-platinum text-platinum rounded-md font-medium hover:bg-platinum hover:text-primary transition-colors"
                   >
                     Schedule Demo
                   </a>
@@ -420,34 +420,34 @@ export default function LandingPage() {
           <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               <div className="space-y-4">
-                <h1 className="text-xl font-bold text-flame">PEOPLER</h1>
+                <h1 className="text-xl font-bold text-primary">PEOPLER</h1>
                 <p className="text-sunset">Next generation HR management for modern businesses</p>
               </div>
               
               <div>
                 <h3 className="text-lg font-semibold text-platinum mb-4">Product</h3>
                 <ul className="space-y-2">
-                  <li><a href="#features" className="text-sunset hover:text-flame">Features</a></li>
-                  <li><a href="#pricing" className="text-sunset hover:text-flame">Pricing</a></li>
-                  <li><a href="#demo" className="text-sunset hover:text-flame">Demo</a></li>
+                  <li><a href="#features" className="text-sunset hover:text-primary">Features</a></li>
+                  <li><a href="#pricing" className="text-sunset hover:text-primary">Pricing</a></li>
+                  <li><a href="#demo" className="text-sunset hover:text-primary">Demo</a></li>
                 </ul>
               </div>
   
               <div>
                 <h3 className="text-lg font-semibold text-platinum mb-4">Company</h3>
                 <ul className="space-y-2">
-                  <li><a href="#about" className="text-sunset hover:text-flame">About</a></li>
-                  <li><a href="#blog" className="text-sunset hover:text-flame">Blog</a></li>
-                  <li><a href="#careers" className="text-sunset hover:text-flame">Careers</a></li>
+                  <li><a href="#about" className="text-sunset hover:text-primary">About</a></li>
+                  <li><a href="#blog" className="text-sunset hover:text-primary">Blog</a></li>
+                  <li><a href="#careers" className="text-sunset hover:text-primary">Careers</a></li>
                 </ul>
               </div>
   
               <div>
                 <h3 className="text-lg font-semibold text-platinum mb-4">Legal</h3>
                 <ul className="space-y-2">
-                  <li><a href="#privacy" className="text-sunset hover:text-flame">Privacy Policy</a></li>
-                  <li><a href="#terms" className="text-sunset hover:text-flame">Terms of Service</a></li>
-                  <li><a href="#security" className="text-sunset hover:text-flame">Security</a></li>
+                  <li><a href="#privacy" className="text-sunset hover:text-primary">Privacy Policy</a></li>
+                  <li><a href="#terms" className="text-sunset hover:text-primary">Terms of Service</a></li>
+                  <li><a href="#security" className="text-sunset hover:text-primary">Security</a></li>
                 </ul>
               </div>
             </div>
@@ -456,9 +456,9 @@ export default function LandingPage() {
               <div className="flex flex-col md:flex-row justify-between items-center">
                 <p className="text-sunset">© 2024 PEOPLER. All rights reserved.</p>
                 <div className="flex space-x-6 mt-4 md:mt-0">
-                  <a href="#twitter" className="text-sunset hover:text-flame">Twitter</a>
-                  <a href="#linkedin" className="text-sunset hover:text-flame">LinkedIn</a>
-                  <a href="#github" className="text-sunset hover:text-flame">GitHub</a>
+                  <a href="#twitter" className="text-sunset hover:text-primary">Twitter</a>
+                  <a href="#linkedin" className="text-sunset hover:text-primary">LinkedIn</a>
+                  <a href="#github" className="text-sunset hover:text-primary">GitHub</a>
                 </div>
               </div>
             </div>

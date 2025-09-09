@@ -67,7 +67,7 @@ export default function DocumentViewer({ document, onClose }: Props) {
           <div className="flex items-center space-x-4">
             <button
               onClick={onClose}
-              className="p-2 hover:bg-background rounded-full text-sunset hover:text-flame"
+              className="p-2 hover:bg-background rounded-full text-sunset hover:text-primary"
               aria-label={t('back')}
             >
               <ArrowLeft className="w-5 h-5" />
@@ -87,20 +87,20 @@ export default function DocumentViewer({ document, onClose }: Props) {
               <Download className="w-4 h-4 mr-2" />
               {t('download')}
             </button>
-            <button
-              onClick={() => setIsShareModalOpen(true)}
-              className="btn-secondary flex items-center px-4 py-2 rounded-md"
-            >
-              <Share2 className="w-4 h-4 mr-2" />
-              {t('share')}
-            </button>
-            <button
-              onClick={() => setShowVersions(!showVersions)}
-              className="btn-secondary flex items-center px-4 py-2 rounded-md"
-            >
-              <Clock className="w-4 h-4 mr-2" />
-              {t('versionHistory')}
-            </button>
+            {/*<button*/}
+            {/*  onClick={() => setIsShareModalOpen(true)}*/}
+            {/*  className="btn-secondary flex items-center px-4 py-2 rounded-md"*/}
+            {/*>*/}
+            {/*  <Share2 className="w-4 h-4 mr-2" />*/}
+            {/*  {t('share')}*/}
+            {/*</button>*/}
+            {/*<button*/}
+            {/*  onClick={() => setShowVersions(!showVersions)}*/}
+            {/*  className="btn-secondary flex items-center px-4 py-2 rounded-md"*/}
+            {/*>*/}
+            {/*  <Clock className="w-4 h-4 mr-2" />*/}
+            {/*  {t('versionHistory')}*/}
+            {/*</button>*/}
           </div>
         </div>
       </div>

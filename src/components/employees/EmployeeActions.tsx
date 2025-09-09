@@ -37,11 +37,11 @@ const EmployeeActions: React.FC<EmployeeActionsProps> = ({
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => onEdit(employee)}>
           <PenLine className="mr-2 h-4 w-4" />
-          <span className='hover:text-flame'>{t('editEmployee')}</span>
+          <span className='hover:text-primary'>{t('editEmployee')}</span>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => onGenerateDocument(employee)}>
           <FileText className="mr-2 h-4 w-4" />
-          <span className='hover:text-flame'>{t('generateDocument')}</span>
+          <span className='hover:text-primary'>{t('generateDocument')}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

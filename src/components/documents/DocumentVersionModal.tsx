@@ -98,7 +98,7 @@ export default function DocumentVersionModal({ isOpen, onClose, document, onSucc
       <div className="bg-card rounded-lg p-6 w-full max-w-md border border-card-border shadow-lg">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold text-platinum">{t('title')}</h2>
-          <button onClick={onClose} className="text-sunset hover:text-flame">
+          <button onClick={onClose} className="text-sunset hover:text-primary">
             <X className="w-6 h-6" />
           </button>
         </div>
@@ -115,11 +115,11 @@ export default function DocumentVersionModal({ isOpen, onClose, document, onSucc
             <label className="block text-sm font-medium text-sunset">
               {t('file')}
             </label>
-            <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md border-card-border hover:border-flame">
+            <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md border-card-border hover:border-primary">
               <div className="space-y-1 text-center">
                 <Upload className="mx-auto h-12 w-12 text-sunset" />
                 <div className="flex text-sm text-sunset">
-                  <label htmlFor="version-upload" className="relative cursor-pointer rounded-md font-medium text-flame hover:text-vanilla">
+                  <label htmlFor="version-upload" className="relative cursor-pointer rounded-md font-medium text-primary hover:text-vanilla">
                     <span>{t('uploadAFile')}</span>
                     <input
                       id="version-upload"

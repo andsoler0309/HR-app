@@ -10,6 +10,10 @@ import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { checkResourceLimits } from '@/lib/subscriptions-limits';
 import { useTranslations } from 'next-intl';
 import { Document } from '@/types/document';
+import { 
+  SubscriptionLimitNotification, 
+  isSubscriptionLimitError 
+} from '@/components/shared/SubscriptionLimitNotification';
 
 const employeeSchema = z.object({
     first_name: z.string().min(2, 'validation.firstNameRequired'),
@@ -24,7 +28,7 @@ const employeeSchema = z.object({
     hire_date: z.string().nonempty('validation.hireDateRequired'),
     birthday: z.string().nonempty('validation.birthdayRequired'),
     salary: z.number().positive().optional(),
-    manager_id: z.string().uuid('validation.invalidManagerId').nullable().optional(),
+    // manager_id: z.string().uuid('validation.invalidManagerId').nullable().optional(),
     is_active: z.boolean().default(true),
     document_id: z.string().nonempty('validation.documentIdRequired')
 });
@@ -44,6 +48,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
     const tAlerts = useTranslations('employees.alerts');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [subscriptionLimitError, setSubscriptionLimitError] = useState<any>(null);
     const isEditing = !!employee;
 
     const {
@@ -63,7 +68,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
             status: employee.status,
             hire_date: employee.hire_date,
             salary: employee.salary,
-            manager_id: employee.manager_id,
+            // manager_id: employee.manager_id,
             is_active: employee.is_active,
             document_id: employee.document_id,
             birthday: employee.birthday
@@ -86,7 +91,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                 hire_date: employee.hire_date,
                 birthday: employee.birthday,
                 salary: employee.salary,
-                manager_id: employee.manager_id,
+                // manager_id: employee.manager_id,
                 is_active: employee.is_active,
                 document_id: employee.document_id
             });
@@ -111,7 +116,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                     status: 'FULL_TIME',
                     hire_date: '',
                     salary: undefined,
-                    manager_id: undefined,
+                    // manager_id: undefined,
                     is_active: true,
                     document_id: '',
                     birthday: ''
@@ -128,7 +133,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
 
             const { data: { user }, error: userError } = await supabase.auth.getUser();
             if (userError) throw userError;
-            if (!user) throw new Error(t('error.noAuthenticatedUser'));
+            if (!user) throw new Error(t('employees.error.noAuthenticatedUser'));
 
             await checkResourceLimits(supabase, { employees: true }, isEditing);
 
@@ -146,7 +151,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                         hire_date: data.hire_date,
                         birthday: data.birthday,
                         salary: data.salary || null,
-                        manager_id: data.manager_id || null,
+                        // manager_id: data.manager_id || null,
                         updated_at: new Date().toISOString(),
                         is_active: data.is_active,
                         document_id: data.document_id
@@ -175,8 +180,25 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
             onSuccess();
             handleClose();
         } catch (err) {
+            // Handle subscription limit errors specially
+            if (isSubscriptionLimitError(err)) {
+                setSubscriptionLimitError(err);
+                setError(null);
+                setIsLoading(false);
+                return;
+            }
+            
+            // check if the error is duplicate document id
+            if (err instanceof Error && err.message.includes('duplicate key value') && err.message.includes('employees_document_id_key')) {
+                setError(t('error.duplicateDocumentId'));
+                setSubscriptionLimitError(null);
+                setIsLoading(false);
+                return;
+            }
+
             console.error('Error saving employee:', err);
             setError(err instanceof Error ? err.message : t('error.saveError'));
+            setSubscriptionLimitError(null);
         } finally {
             setIsLoading(false);
         }
@@ -194,13 +216,14 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                 status: 'FULL_TIME',
                 hire_date: '',
                 salary: undefined,
-                manager_id: undefined,
+                // manager_id: undefined,
                 is_active: true,
                 document_id: '',
                 birthday: ''
             });
         }
         setError(null);
+        setSubscriptionLimitError(null);
         onClose();
     };
 
@@ -217,10 +240,17 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                     <h2 className="text-3xl font-semibold text-platinum">
                         {isEditing ? t('editEmployee') : t('addNewEmployee')}
                     </h2>
-                    <button onClick={handleClose} className="text-sunset hover:text-flame text-2xl">
+                    <button onClick={handleClose} className="text-sunset hover:text-primary text-2xl">
                         ×
                     </button>
                 </div>
+
+                {subscriptionLimitError && (
+                    <SubscriptionLimitNotification 
+                        error={subscriptionLimitError} 
+                        onClose={() => setSubscriptionLimitError(null)}
+                    />
+                )}
 
                 {error && <ErrorMessage message={error} className="mb-6" />}
 

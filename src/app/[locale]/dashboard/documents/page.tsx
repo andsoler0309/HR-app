@@ -23,6 +23,7 @@ import { Employee } from '@/types/employee';
 import DocumentTemplates from '@/components/documents/DocumentTemplates';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import SignaturePad from '@/components/documents/SignaturePad';
+import EmptyState from '@/components/documents/EmptyState';
 import { useTranslations } from 'next-intl';
 
 export default function DocumentsPage() {
@@ -148,7 +149,14 @@ export default function DocumentsPage() {
     }
   };
 
-  // Add this function to check if user needs to sign
+  // Handle opening upload modal or category modal if no categories
+  const handleUploadClick = () => {
+    if (categories.length === 0) {
+      setIsCategoryModalOpen(true);
+    } else {
+      setIsUploadModalOpen(true);
+    }
+  };
   const handleSignRequest = async (document: Document) => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -205,7 +213,7 @@ export default function DocumentsPage() {
               {t('buttons.newCategory')}
             </button>
             <button
-              onClick={() => setIsUploadModalOpen(true)}
+              onClick={handleUploadClick}
               className="btn-primary flex items-center gap-2 px-4 py-2 rounded-lg"
             >
               <Upload className="w-4 h-4" />
@@ -219,14 +227,14 @@ export default function DocumentsPage() {
           <TabsList className="grid w-full grid-cols-2 mb-8">
             <TabsTrigger 
               value="documents" 
-              className="flex items-center gap-2 data-[state=active]:text-flame data-[state=active]:border-b-2 data-[state=active]:border-flame"
+              className="flex items-center gap-2 data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary"
             >
               <FileText className="w-4 h-4" />
               {t('tabs.documents')}
             </TabsTrigger>
             <TabsTrigger 
               value="templates" 
-              className="flex items-center gap-2 data-[state=active]:text-flame data-[state=active]:border-b-2 data-[state=active]:border-flame"
+              className="flex items-center gap-2 data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary"
             >
               <FileEdit className="w-4 h-4" />
               {t('tabs.templates')}
@@ -234,148 +242,145 @@ export default function DocumentsPage() {
           </TabsList>
 
           <TabsContent value="documents" className="space-y-6">
-            {/* Documents Content */}
-            {/* <div className="flex gap-3">
-              <button
-                onClick={() => setIsCategoryModalOpen(true)}
-                className="btn-secondary flex items-center gap-2 px-4 py-2 rounded-lg"
-              >
-                <Plus className="w-4 h-4" />
-                {t('buttons.newCategory')}
-              </button>
-              <button
-                onClick={() => setIsUploadModalOpen(true)}
-                className="btn-primary flex items-center gap-2 px-4 py-2 rounded-lg"
-              >
-                <Upload className="w-4 h-4" />
-                {t('buttons.uploadDocument')}
-              </button>
-            </div> */}
-
-            {/* Search and Filters */}
-            <div className="bg-card rounded-lg border border-card-border shadow-md p-4 mb-6">
-              <div className="flex gap-4">
-                <div className="flex-1 relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-sunset" />
-                  <input
-                    type="text"
-                    placeholder={t('search.placeholder')}
-                    className="input-base pl-10"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                </div>
-                <select
-                  className="input-base px-4 py-2.5 w-48"
-                  value={categoryFilter}
-                  onChange={(e) => setCategoryFilter(e.target.value)}
-                >
-                  <option value="all">
-                    {t('filters.allCategories')}
-                  </option>
-                  {categories.map((category) => (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
-                    </option>
-                  ))}
-                </select>
-                {/* Add Employee Filter */}
-                <select
-                  className="input-base px-4 py-2.5 w-48"
-                  value={employeeFilter}
-                  onChange={(e) => setEmployeeFilter(e.target.value)}
-                >
-                  <option value="all">
-                    {t('filters.allEmployees')}
-                  </option>
-                  {employees.map((employee) => (
-                    <option key={employee.id} value={employee.id}>
-                      {employee.first_name} {employee.last_name}
-                    </option>
-                  ))}
-                </select>
-                <div className="flex border border-card-border rounded-lg overflow-hidden">
-                  <button
-                    onClick={() => setViewMode('grid')}
-                    className={`px-3 py-2 ${
-                      viewMode === 'grid' 
-                        ? 'bg-flame text-platinum' 
-                        : 'text-sunset hover:bg-background'
-                    }`}
-                  >
-                    <Grid2X2 className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={() => setViewMode('list')}
-                    className={`px-3 py-2 ${
-                      viewMode === 'list' 
-                        ? 'bg-flame text-platinum' 
-                        : 'text-sunset hover:bg-background'
-                    }`}
-                  >
-                    <List className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>  
-            </div>
-
-            {/* Categories Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
-              {categories.map((category) => (
-                <div
-                  key={category.id}
-                  onClick={() => setCategoryFilter(prev => prev === category.id ? 'all' : category.id)}
-                  className={`bg-card rounded-lg border border-card-border p-4 cursor-pointer hover:shadow-lg transition-all ${
-                    categoryFilter === category.id 
-                      ? 'ring-2 ring-flame shadow-md' 
-                      : 'hover:border-flame/20'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className={`p-2.5 rounded-lg ${
-                      categoryFilter === category.id 
-                        ? 'bg-flame text-platinum' 
-                        : 'bg-flame/10 text-flame'
-                    }`}>
-                      <FolderOpen className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-platinum">{category.name}</h3>
-                      <p className="text-sm text-sunset mt-0.5">
-                        {t('category.documentsCount', { count: documents.filter(d => d.category_id === category.id).length })}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Documents Section */}
-            {loading ? (
-              <div className="flex items-center justify-center h-64 text-sunset">
-                <div className="flex flex-col items-center gap-3">
-                  <div className="w-6 h-6 border-2 border-flame/20 border-t-flame rounded-full animate-spin" />
-                  <span>{t('loading')}</span>
-                </div>
-              </div>
-            ) : viewMode === 'grid' ? (
-              <DocumentGrid 
-                documents={filteredDocuments} 
-                onDocumentClick={handleDocumentClick}
-                onDownload={handleDownload}
-                onShare={handleShare}
-                onDelete={handleDelete}
-                onSignRequest={handleSignRequest}
+            {/* Show empty state if no categories exist */}
+            {!loading && categories.length === 0 ? (
+              <EmptyState 
+                type="noCategories" 
+                onAction={() => setIsCategoryModalOpen(true)}
               />
             ) : (
-              <DocumentList 
-                documents={filteredDocuments} 
-                onDocumentClick={handleDocumentClick}
-                onDownload={handleDownload}
-                onShare={handleShare}
-                onDelete={handleDelete}
-                onSignRequest={handleSignRequest}
-              />
+              <>
+                {/* Search and Filters */}
+                <div className="bg-card rounded-lg border border-card-border shadow-md p-4 mb-6">
+                  <div className="flex gap-4">
+                    <div className="flex-1 relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-sunset" />
+                      <input
+                        type="text"
+                        placeholder={t('search.placeholder')}
+                        className="input-base pl-10"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
+                    </div>
+                    <select
+                      className="input-base px-4 py-2.5 w-48"
+                      value={categoryFilter}
+                      onChange={(e) => setCategoryFilter(e.target.value)}
+                    >
+                      <option value="all">
+                        {t('filters.allCategories')}
+                      </option>
+                      {categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
+                      ))}
+                    </select>
+                    {/* Add Employee Filter */}
+                    <select
+                      className="input-base px-4 py-2.5 w-48"
+                      value={employeeFilter}
+                      onChange={(e) => setEmployeeFilter(e.target.value)}
+                    >
+                      <option value="all">
+                        {t('filters.allEmployees')}
+                      </option>
+                      {employees.map((employee) => (
+                        <option key={employee.id} value={employee.id}>
+                          {employee.first_name} {employee.last_name}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="flex border border-card-border rounded-lg overflow-hidden">
+                      <button
+                        onClick={() => setViewMode('grid')}
+                        className={`px-3 py-2 ${
+                          viewMode === 'grid' 
+                            ? 'bg-primary text-platinum' 
+                            : 'text-sunset hover:bg-background'
+                        }`}
+                      >
+                        <Grid2X2 className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => setViewMode('list')}
+                        className={`px-3 py-2 ${
+                          viewMode === 'list' 
+                            ? 'bg-primary text-platinum' 
+                            : 'text-sunset hover:bg-background'
+                        }`}
+                      >
+                        <List className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>  
+                </div>
+
+                {/* Categories Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
+                  {categories.map((category) => (
+                    <div
+                      key={category.id}
+                      onClick={() => setCategoryFilter(prev => prev === category.id ? 'all' : category.id)}
+                      className={`bg-card rounded-lg border border-card-border p-4 cursor-pointer hover:shadow-lg transition-all ${
+                        categoryFilter === category.id 
+                          ? 'ring-2 ring-flame shadow-md' 
+                          : 'hover:border-primary/20'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={`p-2.5 rounded-lg ${
+                          categoryFilter === category.id 
+                            ? 'bg-primary text-platinum' 
+                            : 'bg-primary/10 text-primary'
+                        }`}>
+                          <FolderOpen className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <h3 className="font-medium text-platinum">{category.name}</h3>
+                          <p className="text-sm text-sunset mt-0.5">
+                            {t('category.documentsCount', { count: documents.filter(d => d.category_id === category.id).length })}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Documents Section */}
+                {loading ? (
+                  <div className="flex items-center justify-center h-64 text-sunset">
+                    <div className="flex flex-col items-center gap-3">
+                      <div className="w-6 h-6 border-2 border-primary/20 border-t-flame rounded-full animate-spin" />
+                      <span>{t('loading')}</span>
+                    </div>
+                  </div>
+                ) : filteredDocuments.length === 0 ? (
+                  <EmptyState 
+                    type="noDocuments" 
+                    onAction={handleUploadClick}
+                  />
+                ) : viewMode === 'grid' ? (
+                  <DocumentGrid 
+                    documents={filteredDocuments} 
+                    onDocumentClick={handleDocumentClick}
+                    onDownload={handleDownload}
+                    onShare={handleShare}
+                    onDelete={handleDelete}
+                    onSignRequest={handleSignRequest}
+                  />
+                ) : (
+                  <DocumentList 
+                    documents={filteredDocuments} 
+                    onDocumentClick={handleDocumentClick}
+                    onDownload={handleDownload}
+                    onShare={handleShare}
+                    onDelete={handleDelete}
+                    onSignRequest={handleSignRequest}
+                  />
+                )}
+              </>
             )}
           </TabsContent>
 

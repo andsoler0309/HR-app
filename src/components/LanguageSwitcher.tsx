@@ -1,5 +1,6 @@
 import React from 'react';
-import { Globe } from 'lucide-react';
+import { Globe, ChevronDown, Check } from 'lucide-react';
+import { Dropdown } from './Dropdown';
 
 interface LanguageSwitcherProps {
   locale: string;
@@ -12,43 +13,40 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   onSwitchToEnglish,
   onSwitchToSpanish
 }) => {
-  return (
-    <div className="flex items-center gap-2">
-      <Globe className="h-4 w-4 text-muted-foreground" />
-      <div className="flex rounded-md shadow-sm border border-card-border overflow-hidden">
-        <button
-          onClick={onSwitchToEnglish}
-          type="button"
-          aria-pressed={locale === 'en'}
-          className={`px-3 py-1.5 text-sm font-medium transition-colors relative
-            ${locale === 'en' 
-              ? 'bg-primary text-black' 
-              : 'hover:bg-muted/50'
-            }`}
-        >
-          EN
-          {locale === 'en' && (
-            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-black/80" />
-          )}
-        </button>
-        <div className="w-px bg-card-border" />
-        <button
-          onClick={onSwitchToSpanish}
-          type="button"
-          aria-pressed={locale === 'es'}
-          className={`px-3 py-1.5 text-sm font-medium transition-colors relative
-            ${locale === 'es'
-              ? 'bg-primary text-black'
-              : 'hover:bg-muted/50'
-            }`}
-        >
-          ES
-          {locale === 'es' && (
-            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-black/80" />
-          )}
-        </button>
+  const languages = [
+    { code: 'en', name: 'English', flag: '🇺🇸' },
+    { code: 'es', name: 'Español', flag: '🇪🇸' }
+  ];
+
+  const currentLanguage = languages.find(lang => lang.code === locale);
+
+  const dropdownItems = languages.map(lang => ({
+    label: (
+      <div className="flex items-center justify-between w-full">
+        <div className="flex items-center space-x-2">
+          <span className="text-lg">{lang.flag}</span>
+          <span className="text-sm font-medium">{lang.name}</span>
+        </div>
+        {locale === lang.code && (
+          <Check className="h-4 w-4 text-primary" />
+        )}
       </div>
-    </div>
+    ),
+    onClick: lang.code === 'en' ? onSwitchToEnglish : onSwitchToSpanish
+  }));
+
+  return (
+    <Dropdown
+      trigger={
+        <button className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/50 rounded-md transition-colors border border-card-border">
+          {/* <Globe className="h-4 w-4 text-muted-foreground" /> */}
+          <span className="text-lg">{currentLanguage?.flag}</span>
+          {/* <span className="hidden sm:block">{currentLanguage?.name}</span> */}
+          <ChevronDown className="h-4 w-4 text-muted-foreground" />
+        </button>
+      }
+      items={dropdownItems}
+    />
   );
 };
 

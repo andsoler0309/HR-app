@@ -14,7 +14,7 @@ export default function MetricCards() {
       icon: Users,
       trend: metrics?.trends.employees,
       subtitle: 'from last month',
-      color: 'text-blue-500'
+      color: 'text-primary'
     },
     { 
       title: 'Open Positions', 
@@ -22,7 +22,7 @@ export default function MetricCards() {
       icon: FileText,
       trend: metrics?.trends.positions,
       subtitle: 'from last month',
-      color: 'text-green-500'
+      color: 'text-success'
     },
     { 
       title: 'Upcoming Events', 
@@ -30,7 +30,7 @@ export default function MetricCards() {
       icon: Calendar,
       trend: metrics?.trends.events,
       subtitle: 'from last month',
-      color: 'text-purple-500'
+      color: 'text-accent'
     },
     { 
       title: 'Time Off Requests', 
@@ -38,7 +38,7 @@ export default function MetricCards() {
       icon: Clock,
       trend: metrics?.trends.requests,
       subtitle: 'from last month',
-      color: 'text-orange-500'
+      color: 'text-warning'
     }
   ]
 
@@ -85,7 +85,7 @@ export default function MetricCards() {
               <div className="text-2xl font-bold">{metric.value}</div>
               {metric.trend && (
                 <div className={`flex items-center text-xs ${
-                  metric.trend.isPositive ? 'text-green-500' : 'text-red-500'
+                  metric.trend.isPositive ? 'text-success' : 'text-error'
                 }`}>
                   {metric.trend.isPositive ? (
                     <TrendingUp className="h-3 w-3 mr-1" />

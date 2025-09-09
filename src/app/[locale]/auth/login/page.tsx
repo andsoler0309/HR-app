@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { Mail, Lock, AlertCircle, Loader2 } from 'lucide-react'
 import {useTranslations} from 'next-intl'
@@ -16,6 +16,7 @@ type LoginFormValues = {
 
 export default function LoginPage() {
   const t = useTranslations('LoginPage');
+  const params = useParams() as { locale: string };
   
 
   const [isLoading, setIsLoading] = useState(false)
@@ -50,6 +51,17 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col justify-center py-16 sm:px-8 lg:px-10">
       <div className="sm:mx-auto sm:w-full sm:max-w-lg">
+        {/* Back to Home link */}
+        <div className="mb-4">
+          <Link
+            href={`/${params.locale}`}
+            className="block text-xs text-sunset hover:text-primary font-medium transition-colors"
+            aria-label={t('backToHomeAria', { defaultValue: 'Back to Home' })}
+          >
+            <span className="mr-1" aria-hidden="true">←</span>
+            {t('backToHome', { defaultValue: 'Back to Home' })}
+          </Link>
+        </div>
         <h2 className="text-center text-4xl font-bold text-platinum">
           {t('title')}
         </h2>
@@ -112,7 +124,7 @@ export default function LoginPage() {
                   {...register('rememberMe')}
                   id="remember-me"
                   type="checkbox"
-                  className="h-5 w-5 text-flame focus:ring-flame/20 border-card-border rounded"
+                  className="h-5 w-5 text-primary focus:ring-flame/20 border-card-border rounded"
                 />
                 <label htmlFor="remember-me" className="ml-3 block text-base text-sunset">
                   {t('rememberMe')}
@@ -121,7 +133,7 @@ export default function LoginPage() {
   
               <Link 
                 href="/auth/forgot-password" 
-                className="text-base font-medium text-flame hover:text-vanilla transition-colors"
+                className="text-base font-medium text-primary hover:text-vanilla transition-colors"
               >
                 {t('forgotPassword')}
               </Link>

@@ -6,6 +6,10 @@ import { DocumentCategory } from '@/types/document';
 import { Employee } from '@/types/employee';
 import { checkResourceLimits } from '@/lib/subscriptions-limits';
 import { useTranslations } from 'next-intl';
+import { 
+  SubscriptionLimitNotification, 
+  isSubscriptionLimitError 
+} from '@/components/shared/SubscriptionLimitNotification';
 
 interface FormValues {
   name: string;
@@ -35,6 +39,7 @@ export default function DocumentUploadModal({ isOpen, onClose, categories, emplo
   });
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [subscriptionLimitError, setSubscriptionLimitError] = useState<any>(null);
   const [dragActive, setDragActive] = useState(false);
 
   const handleDrag = (e: React.DragEvent) => {
@@ -135,8 +140,7 @@ export default function DocumentUploadModal({ isOpen, onClose, categories, emplo
           file_type: file.type,
           file_size: file.size,
           status: 'active',
-          version: 1,
-          uploaded_by: user.id
+          version: 1
         }]);
 
       if (dbError) throw new Error(t('error.uploadError'));
@@ -150,13 +154,35 @@ export default function DocumentUploadModal({ isOpen, onClose, categories, emplo
         employee_id: '',
       });
       onSuccess();
-      onClose();
+      handleClose();
     } catch (err: any) {
+      // Handle subscription limit errors specially
+      if (isSubscriptionLimitError(err)) {
+        setSubscriptionLimitError(err);
+        setError(null);
+        setUploading(false);
+        return;
+      }
+      
       console.error('Error uploading document:', err);
       setError(err.message || t('error.uploadError'));
+      setSubscriptionLimitError(null);
     } finally {
       setUploading(false);
     }
+  };
+
+  const handleClose = () => {
+    setError(null);
+    setSubscriptionLimitError(null);
+    setFile(null);
+    setFormData({
+      name: '',
+      category_id: '',
+      employee_id: '',
+      description: ''
+    });
+    onClose();
   };
 
   if (!isOpen) return null;
@@ -166,12 +192,19 @@ export default function DocumentUploadModal({ isOpen, onClose, categories, emplo
       <div className="bg-card rounded-lg p-6 w-full max-w-md border border-card-border shadow-lg">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold text-platinum">{t('title')}</h2>
-          <button onClick={onClose} className="text-sunset hover:text-flame">
+          <button onClick={handleClose} className="text-sunset hover:text-primary">
             <X className="w-6 h-6" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {subscriptionLimitError && (
+            <SubscriptionLimitNotification 
+              error={subscriptionLimitError} 
+              onClose={() => setSubscriptionLimitError(null)}
+            />
+          )}
+
           {error && (
             <div className="p-3 text-sm text-error bg-error/10 rounded-md">
               {error}
@@ -180,7 +213,7 @@ export default function DocumentUploadModal({ isOpen, onClose, categories, emplo
 
           <div
             className={`mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md ${
-              dragActive ? 'border-flame bg-flame/10' : 'border-card-border'
+              dragActive ? 'border-primary bg-primary/10' : 'border-card-border'
             }`}
             onDragEnter={handleDrag}
             onDragLeave={handleDrag}
@@ -190,7 +223,7 @@ export default function DocumentUploadModal({ isOpen, onClose, categories, emplo
             <div className="space-y-1 text-center">
               <Upload className="mx-auto h-12 w-12 text-sunset" />
               <div className="flex text-sm text-sunset">
-                <label htmlFor="file-upload" className="relative cursor-pointer rounded-md font-medium text-flame hover:text-vanilla">
+                <label htmlFor="file-upload" className="relative cursor-pointer rounded-md font-medium text-primary hover:text-vanilla">
                   <span>{t('uploadAFile')}</span>
                   <input
                     id="file-upload"
@@ -285,7 +318,7 @@ export default function DocumentUploadModal({ isOpen, onClose, categories, emplo
           <div className="flex justify-end space-x-3">
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               className="btn-secondary px-4 py-2 rounded-md"
             >
               {tButtons('cancel')}

@@ -153,7 +153,8 @@ export default function CreatePolicyModal({
         .select()
 
       if (policyError) {
-        throw policyError
+        console.error('Error creating policy:', policyError)
+        throw new Error(t('createPolicyModal.errors.creationFailed'))
       }
 
       if (!policyData || policyData.length === 0) {
@@ -169,62 +170,72 @@ export default function CreatePolicyModal({
         .eq('company_id', companyId)
 
       if (employeesError) {
-        throw employeesError
-      }
-
-      if (!employees || employees.length === 0) {
+        console.error('Error fetching employees:', employeesError)
+        // Don't throw here - policy was created successfully
+        console.warn(t('createPolicyModal.warnings.noEmployees'))
+      } else if (!employees || employees.length === 0) {
         console.warn(t('createPolicyModal.warnings.noEmployees')) 
       } else {
-        const currentYear = new Date().getFullYear()
-        const balanceEntries = []
+        try {
+          const currentYear = new Date().getFullYear()
+          const balanceEntries = []
 
-        // Create balance entries for each employee
-        for (const employee of employees) {
-          const hireDate = new Date(employee.hire_date)
-          
-          // Calculate current year's balance
-          const proratedDays = calculateProratedDays(
-            data.days_per_year,
-            hireDate,
-            currentYear
-          )
+          // Create balance entries for each employee
+          for (const employee of employees) {
+            const hireDate = new Date(employee.hire_date)
+            
+            // Calculate current year's balance
+            const proratedDays = calculateProratedDays(
+              data.days_per_year,
+              hireDate,
+              currentYear
+            )
 
-          balanceEntries.push({
-            company_id: companyId,
-            employee_id: employee.id,
-            policy_id: newPolicy.id,
-            year: currentYear,
-            total_days: proratedDays,
-            used_days: 0,
-            carried_over: 0, 
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          })
-
-          // If we're close to the employee's anniversary, create next year's balance too
-          if (shouldCreateNextYearBalance(hireDate)) {
             balanceEntries.push({
               company_id: companyId,
               employee_id: employee.id,
               policy_id: newPolicy.id,
-              year: currentYear + 1,
-              total_days: data.days_per_year, 
+              year: currentYear,
+              total_days: proratedDays,
               used_days: 0,
-              carried_over: 0,
+              carried_over: 0, 
               created_at: new Date().toISOString(),
               updated_at: new Date().toISOString(),
             })
+
+            // If we're close to the employee's anniversary, create next year's balance too
+            if (shouldCreateNextYearBalance(hireDate)) {
+              balanceEntries.push({
+                company_id: companyId,
+                employee_id: employee.id,
+                policy_id: newPolicy.id,
+                year: currentYear + 1,
+                total_days: data.days_per_year, 
+                used_days: 0,
+                carried_over: 0,
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString(),
+              })
+            }
           }
+
+          // Insert all balance entries
+          const { error: balanceInsertError } = await supabase
+            .from('time_off_balances')
+            .insert(balanceEntries)
+
+          if (balanceInsertError) {
+            console.error('Error creating balances:', balanceInsertError)
+            // Don't throw here - policy was created successfully, just log the error
+            console.warn('Policy created but some balances could not be created')
+          }
+        } catch (balanceError) {
+          console.error('Error processing employee balances:', balanceError)
+          // Don't throw here - policy was created successfully
         }
-
-        // Insert all balance entries
-        const { error: balanceInsertError } = await supabase
-          .from('time_off_balances')
-          .insert(balanceEntries)
-
-        if (balanceInsertError) throw balanceInsertError
       }
 
+      // Success - close modal and refresh
       reset()
       onSuccess()
       onClose()
@@ -246,7 +257,7 @@ export default function CreatePolicyModal({
       <div className="bg-card rounded-lg p-6 w-full max-w-lg overflow-y-auto max-h-full border border-card-border shadow-lg">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold text-platinum">{t('createPolicyModal.title')}</h2>
-          <button onClick={onClose} className="text-sunset hover:text-flame text-2xl leading-none" aria-label={t('createPolicyModal.close')}>
+          <button onClick={onClose} className="text-sunset hover:text-primary text-2xl leading-none" aria-label={t('createPolicyModal.close')}>
             &times;
           </button>
         </div>
@@ -304,7 +315,7 @@ export default function CreatePolicyModal({
             <input
               {...register('carries_forward')}
               type="checkbox"
-              className="h-4 w-4 text-flame border-card-border rounded focus:ring-flame/20"
+              className="h-4 w-4 text-primary border-card-border rounded focus:ring-flame/20"
               disabled={isLoading}
             />
             <label className="ml-2 block text-sm text-sunset">{t('createPolicyModal.labels.carriesForward')}</label> 

@@ -35,7 +35,7 @@ export interface TimeOffRequest {
   start_date: string
   end_date: string
   days: number
-  type: TimeOffType
+  type?: TimeOffType
   status: TimeOffStatus
   reason?: string
   approved_by?: string
@@ -46,6 +46,10 @@ export interface TimeOffRequest {
     department: {
       name: string
     }
+  }
+  policy?: {
+    name: string
+    type: TimeOffType
   }
   source: 'PORTAL' | 'TIME_OFF_REQUESTS'
 }

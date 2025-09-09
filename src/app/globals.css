@@ -10,33 +10,33 @@
 
 @layer components {
   .input-base {
-    @apply w-full px-3 py-2.5 bg-card border border-card-border rounded-lg shadow-sm text-foreground placeholder-text-muted/70 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors;
+    @apply w-full px-3 py-2.5 bg-corporate-white border border-card-border rounded-lg shadow-sm text-foreground placeholder-text-muted/70 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors;
   }
   
   .btn-primary {
-    @apply bg-primary text-foreground hover:bg-primary/90 focus:ring-2 focus:ring-primary/20 disabled:opacity-50 transition-colors;
+    @apply bg-primary text-corporate-white hover:bg-primary/90 focus:ring-2 focus:ring-primary/20 disabled:opacity-50 transition-colors;
   }
   
   .btn-secondary {
-    @apply bg-secondary text-rich-black hover:bg-secondary/90 focus:ring-2 focus:ring-secondary/20 disabled:opacity-50 transition-colors;
+    @apply bg-secondary text-corporate-white hover:bg-secondary/90 focus:ring-2 focus:ring-secondary/20 disabled:opacity-50 transition-colors;
   }
 }
 
 /* React Day Picker customization */
 .rdp {
   --rdp-cell-size: 40px;
-  --rdp-accent-color: #CF5C36; /* flame */
-  --rdp-background-color: #050517; /* rich black */
+  --rdp-accent-color: #3b82f6; /* corporate blue */
+  --rdp-background-color: #f8fafc; /* corporate light */
   margin: 0;
 }
 
 .rdp-day_selected:not([disabled]) { 
-  color: #D3D5D7; /* platinum */
-  background-color: #CF5C36; /* flame */
+  color: #ffffff; /* white text */
+  background-color: #3b82f6; /* corporate blue */
 }
 
 .rdp-day_selected:hover:not([disabled]) {
-  background-color: #CF5C36; /* flame */
+  background-color: #2563eb; /* darker blue on hover */
 }
 
 /* Utility classes */
@@ -53,7 +53,7 @@
   /* New scrollbar utilities */
   .scrollbar-custom {
     scrollbar-width: thin;
-    scrollbar-color: rgba(88, 63, 63, 0.8) rgb(5 5 23 / 0.5);
+    scrollbar-color: #cbd5e1 #f1f5f9;
   }
 
   .scrollbar-custom::-webkit-scrollbar {
@@ -62,17 +62,17 @@
   }
 
   .scrollbar-custom::-webkit-scrollbar-track {
-    background: rgb(5 5 23 / 0.5);
+    background: #f1f5f9;
     border-radius: 5px;
   }
 
   .scrollbar-custom::-webkit-scrollbar-thumb {
-    background: rgb(203 203 203 / 0.8);
+    background: #cbd5e1;
     border-radius: 5px;
-    border: 2px solid rgb(5 5 23);
+    border: 2px solid #f1f5f9;
   }
 
   .scrollbar-custom::-webkit-scrollbar-thumb:hover {
-    background: rgb(203 203 203);
+    background: #94a3b8;
   }
 }

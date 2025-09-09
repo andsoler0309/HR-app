@@ -120,11 +120,11 @@ export default function CancelSubscriptionModal({
             </div>
           )}
 
-          <div className="mt-6 p-4 bg-warning/10 rounded-lg text-sm">
-            <p className="font-medium text-warning mb-2">
+          <div className="mt-6 p-4 bg-info/10 rounded-lg text-sm">
+            <p className="font-medium text-normal-black mb-2">
               {t("importantNote")}
             </p>
-            <ul className="list-disc space-y-1 text-muted p-2">
+            <ul className="list-disc space-y-1 text-normal-black p-2">
               <li>{t("noteList.activeUntilEnd")}</li>
               <li>{t("noteList.accessPremium")}</li>
               <li>{t("noteList.noRefunds")}</li>

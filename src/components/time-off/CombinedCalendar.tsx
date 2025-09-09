@@ -144,7 +144,7 @@ export default function CombinedCalendar({ timeOffRequests, user, loading }: Com
     return (
       <div className="flex items-center justify-center h-96 text-sunset">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-6 h-6 border-2 border-flame/20 border-t-flame rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-primary/20 border-t-flame rounded-full animate-spin" />
           <span>Loading calendar...</span>
         </div>
       </div>

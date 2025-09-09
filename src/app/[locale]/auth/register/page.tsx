@@ -98,6 +98,17 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col justify-center py-16 sm:px-8 lg:px-10">
       <div className="sm:mx-auto sm:w-full sm:max-w-lg">
+        {/* Back to Home link */}
+        <div className="mb-4">
+          <Link
+            href={`/${(typeof window !== 'undefined' && window.location.pathname.split('/')[1]) || 'en'}`}
+            className="inline-flex items-center text-xs text-sunset hover:text-primary transition-colors"
+            aria-label={t('backToHomeAria', { defaultValue: 'Back to Home' })}
+          >
+            <span className="mr-1" aria-hidden="true">←</span>
+            {t('backToHome', { defaultValue: 'Back to Home' })}
+          </Link>
+        </div>
         <h2 className="text-center text-4xl font-bold text-platinum">
           {t("createAccount")}
         </h2>
@@ -114,6 +125,30 @@ export default function RegisterPage() {
               {error}
             </div>
           )}
+
+          {/* Google OAuth Button */}
+          {/* <button
+            type="button"
+            onClick={async () => {
+              setIsLoading(true);
+              setError(null);
+              const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
+              if (error) setError(error.message);
+              setIsLoading(false);
+            }}
+            className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-lg shadow-md bg-white border border-card-border text-rich-black font-semibold text-base hover:bg-vanilla transition-colors mb-6"
+            aria-label={t('signUpWithGoogle', { defaultValue: 'Sign up with Google' })}
+          >
+            <svg className="w-5 h-5" viewBox="0 0 48 48"><g><path fill="#4285F4" d="M24 9.5c3.54 0 6.72 1.22 9.22 3.61l6.88-6.88C36.36 2.26 30.65 0 24 0 14.82 0 6.67 5.46 2.69 13.44l8.06 6.26C12.5 13.2 17.79 9.5 24 9.5z"/><path fill="#34A853" d="M46.14 24.55c0-1.6-.14-3.14-.39-4.61H24v9.09h12.41c-.54 2.9-2.18 5.36-4.69 7.02l7.18 5.59c4.17-3.85 6.59-9.53 6.59-16.09z"/><path fill="#FBBC05" d="M10.75 28.17c-.7-2.09-1.1-4.31-1.1-6.67s.4-4.58 1.1-6.67l-8.06-6.26C1.02 12.51 0 15.16 0 18c0 2.84 1.02 5.49 2.69 7.77l8.06-6.26z"/><path fill="#EA4335" d="M24 48c6.48 0 11.93-2.14 15.9-5.81l-7.18-5.59c-2 1.36-4.54 2.16-8.72 2.16-6.21 0-11.5-3.7-13.25-8.85l-8.06 6.26C6.67 42.54 14.82 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></g></svg>
+            {t('signUpWithGoogle', { defaultValue: 'Sign up with Google' })}
+          </button> */}
+
+          {/* Divider */}
+          {/* <div className="flex items-center my-6">
+            <div className="flex-grow border-t border-card-border"></div>
+            <span className="mx-4 text-text-muted text-xs font-medium">{t('orContinueWithEmail', { defaultValue: 'or continue with email' })}</span>
+            <div className="flex-grow border-t border-card-border"></div>
+          </div> */}
 
           <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
             <div className="space-y-3">

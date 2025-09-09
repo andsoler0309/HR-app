@@ -29,7 +29,12 @@ const PayUSubscriptionForm = ({
   const [referenceCode] = useState(() =>
     `SUB_${Date.now().toString()}_${user?.id?.slice(0, 8)}`
   );
+  const [baseUrl, setBaseUrl] = useState('');
   const hasFetchedRef = useRef(false);
+
+  useEffect(() => {
+    setBaseUrl(window.location.origin);
+  }, []);
 
   const fetchSignature = useCallback(async () => {
     if (hasFetchedRef.current) return;
@@ -87,6 +92,14 @@ const PayUSubscriptionForm = ({
       ? 'https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/'
       : 'https://checkout.payulatam.com/ppp-web-gateway-payu/';
 
+  if (!baseUrl) {
+    return (
+      <div className="flex justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   return (
     <form
       ref={setFormRef}
@@ -109,12 +122,12 @@ const PayUSubscriptionForm = ({
       <input
         name="responseUrl"
         type="hidden"
-        value={`${window.location.origin}/api/payu/response`}
+        value={baseUrl ? `${baseUrl}/api/payu/response` : ''}
       />
       <input
         name="confirmationUrl"
         type="hidden"
-        value={`${window.location.origin}/api/payu/confirmation`}
+        value={baseUrl ? `${baseUrl}/api/payu/confirmation` : ''}
       />
 
       <button

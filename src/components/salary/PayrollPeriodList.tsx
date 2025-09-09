@@ -190,7 +190,7 @@ export default function PayrollPeriodList() {
             <h3 className="text-lg font-semibold text-platinum">Create New Payroll Period</h3>
             <button
               onClick={() => setShowNewPeriodModal(false)}
-              className="text-sunset hover:text-flame"
+              className="text-sunset hover:text-primary"
             >
               <X className="w-5 h-5" />
             </button>
@@ -241,8 +241,8 @@ export default function PayrollPeriodList() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-flame/10 rounded-lg">
-            <Calendar className="w-5 h-5 text-flame" />
+          <div className="p-2 bg-primary/10 rounded-lg">
+            <Calendar className="w-5 h-5 text-primary" />
           </div>
           <h2 className="text-lg font-semibold text-platinum">Payroll Periods</h2>
         </div>
@@ -274,7 +274,7 @@ export default function PayrollPeriodList() {
                 <tr>
                   <td colSpan={7} className="px-6 py-8 text-center">
                     <div className="flex items-center justify-center gap-3 text-sunset">
-                      <div className="w-5 h-5 border-2 border-flame/20 border-t-flame rounded-full animate-spin" />
+                      <div className="w-5 h-5 border-2 border-primary/20 border-t-flame rounded-full animate-spin" />
                       <span>Loading periods...</span>
                     </div>
                   </td>
@@ -295,7 +295,7 @@ export default function PayrollPeriodList() {
                     <td className="px-6 py-4">
                       <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full
                         ${period.status === 'PAID' ? 'bg-success/10 text-success' : 
-                          period.status === 'PROCESSED' ? 'bg-flame/10 text-flame' :
+                          period.status === 'PROCESSED' ? 'bg-primary/10 text-primary' :
                           'bg-warning/10 text-warning'}`}>
                         {period.status}
                       </span>
@@ -310,7 +310,7 @@ export default function PayrollPeriodList() {
                         {period.status === 'DRAFT' ? (
                           <button
                             onClick={() => handleViewPeriod(period.id)}
-                            className="p-2 text-sunset hover:text-flame hover:bg-flame/10 rounded-lg transition-colors"
+                            className="p-2 text-sunset hover:text-primary hover:bg-primary/10 rounded-lg transition-colors"
                             title="View/Edit Period"
                           >
                             <Eye className="w-5 h-5" />

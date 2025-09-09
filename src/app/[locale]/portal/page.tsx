@@ -113,7 +113,7 @@ export default function PortalLogin() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value.trim())}
-                className="input-base appearance-none rounded-none relative block w-full px-3 py-2 border-card-border text-platinum placeholder-sunset/70 rounded-t-md focus:ring-flame/20 focus:border-flame sm:text-sm"
+                className="input-base appearance-none rounded-none relative block w-full px-3 py-2 border-card-border text-platinum placeholder-sunset/70 rounded-t-md focus:ring-flame/20 focus:border-primary sm:text-sm"
                 placeholder={t('emailPlaceholder')}
               />
             </div>
@@ -128,7 +128,7 @@ export default function PortalLogin() {
                 required
                 value={token}
                 onChange={(e) => setToken(e.target.value.trim())}
-                className="input-base appearance-none rounded-none relative block w-full px-3 py-2 border-card-border text-platinum placeholder-sunset/70 rounded-b-md focus:ring-flame/20 focus:border-flame sm:text-sm"
+                className="input-base appearance-none rounded-none relative block w-full px-3 py-2 border-card-border text-platinum placeholder-sunset/70 rounded-b-md focus:ring-flame/20 focus:border-primary sm:text-sm"
                 placeholder={t('tokenPlaceholder')}
               />
             </div>

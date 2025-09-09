@@ -83,7 +83,7 @@ export default function DocumentShareModal({ isOpen, onClose, document, onSucces
       <div className="bg-card rounded-lg p-6 w-full max-w-md border border-card-border shadow-lg">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold text-platinum">Share Document</h2>
-          <button onClick={onClose} className="text-sunset hover:text-flame">
+          <button onClick={onClose} className="text-sunset hover:text-primary">
             <X className="w-6 h-6" />
           </button>
         </div>

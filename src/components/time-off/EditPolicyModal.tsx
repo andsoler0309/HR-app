@@ -108,7 +108,7 @@ export default function EditPolicyModal({ isOpen, onClose, policy, onSuccess }: 
       <div className="bg-card rounded-lg p-6 w-full max-w-lg overflow-y-auto max-h-full border border-card-border shadow-lg">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold text-platinum">{t('editPolicyModal.title')}</h2> 
-          <button onClick={onClose} className="text-sunset hover:text-flame text-2xl leading-none">
+          <button onClick={onClose} className="text-sunset hover:text-primary text-2xl leading-none">
             &times;
           </button>
         </div>
@@ -182,7 +182,7 @@ export default function EditPolicyModal({ isOpen, onClose, policy, onSuccess }: 
             <input
               {...register('carries_forward')}
               type="checkbox"
-              className="h-4 w-4 text-flame border-card-border rounded focus:ring-flame/20"
+              className="h-4 w-4 text-primary border-card-border rounded focus:ring-flame/20"
               disabled={isLoading}
             />
             <label className="ml-2 block text-sm text-sunset">{t('editPolicyModal.fields.carriesForward')}</label> 

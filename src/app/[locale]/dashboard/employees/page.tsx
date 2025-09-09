@@ -8,7 +8,9 @@ import {
   AlertCircle,
   Clock,
   CheckCircle2,
+  ExternalLink,
 } from "lucide-react";
+import { useRouter, useParams } from "next/navigation";
 import EmployeeFormModal from "@/components/employees/EmployeeFormModal";
 import { Employee, Department } from "@/types/employee";
 import { TimeOffPolicy } from "@/types/timeoff";
@@ -21,9 +23,14 @@ import UpcomingBirthdays from "@/components/employees/UpcomingBirthdays";
 import UpcomingAnniversaries from "@/components/employees/UpcomingAnniversaries";
 import { Document } from "@/types/document";
 import { useTranslations } from "next-intl";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import DepartmentFormModal from "@/components/departments/DepartmentFormModal";
 
 export default function EmployeesPage() {
   const t = useTranslations("employees");
+  const router = useRouter();
+  const params = useParams();
+  const locale = params.locale as string;
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [policies, setPolicies] = useState<TimeOffPolicy[]>([]);
@@ -31,6 +38,7 @@ export default function EmployeesPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [departmentFilter, setDepartmentFilter] = useState("all");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDepartmentModalOpen, setIsDepartmentModalOpen] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState<
     Employee | undefined
   >();
@@ -189,7 +197,8 @@ export default function EmployeesPage() {
 
       const { data, error } = await supabase
         .from("employee_portal_access")
-        .select("employee_id, access_token");
+        .select("employee_id, access_token")
+        .eq("company_id", user.id);
 
       if (error) throw error;
 
@@ -214,11 +223,15 @@ export default function EmployeesPage() {
         return;
       }
 
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
       const { data, error } = await supabase
         .from("employee_portal_access")
         .insert({
           employee_id: employee.id,
           email: employee.email,
+          company_id: user.id,
           access_token: Math.random().toString(36).substring(2, 15),
         })
         .select()
@@ -236,8 +249,18 @@ export default function EmployeesPage() {
   }
 
   function handleAddEmployee() {
+    // Check if there are departments before allowing employee creation
+    if (departments.length === 0) {
+      setIsDepartmentModalOpen(true);
+      return;
+    }
+    
     setSelectedEmployee(undefined);
     setIsModalOpen(true);
+  }
+
+  function handleGoToPortal() {
+    router.push(`/${locale}/portal`);
   }
 
   function handleEditEmployee(employee: Employee) {
@@ -304,13 +327,33 @@ export default function EmployeesPage() {
       {/* Header Section */}
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-platinum">{t("title")}</h1>
-        <button
-          onClick={handleAddEmployee}
-          className="btn-primary flex items-center gap-2 px-5 py-2.5 rounded-lg text-base"
-        >
-          <Plus className="w-5 h-5" />
-          {t("addEmployee")}
-        </button>
+        <div className="flex gap-3">
+          <button
+            onClick={handleGoToPortal}
+            className="btn-secondary flex items-center gap-2 px-5 py-2.5 rounded-lg text-base"
+          >
+            <ExternalLink className="w-5 h-5" />
+            {t("goToPortal")}
+          </button>
+          <div className="relative group">
+            <button
+              onClick={handleAddEmployee}
+              className={`btn-primary flex items-center gap-2 px-5 py-2.5 rounded-lg text-base ${
+                departments.length === 0 
+                  ? "opacity-75 cursor-help" 
+                  : ""
+              }`}
+            >
+              <Plus className="w-5 h-5" />
+              {t("addEmployee")}
+            </button>
+            {departments.length === 0 && (
+              <div className="absolute right-0 top-full mt-2 w-64 p-3 bg-card text-platinum text-sm rounded-lg shadow-lg border border-card-border opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                {t("alerts.departmentRequired.message")}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       <EmployeeDashboard employees={employees} />
@@ -320,29 +363,35 @@ export default function EmployeesPage() {
       </div>
 
       {successMessage && (
-        <div className="mb-6 p-4 bg-success/10 border border-success/20 rounded-lg flex items-start gap-3">
-          <CheckCircle2 className="w-5 h-5 text-success mt-0.5 flex-shrink-0" />
-          <div>
-            <h3 className="text-base font-medium text-success mb-1">
-              {t("alerts.documentSuccess.title")}
-            </h3>
-            <p className="text-sm text-success/90">{successMessage}</p>
-          </div>
-        </div>
+        <Alert variant="success" className="mb-6">
+          <CheckCircle2 className="h-4 w-4" />
+          <AlertTitle>{t("alerts.documentSuccess.title")}</AlertTitle>
+          <AlertDescription>{successMessage}</AlertDescription>
+        </Alert>
       )}
 
       {policies.length === 0 && (
-        <div className="mb-6 p-4 bg-warning/10 border border-warning/20 rounded-lg flex items-start gap-3">
-          <AlertCircle className="w-5 h-5 text-warning mt-0.5 flex-shrink-0" />
-          <div>
-            <h3 className="text-base font-medium text-warning mb-1">
-              {t("alerts.policyRequired.title")}
-            </h3>
-            <p className="text-sm text-warning/90">
-              {t("alerts.policyRequired.message")}
-            </p>
-          </div>
-        </div>
+        <Alert variant="infoblack" className="mb-6">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>{t("alerts.policyRequired.title")}</AlertTitle>
+          <AlertDescription>{t("alerts.policyRequired.message")}</AlertDescription>
+        </Alert>
+      )}
+
+      {departments.length === 0 && (
+        <Alert variant="infoblack" className="mb-6">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>{t("alerts.departmentRequired.title")}</AlertTitle>
+          <AlertDescription>
+            {t("alerts.departmentRequired.message")}{" "}
+            <button 
+              onClick={() => setIsDepartmentModalOpen(true)}
+              className="text-primary hover:text-vanilla underline font-medium"
+            >
+              {t("alerts.departmentRequired.createNow")}
+            </button>
+          </AlertDescription>
+        </Alert>
       )}
 
       <div className="bg-card rounded-xl shadow-md border border-card-border">
@@ -440,7 +489,7 @@ export default function EmployeesPage() {
                   <tr key={employee.id} className="hover:bg-background/50">
                     <td className="px-6 py-5">
                       <div className="flex items-center">
-                        <div className="w-10 h-10 rounded-full bg-flame/10 flex items-center justify-center text-base text-flame">
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-base text-primary">
                           {employee.first_name?.[0]?.toUpperCase()}
                           {employee.last_name?.[0]?.toUpperCase()}
                         </div>
@@ -537,14 +586,14 @@ export default function EmployeesPage() {
                             className={`text-xs ${
                               policies.length === 0
                                 ? "text-sunset/50 cursor-not-allowed"
-                                : "text-flame hover:text-vanilla"
+                                : "text-primary hover:text-vanilla"
                             }`}
                             disabled={policies.length === 0}
                           >
                             {t("actions.generateAccess")}
                           </button>
                           {policies.length === 0 && (
-                            <div className="absolute left-0 bottom-full mb-2 w-48 p-2 bg-background text-sunset text-xs rounded-lg shadow-lg border border-card-border opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div className="absolute left-0 bottom-full mb-2 w-48 p-3 bg-card text-platinum text-xs rounded-lg shadow-lg border border-card-border opacity-0 group-hover:opacity-100 transition-opacity z-10">
                               {t("alerts.policyRequired.message")}
                             </div>
                           )}
@@ -567,6 +616,15 @@ export default function EmployeesPage() {
         onSuccess={fetchEmployees}
       />
 
+      <DepartmentFormModal
+        isOpen={isDepartmentModalOpen}
+        onClose={() => setIsDepartmentModalOpen(false)}
+        onSuccess={() => {
+          fetchDepartments();
+          setIsDepartmentModalOpen(false);
+        }}
+      />
+
       <GenerateDocumentModal
         isOpen={isGenerateDocumentModalOpen}
         onClose={() => {
@@ -579,9 +637,7 @@ export default function EmployeesPage() {
           fetchDocuments();
           setIsGenerateDocumentModalOpen(false);
           setSuccessMessage(
-            t("alerts.documentSuccess.message", {
-              name: `${selectedEmployee?.first_name} ${selectedEmployee?.last_name}`,
-            })
+            t("alerts.documentSuccess.message")
           );
           setTimeout(() => {
             setSuccessMessage(null);

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useAuthStore } from '@/store/auth';
 import { Dropdown } from './Dropdown';
 import { useTranslations } from 'next-intl';
+import LanguageSwitcher from './LanguageSwitcher';
 
 export default function Navbar() {
   const router = useRouter();
@@ -47,29 +48,18 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <div className="flex items-center space-x-4">
-            {/* Language Switcher in Navbar */}
-            <button
-              onClick={switchToEnglish}
-              className={`px-3 py-1 border border-card-border rounded ${
-                locale === 'en' ? 'bg-primary text-black' : 'bg-card text-foreground'
-              }`}
-            >
-              EN
-            </button>
-            <button
-              onClick={switchToSpanish}
-              className={`px-3 py-1 border border-card-border rounded ${
-                locale === 'es' ? 'bg-primary text-black' : 'bg-card text-foreground'
-              }`}
-            >
-              ES
-            </button>
+            {/* Logo or brand space - you can add your logo here */}
           </div>
           
-          <div className="flex items-center space-x-10">
+          <div className="flex items-center space-x-4">
+            <LanguageSwitcher
+              locale={locale}
+              onSwitchToEnglish={switchToEnglish}
+              onSwitchToSpanish={switchToSpanish}
+            />
             <Dropdown
               trigger={
-                <button className="flex items-center space-x-3 text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-flame/20">
+                <button className="flex items-center space-x-3 text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-primary/20">
                   <div className="relative">
                     <img 
                       className="h-11 w-11 rounded-full object-cover border-2 border-card-border"
@@ -79,10 +69,10 @@ export default function Navbar() {
                     <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-success ring-2 ring-card" />
                   </div>
                   <div className="hidden md:block text-left">
-                    <p className="text-md font-medium text-platinum">{profile?.full_name || tCommon('loading')}</p>
-                    <p className="text-sm text-sunset">{profile?.company || tCommon('company')}</p>
+                    <p className="text-md font-medium text-foreground">{profile?.full_name || tCommon('loading')}</p>
+                    <p className="text-sm text-text-secondary">{profile?.company || tCommon('company')}</p>
                   </div>
-                  <svg className="h-5 w-5 text-sunset" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="h-5 w-5 text-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>

@@ -110,8 +110,8 @@ export default function PayrollSummary() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-card rounded-xl border border-card-border p-6 hover:shadow-lg transition-shadow">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-flame/10 rounded-lg">
-              <Users className="w-6 h-6 text-flame" />
+            <div className="p-3 bg-primary/10 rounded-lg">
+              <Users className="w-6 h-6 text-primary" />
             </div>
             <div>
               <p className="text-sm font-medium text-sunset">{t('totalEmployees')}</p>

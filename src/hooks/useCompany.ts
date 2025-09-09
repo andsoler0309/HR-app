@@ -16,20 +16,26 @@ export function useCompany() {
           throw new Error('No authenticated user')
         }
 
+        console.log('Fetching profile for user:', user.id)
+
         const { data: profile, error: profileError } = await supabase
           .from('profiles')
-          .select('id, company')  // We select id and company name
+          .select('id, company_name')  // CORRECTED: Using company_name
           .eq('id', user.id)
           .single()
 
         if (profileError) {
+          console.error('Profile fetch error:', profileError)
           throw profileError
         }
 
+        console.log('Profile data:', profile)
+
         // The profile.id IS the company_id
         setCompanyId(profile.id)
-        setCompanyName(profile.company)
+        setCompanyName(profile.company_name) // CORRECTED: Using company_name
       } catch (err) {
+        console.error('Error in fetchCompanyInfo:', err)
         setError(err instanceof Error ? err : new Error('Failed to fetch company info'))
       } finally {
         setIsLoading(false)

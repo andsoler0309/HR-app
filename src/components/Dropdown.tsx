@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 interface DropdownProps {
   trigger: React.ReactNode
   items: Array<{
-    label: string
+    label: string | React.ReactNode
     onClick?: () => void
   }>
 }
@@ -30,7 +30,7 @@ export function Dropdown({ trigger, items }: DropdownProps) {
         {trigger}
       </div>
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
+        <div className="absolute right-0 mt-2 w-56 bg-card rounded-md shadow-lg ring-1 ring-card-border border border-card-border">
           <div className="py-1">
             {items.map((item, index) => (
               <button
@@ -39,9 +39,9 @@ export function Dropdown({ trigger, items }: DropdownProps) {
                   item.onClick?.()
                   setIsOpen(false)
                 }}
-                className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                className="block w-full text-left px-4 py-2 text-sm text-foreground hover:bg-muted/50 transition-colors"
               >
-                {item.label}
+                {typeof item.label === 'string' ? item.label : item.label}
               </button>
             ))}
           </div>

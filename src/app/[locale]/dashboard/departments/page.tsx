@@ -69,7 +69,7 @@ export default function DepartmentsPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="flex flex-col items-center gap-4 text-sunset">
-              <div className="w-8 h-8 border-2 border-flame/20 border-t-flame rounded-full animate-spin" />
+              <div className="w-8 h-8 border-2 border-primary/20 border-t-flame rounded-full animate-spin" />
               <span>{t('loadingDepartments')}</span>
             </div>
           </div>
@@ -108,8 +108,8 @@ export default function DepartmentsPage() {
         {departments.length === 0 ? (
           <div className="bg-card rounded-xl shadow-md border border-card-border p-12">
             <div className="flex flex-col items-center justify-center text-center">
-              <div className="w-12 h-12 bg-flame/10 rounded-full flex items-center justify-center mb-4">
-                <Users className="w-6 h-6 text-flame" />
+              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                <Users className="w-6 h-6 text-primary" />
               </div>
               <h3 className="text-lg font-medium text-platinum mb-2">{t('noDepartments')}</h3>
               <p className="text-sunset mb-6">{t('getStarted')}</p>
@@ -147,7 +147,7 @@ export default function DepartmentsPage() {
                         setSelectedDepartment(department);
                         setIsModalOpen(true);
                       }}
-                      className="p-2 text-sunset hover:text-flame rounded-lg hover:bg-background transition-colors"
+                      className="p-2 text-sunset hover:text-primary rounded-lg hover:bg-background transition-colors"
                     >
                       <Edit2 className="w-4 h-4" />
                     </button>
