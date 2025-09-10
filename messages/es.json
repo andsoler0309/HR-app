@@ -3,7 +3,8 @@
         "loading": "Cargando...",
         "error": "Ocurrió un error",
         "noData": "No hay datos disponibles",
-        "company": "Nombre de la Empresa"
+        "company": "Nombre de la Empresa",
+        "preparingWorkspace": "Por favor espera mientras preparamos tu espacio de trabajo..."
     },
     "LoginPage": {
         "title": "Bienvenido de nuevo",
@@ -14,6 +15,7 @@
         "forgotPassword": "¿Olvidaste tu contraseña?",
         "signInButton": "Iniciar sesión",
         "signingIn": "Iniciando sesión...",
+        "redirectingToDashboard": "Redirigiendo al panel...",
         "noAccount": "¿No tienes una cuenta?",
         "createAccount": "Crear nueva cuenta",
         "errorOccurred": "Ha ocurrido un error",
@@ -40,6 +42,11 @@
         "alreadyHaveAccount": "¿Ya tienes una cuenta?",
         "signInInstead": "Iniciar sesión",
         "errorOccurred": "Ocurrió un error durante el registro",
+        "registrationSuccessful": "¡Registro Exitoso!",
+        "canLoginNow": "Tu cuenta ha sido creada exitosamente. Ahora puedes iniciar sesión para acceder a tu panel.",
+        "welcomeAboard": "¡Bienvenido a bordo!",
+        "readyToStart": "Estás listo para comenzar a gestionar tus procesos de recursos humanos.",
+        "goToLogin": "Ir al Login",
         "backToHome": "Volver",
         "backToHomeAria": "Volver",
         "passwordValidation": {

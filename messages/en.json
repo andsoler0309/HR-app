@@ -3,7 +3,8 @@
     "loading": "Loading...",
     "error": "An error occurred",
     "noData": "No data available",
-    "company": "Company name"
+    "company": "Company name",
+    "preparingWorkspace": "Please wait while we prepare your workspace..."
   },
   "LoginPage": {
     "title": "Welcome back",
@@ -14,11 +15,14 @@
     "forgotPassword": "Forgot password?",
     "signInButton": "Sign in",
     "signingIn": "Signing in...",
+    "redirectingToDashboard": "Redirecting to dashboard...",
     "noAccount": "Don't have an account?",
     "createAccount": "Create new account",
     "errorOccurred": "An error occurred",
     "enterEmailPlaceholder": "Enter your email",
-    "enterPasswordPlaceholder": "Enter your password"
+    "enterPasswordPlaceholder": "Enter your password",
+    "backToHome": "Back to Home",
+    "backToHomeAria": "Back to Home"
   },
   "register": {
     "createAccount": "Create your account",
@@ -38,6 +42,13 @@
     "alreadyHaveAccount": "Already have an account?",
     "signInInstead": "Sign in instead",
     "errorOccurred": "An error occurred during registration",
+    "registrationSuccessful": "Registration Successful!",
+    "canLoginNow": "Your account has been created successfully. You can now log in to access your dashboard.",
+    "welcomeAboard": "Welcome aboard!",
+    "readyToStart": "You're all set to start managing your HR processes.",
+    "goToLogin": "Go to Login",
+    "backToHome": "Back to Home",
+    "backToHomeAria": "Back to Home",
     "passwordValidation": {
       "nameMin": "Name must be at least 2 characters",
       "invalidEmail": "Invalid email address",

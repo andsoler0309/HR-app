@@ -1,7 +1,9 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
 import ResponsiveDashboardLayout from '@/components/ResponsiveDashboardLayout'
+import DashboardLoading from '@/components/DashboardLoading'
 import { constructMetadata } from '@/lib/metadata'
 
 export const metadata = constructMetadata({
@@ -25,5 +27,9 @@ export default async function DashboardLayout({
     redirect('/auth/login')
   }
 
-  return <ResponsiveDashboardLayout>{children}</ResponsiveDashboardLayout>
+  return (
+    <Suspense fallback={<DashboardLoading />}>
+      <ResponsiveDashboardLayout>{children}</ResponsiveDashboardLayout>
+    </Suspense>
+  )
 }

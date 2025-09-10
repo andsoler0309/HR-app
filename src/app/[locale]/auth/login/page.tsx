@@ -20,6 +20,7 @@ export default function LoginPage() {
   
 
   const [isLoading, setIsLoading] = useState(false)
+  const [loadingStep, setLoadingStep] = useState<'idle' | 'authenticating' | 'redirecting'>('idle')
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
   const { register, handleSubmit } = useForm<LoginFormValues>()
@@ -27,6 +28,7 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormValues) => {
     try {
       setIsLoading(true)
+      setLoadingStep('authenticating')
       setError(null)
   
       const { data: authData, error: signInError } = await supabase.auth.signInWithPassword({
@@ -37,14 +39,31 @@ export default function LoginPage() {
       if (signInError) throw signInError
   
       if (authData.user && authData.session) {
+        setLoadingStep('redirecting')
         router.refresh()
-        router.push('/dashboard/employees')
+        router.push(`/${params.locale}/dashboard/employees`)
       }
     } catch (err) {
       console.error('Login error:', err)
       setError(err instanceof Error ? err.message : t('errorOccurred'))
+      setLoadingStep('idle')
     } finally {
-      setIsLoading(false)
+      // Don't set loading to false immediately to keep the loading state
+      // during navigation. The loading will be handled by the dashboard loading page
+      if (loadingStep !== 'redirecting') {
+        setIsLoading(false)
+      }
+    }
+  }
+
+  const getLoadingText = () => {
+    switch (loadingStep) {
+      case 'authenticating':
+        return t('signingIn', { defaultValue: 'Signing in...' })
+      case 'redirecting':
+        return t('redirectingToDashboard', { defaultValue: 'Redirecting to dashboard...' })
+      default:
+        return t('signInButton', { defaultValue: 'Sign In' })
     }
   }
 
@@ -142,12 +161,12 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="btn-primary w-full flex justify-center items-center gap-3 py-3 px-4 rounded-lg shadow-sm text-base font-medium"
+              className="btn-primary w-full flex justify-center items-center gap-3 py-3 px-4 rounded-lg shadow-sm text-base font-medium disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  {t('signingIn')}
+                  {getLoadingText()}
                 </>
               ) : (
                 t('signInButton')
