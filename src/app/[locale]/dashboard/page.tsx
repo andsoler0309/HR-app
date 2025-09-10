@@ -62,20 +62,25 @@ function DashboardContent() {
       <div className="space-y-6">
         {paymentStatus && <PaymentAlert status={paymentStatus} />}
         
-        <h1 className="text-3xl font-semibold text-platinum">HR Analytics Dashboard</h1>
+        <div className="flex flex-col space-y-4 sm:flex-row sm:justify-between sm:items-start sm:space-y-0">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-semibold text-platinum">HR Analytics Dashboard</h1>
+            <p className="text-sm text-sunset mt-1 sm:hidden">Panel de control principal</p>
+          </div>
+        </div>
         
         <MetricCards />
         
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           <RecentActivities />
           <TimeOffCalendar />
           <QuickActions />
         </div>
-        <div className="grid grid-cols-5 gap-6">
-          <div className="col-span-3">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-6">
+          <div className="lg:col-span-3">
             <WorkforceTrends />
           </div>
-          <div className="col-span-2">
+          <div className="lg:col-span-2">
             <DepartmentDistribution />
           </div>
         </div>

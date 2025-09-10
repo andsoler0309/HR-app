@@ -138,9 +138,9 @@ export default function RequestForm({ user, onSuccess }: RequestFormProps) {
 
       {type === 'TIME_OFF' && (
         <>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="block text-md font-semibold text-sunset">
+              <label className="block text-sm sm:text-base font-semibold text-sunset">
                 {t('startDateLabel')}
               </label>
               <div className="relative">
@@ -160,7 +160,7 @@ export default function RequestForm({ user, onSuccess }: RequestFormProps) {
               </div>
             </div>
             <div className="space-y-2">
-              <label className="block text-md font-semibold text-sunset">
+              <label className="block text-sm sm:text-base font-semibold text-sunset">
                 {t('endDateLabel')}
               </label>
               <div className="relative">
@@ -231,7 +231,7 @@ export default function RequestForm({ user, onSuccess }: RequestFormProps) {
         <button
           type="submit"
           disabled={loading}
-          className="btn-primary inline-flex items-center gap-2 px-5 py-2.5 rounded-lg disabled:opacity-50 font-medium"
+          className="btn-primary inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg disabled:opacity-50 font-medium w-full sm:w-auto"
         >
           {loading ? (
             <>

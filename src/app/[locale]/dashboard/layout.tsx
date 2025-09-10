@@ -1,8 +1,7 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import Sidebar from '@/components/Sidebar'
-import Navbar from '@/components/Navbar'
+import ResponsiveDashboardLayout from '@/components/ResponsiveDashboardLayout'
 import { constructMetadata } from '@/lib/metadata'
 
 export const metadata = constructMetadata({
@@ -26,17 +25,5 @@ export default async function DashboardLayout({
     redirect('/auth/login')
   }
 
-  return (
-    <div className="flex h-screen">
-      <Sidebar />
-      <div className="flex flex-col flex-1 overflow-hidden">
-        <Navbar />
-        <main className="flex-1 overflow-x-hidden overflow-y-auto">
-          <div className="container mx-auto px-6 py-8">
-            {children}
-          </div>
-        </main>
-      </div>
-    </div>
-  )
+  return <ResponsiveDashboardLayout>{children}</ResponsiveDashboardLayout>
 }

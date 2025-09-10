@@ -234,13 +234,13 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-50">
-            <div className="bg-card rounded-xl p-8 w-full max-w-2xl border border-card-border shadow-lg">
-                <div className="flex justify-between items-center mb-8">
-                    <h2 className="text-3xl font-semibold text-platinum">
+        <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-50 p-4">
+            <div className="bg-card rounded-xl p-4 sm:p-6 lg:p-8 w-full max-w-4xl border border-card-border shadow-lg max-h-[90vh] overflow-y-auto">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8 space-y-2 sm:space-y-0">
+                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-platinum">
                         {isEditing ? t('editEmployee') : t('addNewEmployee')}
                     </h2>
-                    <button onClick={handleClose} className="text-sunset hover:text-primary text-2xl">
+                    <button onClick={handleClose} className="text-sunset hover:text-primary text-xl sm:text-2xl self-end sm:self-auto">
                         ×
                     </button>
                 </div>
@@ -252,12 +252,12 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                     />
                 )}
 
-                {error && <ErrorMessage message={error} className="mb-6" />}
+                {error && <ErrorMessage message={error} className="mb-4 sm:mb-6" />}
 
-                <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-8">
-                    <div className="grid grid-cols-2 gap-6">
+                <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-6 sm:space-y-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                         <div>
-                            <label className="block text-base font-medium text-sunset mb-2">
+                            <label className="block text-sm sm:text-base font-medium text-sunset mb-2">
                                 {t('firstName')}
                             </label>
                             <input
@@ -266,14 +266,14 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                                 placeholder={t('firstName')}
                             />
                             {errors.first_name && (
-                                <p className="mt-2 text-base text-error">
+                                <p className="mt-2 text-sm sm:text-base text-error">
                                     {t(`validation.${errors.first_name.message}`)}
                                 </p>
                             )}
                         </div>
 
                         <div>
-                            <label className="block text-base font-medium text-sunset mb-2">
+                            <label className="block text-sm sm:text-base font-medium text-sunset mb-2">
                                 {t('lastName')}
                             </label>
                             <input
@@ -282,14 +282,14 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                                 placeholder={t('lastName')}
                             />
                             {errors.last_name && (
-                                <p className="mt-2 text-base text-error">
+                                <p className="mt-2 text-sm sm:text-base text-error">
                                     {t(`validation.${errors.last_name.message}`)}
                                 </p>
                             )}
                         </div>
 
                         <div>
-                            <label className="block text-base font-medium text-sunset mb-2">
+                            <label className="block text-sm sm:text-base font-medium text-sunset mb-2">
                                 {t('email')}
                             </label>
                             <input
@@ -299,14 +299,14 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                                 placeholder={t('email')}
                             />
                             {errors.email && (
-                                <p className="mt-2 text-base text-error">
+                                <p className="mt-2 text-sm sm:text-base text-error">
                                     {t(`validation.${errors.email.message}`)}
                                 </p>
                             )}
                         </div>
 
                         <div>
-                            <label className="block text-base font-medium text-sunset mb-2">
+                            <label className="block text-sm sm:text-base font-medium text-sunset mb-2">
                                 {t('documentId')}
                             </label>
                             <input
@@ -315,14 +315,14 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                                 placeholder={t('documentId')}
                             />
                             {errors.document_id && (
-                                <p className="mt-2 text-base text-error">
+                                <p className="mt-2 text-sm sm:text-base text-error">
                                     {t(`validation.${errors.document_id.message}`)}
                                 </p>
                             )}
                         </div>
 
                         <div>
-                            <label className="block text-base font-medium text-sunset mb-2">
+                            <label className="block text-sm sm:text-base font-medium text-sunset mb-2">
                                 {t('phone')}
                             </label>
                             <input
@@ -331,14 +331,14 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                                 placeholder={t('phone')}
                             />
                             {errors.phone && (
-                                <p className="mt-2 text-base text-error">
+                                <p className="mt-2 text-sm sm:text-base text-error">
                                     {t(`validation.${errors.phone.message}`)}
                                 </p>
                             )}
                         </div>
 
                         <div>
-                            <label className="block text-base font-medium text-sunset mb-2">
+                            <label className="block text-sm sm:text-base font-medium text-sunset mb-2">
                                 {t('department')}
                             </label>
                             <select
@@ -353,14 +353,14 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                                 ))}
                             </select>
                             {errors.department_id && (
-                                <p className="mt-2 text-base text-error">
+                                <p className="mt-2 text-sm sm:text-base text-error">
                                     {t(`validation.${errors.department_id.message}`)}
                                 </p>
                             )}
                         </div>
 
                         <div>
-                            <label className="block text-base font-medium text-sunset mb-2">
+                            <label className="block text-sm sm:text-base font-medium text-sunset mb-2">
                                 {t('position')}
                             </label>
                             <input
@@ -369,14 +369,14 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                                 placeholder={t('position')}
                             />
                             {errors.position && (
-                                <p className="mt-2 text-base text-error">
+                                <p className="mt-2 text-sm sm:text-base text-error">
                                     {t(`validation.${errors.position.message}`)}
                                 </p>
                             )}
                         </div>
 
                         <div>
-                            <label className="block text-base font-medium text-sunset mb-2">
+                            <label className="block text-sm sm:text-base font-medium text-sunset mb-2">
                                 {t('employeeType')}
                             </label>
                             <select
@@ -466,21 +466,21 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                         </div>
                     </div>
 
-                    <div className="flex justify-end space-x-4">
+                    <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4">
                         <button
                             type="button"
                             onClick={handleClose}
-                            className="btn-secondary px-6 py-3 text-base rounded-lg"
+                            className="btn-secondary px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg order-2 sm:order-1"
                         >
                             {t('cancel')}
                         </button>
                         <button
                             type="submit"
-                            className="btn-primary px-6 py-3 text-base rounded-lg disabled:opacity-50"
+                            className="btn-primary px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg disabled:opacity-50 order-1 sm:order-2"
                             disabled={isLoading}
                         >
                             {isLoading ? (
-                                <LoadingSpinner className="w-5 h-5" />
+                                <LoadingSpinner className="w-4 sm:w-5 h-4 sm:h-5" />
                             ) : isEditing ? (
                                 t('update')
                             ) : (

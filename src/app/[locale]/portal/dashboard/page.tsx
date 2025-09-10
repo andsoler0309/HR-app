@@ -85,25 +85,25 @@ export default function PortalDashboard() {
     <div className="min-h-screen bg-background">
       <nav className="bg-card border-b border-card-border shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-20">
+          <div className="flex justify-between h-16 sm:h-20">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-platinum">{t('title')}</h1>
+              <h1 className="text-xl sm:text-2xl font-bold text-platinum">{t('title')}</h1>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-4">
               <div className="flex items-center space-x-2">
                 <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center">
-                  <span className="text-platinum font-medium">
+                  <span className="text-platinum font-medium text-sm">
                     {user.first_name?.[0]}
                     {user.last_name?.[0]}
                   </span>
                 </div>
-                <span className="text-sunset font-medium">
+                <span className="text-sunset font-medium text-sm sm:text-base hidden sm:block">
                   {user.first_name} {user.last_name}
                 </span>
               </div>
               <button
                 onClick={handleLogout}
-                className="px-4 py-2 rounded-md text-sunset hover:text-platinum hover:bg-background transition-colors duration-200"
+                className="px-3 py-2 sm:px-4 sm:py-2 rounded-md text-sunset hover:text-platinum hover:bg-background transition-colors duration-200 text-sm sm:text-base"
               >
                 {t('logout')}
               </button>
@@ -112,37 +112,37 @@ export default function PortalDashboard() {
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+      <main className="max-w-7xl mx-auto py-6 sm:py-8 px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-2">
           <div className="bg-card rounded-xl shadow-md overflow-hidden border border-card-border">
-            <div className="p-6">
-              <h2 className="text-2xl font-bold text-platinum mb-6">
+            <div className="p-4 sm:p-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-platinum mb-4 sm:mb-6">
                 {t('employeeInformation')}
               </h2>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-2">
-                  <span className="text-sunset font-medium text-lg">{t('department')}:</span>
-                  <span className="text-platinum text-lg">{user.department?.name}</span>
+              <div className="space-y-3 sm:space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-2">
+                  <span className="text-sunset font-medium text-base sm:text-lg">{t('department')}:</span>
+                  <span className="text-platinum text-base sm:text-lg">{user.department?.name}</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <span className="text-sunset font-medium text-lg">{t('email')}:</span>
-                  <span className="text-platinum text-lg">{user.email}</span>
+                <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-2">
+                  <span className="text-sunset font-medium text-base sm:text-lg">{t('email')}:</span>
+                  <span className="text-platinum text-base sm:text-lg break-all">{user.email}</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <span className="text-sunset font-medium text-lg">{t('role')}:</span>
-                  <span className="text-platinum text-lg">{user.position}</span>
+                <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-2">
+                  <span className="text-sunset font-medium text-base sm:text-lg">{t('role')}:</span>
+                  <span className="text-platinum text-base sm:text-lg">{user.position}</span>
                 </div>
               </div>
 
-              <div className="mt-8">
+              <div className="mt-6 sm:mt-8">
                 <TimeOffBalances balances={balances} loading={loading} />
               </div>
             </div>
           </div>
 
           <div className="bg-card rounded-xl shadow-md overflow-hidden border border-card-border">
-            <div className="p-6">
-              <h2 className="text-2xl font-bold text-platinum mb-6">
+            <div className="p-4 sm:p-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-platinum mb-4 sm:mb-6">
                 {t('submitRequest')}
               </h2>
               <RequestForm
@@ -158,16 +158,16 @@ export default function PortalDashboard() {
           </div>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-6 sm:mt-8">
           <div className="bg-card rounded-xl shadow-md overflow-hidden border border-card-border">
-            <div className="p-6">
-              <h2 className="text-2xl font-bold text-platinum mb-6">{t('myRequests')}</h2>
+            <div className="p-4 sm:p-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-platinum mb-4 sm:mb-6">{t('myRequests')}</h2>
               <RequestList requests={requests} loading={loading} />
             </div>
           </div>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-6 sm:mt-8">
           <AttendanceTracker user={user} />
         </div>
       </main>

@@ -215,14 +215,14 @@ export default function ReviewFormModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="text-lg sm:text-xl">
             {review ? t('editReview') : t('createReview')}
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Basic Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-text-secondary mb-1">
                 {t('employee')} *
@@ -278,7 +278,7 @@ export default function ReviewFormModal({
               </select>
             </div>
 
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <div>
                 <label className="block text-sm font-medium text-text-secondary mb-1">
                   {t('periodStart')} *
@@ -312,7 +312,7 @@ export default function ReviewFormModal({
           {/* Performance Ratings */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-foreground">{t('performanceRatings')}</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <RatingField
                 name="overall_rating"
                 label={t('overallRating')}
@@ -400,12 +400,12 @@ export default function ReviewFormModal({
           </div>
 
           {/* Actions */}
-          <div className="flex justify-end gap-4 pt-4 border-t border-card-border">
-            <Button type="button" variant="ghost" onClick={onClose}>
+          <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t border-card-border">
+            <Button type="button" variant="ghost" onClick={onClose} className="w-full sm:w-auto">
               <X className="w-4 h-4 mr-2" />
               {t('cancel')}
             </Button>
-            <Button type="submit" disabled={loading} className="btn-primary">
+            <Button type="submit" disabled={loading} className="btn-primary w-full sm:w-auto">
               <Save className="w-4 h-4 mr-2" />
               {loading ? t('saving') : t('save')}
             </Button>

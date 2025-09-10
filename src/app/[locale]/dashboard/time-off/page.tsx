@@ -367,163 +367,162 @@ export default function TimeOffPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto p-8">
-        <h1 className="text-3xl font-bold text-platinum mb-8">{t('title')}</h1> {/* Translated Title */}
-        <div className="flex justify-between items-center mb-8">
-          <button
-            onClick={refreshBalances}
-            disabled={isRefreshing}
-            className="btn-secondary inline-flex items-center gap-2 px-4 py-2 rounded-lg"
-          >
-            {isRefreshing ? (
-              <>
-                <div className="w-4 h-4 border-2 border-sunset/20 border-t-sunset rounded-full animate-spin" />
-                <span>{t('buttons.refreshing')}</span> {/* Translated Refreshing */}
-              </>
-            ) : (
-              <>
-                <RefreshCw className="w-4 h-4" />
-                <span>{t('buttons.refreshBalances')}</span> {/* Translated Refresh Balances */}
-              </>
-            )}
-          </button>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col space-y-4 sm:flex-row sm:justify-between sm:items-start sm:space-y-0">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-platinum">{t('title')}</h1>
+          <p className="text-sm text-sunset mt-1 sm:hidden">Gestión de vacaciones y permisos</p>
         </div>
-        {/* Search Bar */}
-        <div className="mb-8 relative max-w-md">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-sunset w-5 h-5" />
-          <input
-            type="text"
-            placeholder={t('placeholders.searchEmployee')} // Translated Placeholder
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="input-base pl-12 text-base py-3"
-          />
-        </div>
+        <button
+          onClick={refreshBalances}
+          disabled={isRefreshing}
+          className="btn-secondary inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium w-full sm:w-auto"
+        >
+          {isRefreshing ? (
+            <>
+              <div className="w-4 h-4 border-2 border-sunset/20 border-t-sunset rounded-full animate-spin" />
+              <span>{t('buttons.refreshing')}</span>
+            </>
+          ) : (
+            <>
+              <RefreshCw className="w-4 h-4" />
+              <span>{t('buttons.refreshBalances')}</span>
+            </>
+          )}
+        </button>
+      </div>
+
+      {/* Search Bar */}
+      <div className="relative max-w-md">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-sunset w-5 h-5" />
+        <input
+          type="text"
+          placeholder={t('placeholders.searchEmployee')}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="input-base pl-12 text-base py-3 w-full"
+        />
+      </div>
 
 
   
-        {/* Balances Section - Horizontal Scrolling */}
-        {Object.entries(groupedBalances).map(([type, typeBalances]) => (
-          <div key={type} className="mb-8">
-            <h2 className="text-base font-medium text-sunset mb-4">{t(`balanceTypes.${type}`)}</h2> {/* Translated Balance Type */}
-            <div className="relative">
-              <div className="overflow-x-auto pb-4 -mx-2">
-                <div className="flex gap-4 px-2 min-w-full">
-                  {typeBalances.map((balance) => (
-                    <div
-                      key={balance.id}
-                      className="flex-none w-[340px] bg-card rounded-lg border border-card-border p-5 hover:shadow-lg transition-shadow"
-                    >
-                      <div className="mb-4">
-                        <div className="text-base font-medium text-platinum">
-                          {balance.employee?.first_name} {balance.employee?.last_name}
-                        </div>
-                      </div>
-  
-                      <div className="grid grid-cols-3 gap-4 mb-4">
-                        <div>
-                          <div className="text-sm text-sunset">{t('labels.total')}</div> {/* Translated Total */}
-                          <div className="text-base font-semibold mt-1 text-platinum">
-                            {balance.total_days} {t('units.days')}
-                          </div>
-                        </div>
-                        <div>
-                          <div className="text-sm text-sunset">{t('labels.used')}</div> {/* Translated Used */}
-                          <div className="text-base font-semibold mt-1 text-platinum">
-                            {balance.used_days} {t('units.days')}
-                          </div>
-                        </div>
-                        <div>
-                          <div className="text-sm text-sunset">{t('labels.left')}</div> {/* Translated Left */}
-                          <div className="text-base font-semibold mt-1 text-platinum">
-                            {balance.total_days - balance.used_days} {t('units.days')}
-                          </div>
-                        </div>
-                      </div>
-  
-                      <div className="h-2 bg-background rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-primary rounded-full transition-all"
-                          style={{
-                            width: `${Math.min(
-                              (balance.used_days / balance.total_days) * 100,
-                              100
-                            )}%`
-                          }}
-                        />
-                      </div>
+      {/* Balances Section - Responsive Grid */}
+      {Object.entries(groupedBalances).map(([type, typeBalances]) => (
+        <div key={type}>
+          <h2 className="text-base font-medium text-sunset mb-4">{t(`balanceTypes.${type}`)}</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {typeBalances.map((balance) => (
+              <div
+                key={balance.id}
+                className="bg-card rounded-lg border border-card-border p-4 sm:p-5 hover:shadow-lg transition-shadow"
+              >
+                <div className="mb-4">
+                  <div className="text-base font-medium text-platinum">
+                    {balance.employee?.first_name} {balance.employee?.last_name}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-4">
+                  <div>
+                    <div className="text-xs sm:text-sm text-sunset">{t('labels.total')}</div>
+                    <div className="text-sm sm:text-base font-semibold mt-1 text-platinum">
+                      {balance.total_days} {t('units.days')}
                     </div>
-                  ))}
+                  </div>
+                  <div>
+                    <div className="text-xs sm:text-sm text-sunset">{t('labels.used')}</div>
+                    <div className="text-sm sm:text-base font-semibold mt-1 text-platinum">
+                      {balance.used_days} {t('units.days')}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-xs sm:text-sm text-sunset">{t('labels.left')}</div>
+                    <div className="text-sm sm:text-base font-semibold mt-1 text-platinum">
+                      {balance.total_days - balance.used_days} {t('units.days')}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="h-2 bg-background rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-primary rounded-full transition-all"
+                    style={{
+                      width: `${Math.min(
+                        (balance.used_days / balance.total_days) * 100,
+                        100
+                      )}%`
+                    }}
+                  />
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+      ))}
+  
+      {/* Tabs Section */}
+      <div className="bg-card rounded-lg border border-card-border">
+        <Tabs defaultValue="calendar" className="w-full">
+          <div className="border-b border-card-border">
+            <div className="px-4 sm:px-8">
+              <TabsList className="flex flex-col sm:flex-row gap-2 -mb-px w-full sm:w-auto">
+                <TabsTrigger 
+                  value="calendar"
+                  className="px-3 sm:px-5 py-3 text-sm sm:text-base font-medium rounded-t-lg w-full sm:w-auto
+                  data-[state=active]:text-platinum 
+                  data-[state=inactive]:text-sunset data-[state=inactive]:hover:text-platinum
+                  focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flame/50
+                  transition-colors"
+                >
+                  {t('tabs.calendar')}
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="requests"
+                  className="px-3 sm:px-5 py-3 text-sm sm:text-base font-medium rounded-t-lg w-full sm:w-auto
+                  data-[state=active]:text-platinum 
+                  data-[state=inactive]:text-sunset data-[state=inactive]:hover:text-platinum
+                  focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flame/50
+                  transition-colors"
+                >
+                  {t('tabs.requests')}
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="policies"
+                  className="px-3 sm:px-5 py-3 text-sm sm:text-base font-medium rounded-t-lg w-full sm:w-auto
+                  data-[state=active]:text-platinum 
+                  data-[state=inactive]:text-sunset data-[state=inactive]:hover:text-platinum
+                  focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flame/50
+                  transition-colors"
+                >
+                  {t('tabs.policies')}
+                </TabsTrigger>
+              </TabsList>
             </div>
           </div>
-        ))}
-  
-        {/* Tabs Section */}
-        <div className="bg-card rounded-lg border border-card-border">
-          <Tabs defaultValue="calendar" className="w-full">
-            <div className="border-b border-card-border">
-              <div className="px-8">
-                <TabsList className="flex gap-2 -mb-px">
-                  <TabsTrigger 
-                    value="calendar"
-                    className="px-5 py-3 text-base font-medium rounded-t-lg 
-                    data-[state=active]:text-platinum 
-                    data-[state=inactive]:text-sunset data-[state=inactive]:hover:text-platinum
-                    focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flame/50
-                    transition-colors"
-                  >
-                    {t('tabs.calendar')} {/* Translated Calendar */}
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="requests"
-                    className="px-5 py-3 text-base font-medium rounded-t-lg 
-                    data-[state=active]:text-platinum 
-                    data-[state=inactive]:text-sunset data-[state=inactive]:hover:text-platinum
-                    focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flame/50
-                    transition-colors"
-                  >
-                    {t('tabs.requests')} {/* Translated Requests */}
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="policies"
-                    className="px-5 py-3 text-base font-medium rounded-t-lg 
-                    data-[state=active]:text-platinum 
-                    data-[state=inactive]:text-sunset data-[state=inactive]:hover:text-platinum
-                    focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flame/50
-                    transition-colors"
-                  >
-                    {t('tabs.policies')} {/* Translated Policies */}
-                  </TabsTrigger>
-                </TabsList>
-              </div>
-            </div>
-  
-            <TabsContent value="calendar" className="p-8 focus:outline-none">
-              <TimeOffCalendar requests={requests} loading={loading} />
-            </TabsContent>
-  
-            <TabsContent value="requests" className="p-8 focus:outline-none">
-              <TimeOffRequests 
-                requests={requests} 
-                loading={loading}
-                onApprove={approveRequest}
-                onReject={rejectRequest}
-              />
-            </TabsContent>
-  
-            <TabsContent value="policies" className="p-8 focus:outline-none">
-              <PoliciesManagement 
-                policies={policies} 
-                onPolicyChange={fetchData} 
-              />
-            </TabsContent>
-          </Tabs>
-        </div>
+
+          <TabsContent value="calendar" className="p-4 sm:p-8 focus:outline-none">
+            <TimeOffCalendar requests={requests} loading={loading} />
+          </TabsContent>
+
+          <TabsContent value="requests" className="p-4 sm:p-8 focus:outline-none">
+            <TimeOffRequests 
+              requests={requests} 
+              loading={loading}
+              onApprove={approveRequest}
+              onReject={rejectRequest}
+            />
+          </TabsContent>
+
+          <TabsContent value="policies" className="p-4 sm:p-8 focus:outline-none">
+            <PoliciesManagement 
+              policies={policies} 
+              onPolicyChange={fetchData} 
+            />
+          </TabsContent>
+        </Tabs>
       </div>
-  
+
       {/* Modals */}
       <RequestTimeOffModal
         isOpen={isRequestModalOpen}
@@ -531,7 +530,7 @@ export default function TimeOffPage() {
         policies={policies}
         onSuccess={fetchData}
       />
-  
+
       <CreatePolicyModal
         isOpen={isPolicyModalOpen}
         onClose={() => setIsPolicyModalOpen(false)}

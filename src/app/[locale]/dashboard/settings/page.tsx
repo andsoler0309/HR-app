@@ -244,19 +244,22 @@ export default function SettingsPage() {
 
   if (!isHydrated) {
     return (
-      <div className="max-w-7xl mx-auto p-8">
-        <div className="flex justify-center items-center h-64">
-          <LoadingSpinner />
-        </div>
+      <div className="flex justify-center items-center h-64">
+        <LoadingSpinner />
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto p-8">
-      <h1 className="text-2xl font-bold text-platinum mb-8">{t('title')}</h1>
+    <div className="space-y-6">
+      <div className="flex flex-col space-y-4 sm:flex-row sm:justify-between sm:items-start sm:space-y-0">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-platinum">{t('title')}</h1>
+          <p className="text-sm text-sunset mt-1 sm:hidden">Configuraciones del sistema</p>
+        </div>
+      </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
         {/* Profile Settings */}
         <Card>
           <div className="p-6">

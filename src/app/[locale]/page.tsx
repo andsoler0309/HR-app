@@ -38,31 +38,32 @@ export default function LandingPage() {
     <div className="min-h-screen bg-background text-foreground font-sans">
       {/* Navigation */}
       <nav className="fixed w-full bg-card/70 backdrop-blur-sm z-50 border-b border-navbar-border">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 h-16 flex items-center justify-between">
-                    <Link href={`/${locale}`} className="text-xl font-bold text-primary tracking-tight">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+          <Link href={`/${locale}`} className="text-lg sm:text-xl font-bold text-primary tracking-tight">
             NodoHR
           </Link>
 
-          <div className="flex space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             <LanguageSwitcher
               locale={locale}
               onSwitchToEnglish={switchToEnglish}
               onSwitchToSpanish={switchToSpanish}
             />
 
-            <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-4 items-center">
+            <div className="flex items-center space-x-2 sm:space-x-4">
               <Link
                 href={`/${locale}/auth/login`}
-                className="inline-flex items-center justify-center px-5 py-2 min-w-[120px] border border-primary text-primary bg-background font-semibold rounded-lg text-base hover:bg-primary/10 hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 shadow-none"
+                className="inline-flex items-center justify-center px-3 sm:px-5 py-2 border border-primary text-primary bg-background font-semibold rounded-lg text-sm sm:text-base hover:bg-primary/10 hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 shadow-none"
               >
                 {t("login")}
               </Link>
               <Link
                 href={`/${locale}/auth/register`}
-                className="inline-flex items-center justify-center px-6 py-2 min-w-[160px] bg-primary text-white font-bold rounded-lg text-base shadow-lg hover:bg-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                className="inline-flex items-center justify-center px-3 sm:px-6 py-2 bg-primary text-white font-bold rounded-lg text-sm sm:text-base shadow-lg hover:bg-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
               >
-                {t("tryFree")}
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <span className="hidden sm:inline">{t("tryFree")}</span>
+                <span className="sm:hidden">{t("tryFree")}</span>
+                <ArrowRight className="ml-1 sm:ml-2 h-4 w-4 sm:h-5 sm:w-5" />
               </Link>
             </div>
           </div>

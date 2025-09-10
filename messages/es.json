@@ -312,6 +312,7 @@
         "errorFetchingDepartments": "Error al obtener departamentos",
         "deleteDepartmentError": "Error al eliminar el departamento",
         "noDescription": "No se proporcionó descripción",
+        "departmentDistribution": "Distribución de Departamentos",
         "actions": {
             "editDepartment": "Editar Departamento",
             "deleteDepartment": "Eliminar Departamento"

@@ -176,15 +176,15 @@ const GenerateDocumentModal = ({ isOpen, onClose, employee, onSuccess }: Generat
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-50">
-      <div className="bg-card rounded-xl p-8 w-full max-w-2xl border border-card-border shadow-lg">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-3xl font-semibold text-platinum">
+    <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-50 p-4">
+      <div className="bg-card rounded-xl p-4 sm:p-6 lg:p-8 w-full max-w-2xl border border-card-border shadow-lg max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center mb-6 sm:mb-8">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-platinum">
             {t('title', { firstName: employee.first_name, lastName: employee.last_name })}
           </h2>
           <button 
             onClick={handleClose} 
-            className="text-sunset hover:text-primary text-2xl"
+            className="text-sunset hover:text-primary text-xl sm:text-2xl"
           >
             ×
           </button>
@@ -204,9 +204,9 @@ const GenerateDocumentModal = ({ isOpen, onClose, employee, onSuccess }: Generat
           />
         )}
 
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <div>
-            <label className="block text-base font-medium text-sunset mb-2">
+            <label className="block text-sm sm:text-base font-medium text-sunset mb-2">
               {t('selectTemplate')}
             </label>
             <div className="grid grid-cols-1 gap-3">
@@ -221,13 +221,13 @@ const GenerateDocumentModal = ({ isOpen, onClose, employee, onSuccess }: Generat
                     }`}
                 >
                   <div className="flex items-start gap-3">
-                    <FileText className={`w-5 h-5 ${
+                    <FileText className={`w-4 h-4 sm:w-5 sm:h-5 mt-0.5 ${
                       template.id === selectedTemplate?.id ? 'text-primary' : 'text-sunset'
                     }`} />
-                    <div>
-                      <h3 className="font-medium text-platinum">{template.name}</h3>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-medium text-platinum text-sm sm:text-base truncate">{template.name}</h3>
                       {template.description && (
-                        <p className="text-sm text-sunset mt-0.5">{template.description}</p>
+                        <p className="text-xs sm:text-sm text-sunset mt-0.5 line-clamp-2">{template.description}</p>
                       )}
                       {template.requires_signature && (
                         <div className="flex gap-2 mt-2">
@@ -243,20 +243,20 @@ const GenerateDocumentModal = ({ isOpen, onClose, employee, onSuccess }: Generat
             </div>
           </div>
 
-          <div className="flex justify-end space-x-4">
+          <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4">
             <button
               onClick={handleClose}
-              className="btn-secondary px-6 py-3 text-base rounded-lg"
+              className="btn-secondary px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base rounded-lg w-full sm:w-auto"
             >
               {tButtons('cancel')}
             </button>
             <button
               onClick={generateDocument}
               disabled={!selectedTemplate || loading}
-              className="btn-primary px-6 py-3 text-base rounded-lg flex items-center gap-2 disabled:opacity-50"
+              className="btn-primary px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base rounded-lg flex items-center justify-center gap-2 disabled:opacity-50 w-full sm:w-auto"
             >
               {loading && (
-                <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
               )}
               {tButtons('generateDocument')}
             </button>

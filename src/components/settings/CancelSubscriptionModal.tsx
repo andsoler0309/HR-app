@@ -79,9 +79,9 @@ export default function CancelSubscriptionModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-50">
-      <div className="bg-card rounded-xl p-8 w-full max-w-md border border-card-border shadow-lg">
-        <h2 className="text-2xl font-semibold mb-4">{t("title")}</h2>
+    <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-50 p-4">
+      <div className="bg-card rounded-xl p-4 sm:p-6 lg:p-8 w-full max-w-md border border-card-border shadow-lg max-h-[90vh] overflow-y-auto">
+        <h2 className="text-xl sm:text-2xl font-semibold mb-4">{t("title")}</h2>
 
         {error && (
           <div className="mb-4 p-4 bg-error/10 text-error rounded-lg">
@@ -97,7 +97,7 @@ export default function CancelSubscriptionModal({
             <select
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-              className="input-base px-4 py-3 text-base"
+              className="input-base px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base w-full"
             >
               <option value="">{t("selectReason")}</option>
               {CANCELLATION_REASONS.map((reasonKey) => (
@@ -114,7 +114,7 @@ export default function CancelSubscriptionModal({
               <textarea
                 value={otherReason}
                 onChange={(e) => setOtherReason(e.target.value)}
-                className="textarea-base w-full h-24 resize-none px-4 py-3 text-sm text-black rounded-md"
+                className="textarea-base w-full h-20 sm:h-24 resize-none px-3 sm:px-4 py-2 sm:py-3 text-sm text-black rounded-md"
                 placeholder={t("placeholderSpecify")}
               />
             </div>
@@ -132,11 +132,11 @@ export default function CancelSubscriptionModal({
             </ul>
           </div>
 
-          <div className="flex justify-end space-x-4 mt-6">
+          <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4 mt-6">
             <button
               type="button"
               onClick={onClose}
-              className="btn-secondary px-6 py-3 text-base disabled:opacity-50 rounded-lg"
+              className="btn-secondary px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base disabled:opacity-50 rounded-lg w-full sm:w-auto"
               disabled={isLoading}
             >
               {t("keepSubscription")}
@@ -144,7 +144,7 @@ export default function CancelSubscriptionModal({
             <button
               type="button"
               onClick={handleCancel}
-              className="bg-red-700 px-6 py-3 text-base disabled:opacity-50 rounded-lg"
+              className="bg-red-700 px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base disabled:opacity-50 rounded-lg text-white w-full sm:w-auto"
               disabled={
                 isLoading || !reason || (reason === "Other" && !otherReason)
               }

@@ -2,8 +2,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { X } from "lucide-react";
 
-const Sidebar = () => {
+interface SidebarProps {
+  onClose?: () => void;
+}
+
+const Sidebar = ({ onClose }: SidebarProps) => {
   const pathname = usePathname();
   const t = useTranslations("sidebar");
 
@@ -198,22 +203,33 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="flex flex-col w-64 bg-card shadow-md border-r border-navbar-border">
-      <div className="flex items-center justify-center h-20 border-b border-navbar-border">
-        <h1 className="text-2xl font-bold text-primary">NodoHR</h1>
+    <div className="flex flex-col w-64 h-full bg-card shadow-md border-r border-navbar-border">
+      <div className="flex items-center justify-between h-16 sm:h-20 px-4 border-b border-navbar-border">
+        <h1 className="text-xl sm:text-2xl font-bold text-primary">NodoHR</h1>
+        {/* Close button for mobile */}
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="lg:hidden p-2 rounded-md text-sunset hover:text-platinum hover:bg-background"
+            aria-label="Close sidebar"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        )}
       </div>
-      <nav className="flex-grow">
+      <nav className="flex-grow overflow-y-auto">
         <ul className="flex flex-col py-4">
           {sidebarItems.map((item) => (
             <li key={item.name}>
               <Link
                 href={item.href}
-                className={`flex items-center px-6 py-3 text-sunset hover:bg-background hover:text-platinum text-md ${
+                onClick={onClose} // Close sidebar when link is clicked on mobile
+                className={`flex items-center px-4 sm:px-6 py-3 text-sunset hover:bg-background hover:text-platinum text-sm sm:text-md transition-colors ${
                   pathname === item.href ? "bg-background text-platinum" : ""
                 }`}
               >
                 {item.icon}
-                <span className="ml-4">{item.name}</span>
+                <span className="ml-3 sm:ml-4">{item.name}</span>
               </Link>
             </li>
           ))}

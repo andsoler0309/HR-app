@@ -103,10 +103,10 @@ export default function RequestTimeOffModal({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="bg-white rounded-xl shadow-lg w-full max-w-md mx-4 overflow-hidden">
-        <div className="flex justify-between items-center p-6 border-b border-gray-100">
-          <h2 className="text-2xl font-bold text-gray-900">{t('requestTimeOffModal.title')}</h2>
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-xl shadow-lg w-full max-w-lg mx-auto overflow-hidden max-h-[90vh] flex flex-col">
+        <div className="flex justify-between items-center p-4 sm:p-6 border-b border-gray-100 shrink-0">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{t('requestTimeOffModal.title')}</h2>
           <button 
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 p-2 rounded-full hover:bg-gray-100 transition-colors"
@@ -116,13 +116,13 @@ export default function RequestTimeOffModal({
         </div>
 
         {error && (
-          <div className="mx-6 mt-4 flex items-center gap-2 p-4 text-sm text-red-800 bg-red-50 rounded-lg border border-red-100">
+          <div className="mx-4 sm:mx-6 mt-4 flex items-center gap-2 p-4 text-sm text-red-800 bg-red-50 rounded-lg border border-red-100">
             <AlertCircle size={16} className="shrink-0" />
             <p>{error}</p>
           </div>
         )}
 
-        <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="p-4 sm:p-6 space-y-6 overflow-y-auto flex-1">
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               {t('requestTimeOffModal.fields.leaveType')}
@@ -143,7 +143,7 @@ export default function RequestTimeOffModal({
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 {t('requestTimeOffModal.fields.startDate')}
@@ -205,18 +205,18 @@ export default function RequestTimeOffModal({
             )}
           </div>
 
-          <div className="flex justify-end gap-3 pt-2">
+          <div className="flex flex-col sm:flex-row justify-end gap-3 pt-2 shrink-0">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2.5 border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors font-medium"
+              className="w-full sm:w-auto px-4 py-2.5 border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors font-medium"
             >
               {t('requestTimeOffModal.buttons.cancel')}
             </button>
             <button
               type="submit"
               disabled={isLoading}
-              className="px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:hover:bg-blue-600 transition-colors font-medium"
+              className="w-full sm:w-auto px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:hover:bg-blue-600 transition-colors font-medium"
             >
               {isLoading ? t('requestTimeOffModal.buttons.submitting') : t('requestTimeOffModal.buttons.submitRequest')}
             </button>

@@ -118,8 +118,8 @@ export default function DepartmentFormModal({ isOpen, onClose, department, onSuc
 
   return (
     <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-card rounded-xl p-8 w-full max-w-md shadow-lg border border-card-border animate-in fade-in">
-        <h2 className="text-2xl font-semibold mb-6 text-platinum">
+      <div className="bg-card rounded-xl p-4 sm:p-6 lg:p-8 w-full max-w-lg shadow-lg border border-card-border animate-in fade-in">
+        <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-platinum">
           {isEditing ? t('editDepartment') : t('addDepartment')}
         </h2>
 
@@ -130,9 +130,9 @@ export default function DepartmentFormModal({ isOpen, onClose, department, onSuc
           />
         )}
 
-        {error && <ErrorMessage message={error} className="mb-6" />}
+        {error && <ErrorMessage message={error} className="mb-4 sm:mb-6" />}
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
           <div className="space-y-2">
             <label className="block text-sm font-medium text-sunset">
               {t('name')}
@@ -169,12 +169,12 @@ export default function DepartmentFormModal({ isOpen, onClose, department, onSuc
             )}
           </div>
 
-          <div className="flex justify-end items-center gap-3 pt-4">
+          <div className="flex flex-col sm:flex-row justify-end items-center gap-3 pt-4">
             <Button
               type="button"
               onClick={handleClose}
               variant="secondary"
-              className="px-4 py-2.5 rounded-lg text-sm font-medium"
+              className="px-4 py-2.5 rounded-lg text-sm font-medium w-full sm:w-auto"
               disabled={isLoading}
             >
               {t('cancel')}
@@ -182,11 +182,11 @@ export default function DepartmentFormModal({ isOpen, onClose, department, onSuc
             <Button
               type="submit"
               variant="default"
-              className="px-6 py-2.5 rounded-lg text-sm font-medium min-w-[100px] flex items-center justify-center"
+              className="px-6 py-2.5 rounded-lg text-sm font-medium min-w-[100px] flex items-center justify-center w-full sm:w-auto"
               disabled={isLoading}
             >
               {isLoading ? (
-                <LoadingSpinner className="w-5 h-5" />
+                <LoadingSpinner className="w-4 sm:w-5 h-4 sm:h-5" />
               ) : isEditing ? (
                 t('update')
               ) : (

@@ -197,34 +197,36 @@ export default function DocumentsPage() {
   });
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto p-8">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold text-platinum">
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col space-y-4 sm:flex-row sm:justify-between sm:items-start sm:space-y-0">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-platinum">
             {t('header.title')}
           </h1>
-          <div className="flex gap-3">
-            <button
-              onClick={() => setIsCategoryModalOpen(true)}
-              className="btn-secondary flex items-center gap-2 px-4 py-2 rounded-lg"
-            >
-              <Plus className="w-4 h-4" />
-              {t('buttons.newCategory')}
-            </button>
-            <button
-              onClick={handleUploadClick}
-              className="btn-primary flex items-center gap-2 px-4 py-2 rounded-lg"
-            >
-              <Upload className="w-4 h-4" />
-              {t('buttons.uploadDocument')}
-            </button>
-          </div>
+          <p className="text-sm text-sunset mt-1 sm:hidden">Gestiona documentos y archivos</p>
         </div>
+        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+          <button
+            onClick={() => setIsCategoryModalOpen(true)}
+            className="btn-secondary flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium"
+          >
+            <Plus className="w-4 h-4" />
+            {t('buttons.newCategory')}
+          </button>
+          <button
+            onClick={handleUploadClick}
+            className="btn-primary flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium"
+          >
+            <Upload className="w-4 h-4" />
+            {t('buttons.uploadDocument')}
+          </button>
+        </div>
+      </div>
 
         {/* Tabs Navigation */}
         <Tabs defaultValue="documents" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 mb-8">
+          <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger 
               value="documents" 
               className="flex items-center gap-2 data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary"
@@ -251,74 +253,76 @@ export default function DocumentsPage() {
             ) : (
               <>
                 {/* Search and Filters */}
-                <div className="bg-card rounded-lg border border-card-border shadow-md p-4 mb-6">
-                  <div className="flex gap-4">
+                <div className="bg-card rounded-lg border border-card-border shadow-md p-4">
+                  <div className="flex flex-col sm:flex-row gap-4">
                     <div className="flex-1 relative">
                       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-sunset" />
                       <input
                         type="text"
                         placeholder={t('search.placeholder')}
-                        className="input-base pl-10"
+                        className="input-base pl-10 w-full"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                       />
                     </div>
-                    <select
-                      className="input-base px-4 py-2.5 w-48"
-                      value={categoryFilter}
-                      onChange={(e) => setCategoryFilter(e.target.value)}
-                    >
-                      <option value="all">
-                        {t('filters.allCategories')}
-                      </option>
-                      {categories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                          {category.name}
-                        </option>
-                      ))}
-                    </select>
-                    {/* Add Employee Filter */}
-                    <select
-                      className="input-base px-4 py-2.5 w-48"
-                      value={employeeFilter}
-                      onChange={(e) => setEmployeeFilter(e.target.value)}
-                    >
-                      <option value="all">
-                        {t('filters.allEmployees')}
-                      </option>
-                      {employees.map((employee) => (
-                        <option key={employee.id} value={employee.id}>
-                          {employee.first_name} {employee.last_name}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="flex border border-card-border rounded-lg overflow-hidden">
-                      <button
-                        onClick={() => setViewMode('grid')}
-                        className={`px-3 py-2 ${
-                          viewMode === 'grid' 
-                            ? 'bg-primary text-platinum' 
-                            : 'text-sunset hover:bg-background'
-                        }`}
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <select
+                        className="input-base px-4 py-2.5 w-full sm:w-48"
+                        value={categoryFilter}
+                        onChange={(e) => setCategoryFilter(e.target.value)}
                       >
-                        <Grid2X2 className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => setViewMode('list')}
-                        className={`px-3 py-2 ${
-                          viewMode === 'list' 
-                            ? 'bg-primary text-platinum' 
-                            : 'text-sunset hover:bg-background'
-                        }`}
+                        <option value="all">
+                          {t('filters.allCategories')}
+                        </option>
+                        {categories.map((category) => (
+                          <option key={category.id} value={category.id}>
+                            {category.name}
+                          </option>
+                        ))}
+                      </select>
+                      {/* Add Employee Filter */}
+                      <select
+                        className="input-base px-4 py-2.5 w-full sm:w-48"
+                        value={employeeFilter}
+                        onChange={(e) => setEmployeeFilter(e.target.value)}
                       >
-                        <List className="w-4 h-4" />
-                      </button>
+                        <option value="all">
+                          {t('filters.allEmployees')}
+                        </option>
+                        {employees.map((employee) => (
+                          <option key={employee.id} value={employee.id}>
+                            {employee.first_name} {employee.last_name}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="flex border border-card-border rounded-lg overflow-hidden w-full sm:w-auto">
+                        <button
+                          onClick={() => setViewMode('grid')}
+                          className={`flex-1 sm:flex-none px-3 py-2 ${
+                            viewMode === 'grid' 
+                              ? 'bg-primary text-platinum' 
+                              : 'text-sunset hover:bg-background'
+                          }`}
+                        >
+                          <Grid2X2 className="w-4 h-4 mx-auto" />
+                        </button>
+                        <button
+                          onClick={() => setViewMode('list')}
+                          className={`flex-1 sm:flex-none px-3 py-2 ${
+                            viewMode === 'list' 
+                              ? 'bg-primary text-platinum' 
+                              : 'text-sunset hover:bg-background'
+                          }`}
+                        >
+                          <List className="w-4 h-4 mx-auto" />
+                        </button>
+                      </div>
                     </div>
                   </div>  
                 </div>
 
                 {/* Categories Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                   {categories.map((category) => (
                     <div
                       key={category.id}
@@ -337,8 +341,8 @@ export default function DocumentsPage() {
                         }`}>
                           <FolderOpen className="w-5 h-5" />
                         </div>
-                        <div>
-                          <h3 className="font-medium text-platinum">{category.name}</h3>
+                        <div className="min-w-0 flex-1">
+                          <h3 className="font-medium text-platinum truncate">{category.name}</h3>
                           <p className="text-sm text-sunset mt-0.5">
                             {t('category.documentsCount', { count: documents.filter(d => d.category_id === category.id).length })}
                           </p>
@@ -388,57 +392,56 @@ export default function DocumentsPage() {
             <DocumentTemplates />
           </TabsContent>
         </Tabs>
-   
+ 
         {/* Modals */}
-        <DocumentUploadModal
-          isOpen={isUploadModalOpen}
-          onClose={() => setIsUploadModalOpen(false)}
-          categories={categories}
-          employees={employees}
-          onSuccess={fetchDocuments}
+      <DocumentUploadModal
+        isOpen={isUploadModalOpen}
+        onClose={() => setIsUploadModalOpen(false)}
+        categories={categories}
+        employees={employees}
+        onSuccess={fetchDocuments}
+      />
+ 
+      <DocumentCategoryModal
+        isOpen={isCategoryModalOpen}
+        onClose={() => setIsCategoryModalOpen(false)}
+        onSuccess={fetchCategories}
+      />
+ 
+      {selectedDocument && (
+        <DocumentViewer
+          document={selectedDocument}
+          onClose={() => setSelectedDocument(null)}
         />
-   
-        <DocumentCategoryModal
-          isOpen={isCategoryModalOpen}
-          onClose={() => setIsCategoryModalOpen(false)}
-          onSuccess={fetchCategories}
+      )}
+ 
+      {selectedDocument && (
+        <DocumentShareModal
+          isOpen={isShareModalOpen}
+          onClose={() => setIsShareModalOpen(false)}
+          document={selectedDocument}
+          onSuccess={() => {
+            fetchDocuments();
+            setIsShareModalOpen(false);
+          }}
         />
-   
-        {selectedDocument && (
-          <DocumentViewer
-            document={selectedDocument}
-            onClose={() => setSelectedDocument(null)}
-          />
-        )}
-   
-        {selectedDocument && (
-          <DocumentShareModal
-            isOpen={isShareModalOpen}
-            onClose={() => setIsShareModalOpen(false)}
-            document={selectedDocument}
-            onSuccess={() => {
-              fetchDocuments();
-              setIsShareModalOpen(false);
-            }}
-          />
-        )}
+      )}
 
-        {selectedDocumentForSign && (
-          <SignaturePad
-            isOpen={isSignatureModalOpen}
-            onClose={() => {
-              setIsSignatureModalOpen(false);
-              setSelectedDocumentForSign(null);
-            }}
-            document={selectedDocumentForSign}
-            onSuccess={() => {
-              fetchDocuments();
-              setIsSignatureModalOpen(false);
-              setSelectedDocumentForSign(null);
-            }}
-          />
-        )}
-      </div>
+      {selectedDocumentForSign && (
+        <SignaturePad
+          isOpen={isSignatureModalOpen}
+          onClose={() => {
+            setIsSignatureModalOpen(false);
+            setSelectedDocumentForSign(null);
+          }}
+          document={selectedDocumentForSign}
+          onSuccess={() => {
+            fetchDocuments();
+            setIsSignatureModalOpen(false);
+            setSelectedDocumentForSign(null);
+          }}
+        />
+      )}
     </div>
   );
 }

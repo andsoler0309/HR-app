@@ -9,6 +9,7 @@ import {
   Clock,
   CheckCircle2,
   ExternalLink,
+  Users,
 } from "lucide-react";
 import { useRouter, useParams } from "next/navigation";
 import EmployeeFormModal from "@/components/employees/EmployeeFormModal";
@@ -323,28 +324,32 @@ export default function EmployeesPage() {
   });
 
   return (
-    <div className="max-w-[1400px] mx-auto p-8">
+    <div className="space-y-6">
       {/* Header Section */}
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-platinum">{t("title")}</h1>
-        <div className="flex gap-3">
+      <div className="flex flex-col space-y-4 sm:flex-row sm:justify-between sm:items-start sm:space-y-0">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-platinum">{t("title")}</h1>
+          <p className="text-sm text-sunset mt-1 sm:hidden">Gestiona tu equipo de trabajo</p>
+        </div>
+        <div className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-3">
           <button
             onClick={handleGoToPortal}
-            className="btn-secondary flex items-center gap-2 px-5 py-2.5 rounded-lg text-base"
+            className="btn-secondary flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium w-full sm:w-auto"
           >
-            <ExternalLink className="w-5 h-5" />
-            {t("goToPortal")}
+            <ExternalLink className="w-4 h-4" />
+            <span className="sm:hidden">Portal</span>
+            <span className="hidden sm:inline">{t("goToPortal")}</span>
           </button>
           <div className="relative group">
             <button
               onClick={handleAddEmployee}
-              className={`btn-primary flex items-center gap-2 px-5 py-2.5 rounded-lg text-base ${
+              className={`btn-primary flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium w-full sm:w-auto ${
                 departments.length === 0 
                   ? "opacity-75 cursor-help" 
                   : ""
               }`}
             >
-              <Plus className="w-5 h-5" />
+              <Plus className="w-4 h-4" />
               {t("addEmployee")}
             </button>
             {departments.length === 0 && (
@@ -357,306 +362,440 @@ export default function EmployeesPage() {
       </div>
 
       <EmployeeDashboard employees={employees} />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      
+      {/* Upcoming Events Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <UpcomingBirthdays employees={employees} />
         <UpcomingAnniversaries employees={employees} />
       </div>
 
-      {successMessage && (
-        <Alert variant="success" className="mb-6">
-          <CheckCircle2 className="h-4 w-4" />
-          <AlertTitle>{t("alerts.documentSuccess.title")}</AlertTitle>
-          <AlertDescription>{successMessage}</AlertDescription>
-        </Alert>
-      )}
+      {/* Alerts Section */}
+      <div className="space-y-3">
+        {successMessage && (
+          <Alert variant="success">
+            <CheckCircle2 className="h-4 w-4" />
+            <AlertTitle className="text-sm sm:text-base">{t("alerts.documentSuccess.title")}</AlertTitle>
+            <AlertDescription className="text-sm">{successMessage}</AlertDescription>
+          </Alert>
+        )}
 
-      {policies.length === 0 && (
-        <Alert variant="infoblack" className="mb-6">
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>{t("alerts.policyRequired.title")}</AlertTitle>
-          <AlertDescription>{t("alerts.policyRequired.message")}</AlertDescription>
-        </Alert>
-      )}
+        {policies.length === 0 && (
+          <Alert variant="infoblack">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle className="text-sm sm:text-base">{t("alerts.policyRequired.title")}</AlertTitle>
+            <AlertDescription className="text-sm">{t("alerts.policyRequired.message")}</AlertDescription>
+          </Alert>
+        )}
 
-      {departments.length === 0 && (
-        <Alert variant="infoblack" className="mb-6">
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>{t("alerts.departmentRequired.title")}</AlertTitle>
-          <AlertDescription>
-            {t("alerts.departmentRequired.message")}{" "}
-            <button 
-              onClick={() => setIsDepartmentModalOpen(true)}
-              className="text-primary hover:text-vanilla underline font-medium"
-            >
-              {t("alerts.departmentRequired.createNow")}
-            </button>
-          </AlertDescription>
-        </Alert>
-      )}
+        {departments.length === 0 && (
+          <Alert variant="infoblack">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle className="text-sm sm:text-base">{t("alerts.departmentRequired.title")}</AlertTitle>
+            <AlertDescription className="text-sm">
+              {t("alerts.departmentRequired.message")}{" "}
+              <button 
+                onClick={() => setIsDepartmentModalOpen(true)}
+                className="text-primary hover:text-vanilla underline font-medium"
+              >
+                {t("alerts.departmentRequired.createNow")}
+              </button>
+            </AlertDescription>
+          </Alert>
+        )}
+      </div>
 
-      <div className="bg-card rounded-xl shadow-md border border-card-border">
+      {/* Employees Table/Cards */}
+      <div className="bg-card rounded-xl shadow-sm border border-card-border overflow-hidden">
         {/* Search and Filter Bar */}
-        <div className="p-5 border-b border-card-border bg-card rounded-t-xl flex items-center gap-4">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-sunset" />
-            <input
-              type="text"
-              placeholder={t("search.placeholder")}
-              className="input-base pl-11 py-3 text-base"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+        <div className="p-4 border-b border-card-border bg-card/50">
+          <div className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-3 sm:items-center">
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-sunset w-4 h-4" />
+              <input
+                type="text"
+                placeholder={t("search.placeholder")}
+                className="input-base pl-10 py-2.5 text-sm w-full bg-background border-card-border focus:border-primary"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <select
+                className="input-base px-3 py-2.5 text-sm bg-background border-card-border focus:border-primary"
+                value={departmentFilter}
+                onChange={(e) => setDepartmentFilter(e.target.value)}
+              >
+                <option value="all">{t("search.allDepartments")}</option>
+                {departments.map((dept) => (
+                  <option key={dept.id} value={dept.id}>
+                    {dept.name}
+                  </option>
+                ))}
+              </select>
+              <button
+                onClick={handleExport}
+                className="btn-secondary flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium whitespace-nowrap"
+              >
+                <Download className="w-4 h-4" />
+                <span className="hidden sm:inline">{t("actions.export")}</span>
+                <span className="sm:hidden">Export</span>
+              </button>
+            </div>
           </div>
-          <select
-            className="input-base px-4 py-3 text-base min-w-[200px] w-5"
-            value={departmentFilter}
-            onChange={(e) => setDepartmentFilter(e.target.value)}
-          >
-            <option value="all">{t("search.allDepartments")}</option>
-            {departments.map((dept) => (
-              <option key={dept.id} value={dept.id}>
-                {dept.name}
-              </option>
-            ))}
-          </select>
-          <button
-            onClick={handleExport}
-            className="btn-secondary flex items-center gap-2 px-5 py-3 rounded-lg text-base"
-          >
-            <Download className="w-5 h-5" />
-            {t("actions.export")}
-          </button>
-        </div>
-
-        {/* Table */}
-        <div className="overflow-x-auto scrollbar-custom">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-card-border">
-                <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-6 py-5">
-                  {t("table.name")}
-                </th>
-                <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-6 py-5">
-                  {t("table.email")}
-                </th>
-                <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-6 py-5">
-                  {t("table.position")}
-                </th>
-                <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-6 py-5">
-                  {t("table.department")}
-                </th>
-                <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-6 py-5">
-                  {t("table.status")}
-                </th>
-                <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-6 py-5">
-                  {t("table.type")}
-                </th>
-                <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-6 py-5">
-                  {t("table.hireDate")}
-                </th>
-                <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-6 py-5">
-                  {t("table.workingStatus")}
-                </th>
-                <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-6 py-5">
-                  {t("table.actions")}
-                </th>
-                <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-6 py-5">
-                  {t("table.token")}
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-card-border">
-              {loading ? (
-                <tr>
-                  <td
-                    colSpan={10} // Updated to match the number of columns
-                    className="px-6 py-8 text-center text-sunset text-base"
-                  >
-                    {t("table.loading")}
-                  </td>
+        </div>          {/* Table - Desktop View */}
+          <div className="hidden lg:block overflow-x-auto scrollbar-custom">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-card-border">
+                  <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-4 py-4">
+                    {t("table.name")}
+                  </th>
+                  <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-4 py-4">
+                    {t("table.email")}
+                  </th>
+                  <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-4 py-4">
+                    {t("table.position")}
+                  </th>
+                  <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-4 py-4">
+                    {t("table.department")}
+                  </th>
+                  <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-4 py-4">
+                    {t("table.status")}
+                  </th>
+                  <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-4 py-4">
+                    {t("table.type")}
+                  </th>
+                  <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-4 py-4">
+                    {t("table.hireDate")}
+                  </th>
+                  <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-4 py-4">
+                    {t("table.workingStatus")}
+                  </th>
+                  <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-4 py-4">
+                    {t("table.actions")}
+                  </th>
+                  <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-4 py-4">
+                    {t("table.token")}
+                  </th>
                 </tr>
-              ) : filteredEmployees.length === 0 ? (
-                <tr>
-                  <td
-                    colSpan={10} // Updated to match the number of columns
-                    className="px-6 py-8 text-center text-sunset text-base"
-                  >
-                    {t("table.noEmployees")}
-                  </td>
-                </tr>
-              ) : (
-                filteredEmployees.map((employee) => (
-                  <tr key={employee.id} className="hover:bg-background/50">
-                    <td className="px-6 py-5">
-                      <div className="flex items-center">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-base text-primary">
+              </thead>
+              <tbody className="divide-y divide-card-border">
+                {loading ? (
+                  <tr>
+                    <td
+                      colSpan={10}
+                      className="px-4 py-8 text-center text-sunset text-base"
+                    >
+                      {t("table.loading")}
+                    </td>
+                  </tr>
+                ) : filteredEmployees.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={10}
+                      className="px-4 py-8 text-center text-sunset text-base"
+                    >
+                      {t("table.noEmployees")}
+                    </td>
+                  </tr>
+                ) : (
+                  filteredEmployees.map((employee) => (
+                    <tr key={employee.id} className="hover:bg-background/50">
+                      <td className="px-4 py-4">
+                        <div className="flex items-center">
+                          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-base text-primary">
+                            {employee.first_name?.[0]?.toUpperCase()}
+                            {employee.last_name?.[0]?.toUpperCase()}
+                          </div>
+                          <span className="ml-3 text-base font-medium text-platinum">
+                            {employee.first_name} {employee.last_name}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-4 py-4 text-base text-sunset">
+                        {employee.email}
+                      </td>
+                      <td className="px-4 py-4 text-base text-sunset">
+                        {employee.position}
+                      </td>
+                      <td className="px-4 py-4 text-base text-sunset">
+                        {employee.department?.name || t("table.na")}
+                      </td>
+                      <td className="px-4 py-4">
+                        <span
+                          className={`inline-flex px-3 py-1.5 text-sm font-medium rounded-full ${
+                            employee.is_active
+                              ? "bg-success/10 text-success"
+                              : "bg-error/10 text-error"
+                          }`}
+                        >
+                          {employee.is_active
+                            ? t("status.active")
+                            : t("status.inactive")}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4">
+                        <span
+                          className={`inline-flex px-3 py-1.5 text-sm font-medium rounded-full ${
+                            employee.status === "FULL_TIME"
+                              ? "bg-success/10 text-success"
+                              : employee.status === "PART_TIME"
+                              ? "bg-warning/10 text-warning"
+                              : "bg-card text-sunset"
+                          }`}
+                        >
+                          {t(
+                            `status.${
+                              employee.status === "FULL_TIME"
+                                ? "fullTime"
+                                : "partTime"
+                            }`
+                          )}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4 text-base text-sunset">
+                        {new Date(employee.hire_date).toLocaleDateString()}
+                      </td>
+                      <td className="px-4 py-4">
+                        <span
+                          className={`inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full ${
+                            employee.current_attendance
+                              ? "bg-success/10 text-success"
+                              : "bg-card text-sunset"
+                          }`}
+                        >
+                          <Clock className="w-4 h-4" />
+                          {employee.current_attendance
+                            ? t("status.working")
+                            : t("status.notWorking")}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4">
+                        <EmployeeActions
+                          employee={employee}
+                          onEdit={handleEditEmployee}
+                          onGenerateDocument={(employee: Employee) => {
+                            setSelectedEmployee(employee);
+                            setSelectedDocument(null);
+                            setIsGenerateDocumentModalOpen(true);
+                          }}
+                          onGenerateAccess={generatePortalAccess}
+                          hasTimeOffPolicies={policies.length > 0}
+                        />
+                      </td>
+                      <td className="px-4 py-4">
+                        {accessTokens[employee.id] ? (
+                          <div>
+                            <div className="text-sm text-sunset mb-1">
+                              {t("actions.accessToken")}
+                            </div>
+                            <code className="text-base font-mono text-platinum">
+                              {accessTokens[employee.id]}
+                            </code>
+                          </div>
+                        ) : (
+                          <div className="relative group">
+                            <button
+                              onClick={() => generatePortalAccess(employee)}
+                              className={`text-xs ${
+                                policies.length === 0
+                                  ? "text-sunset/50 cursor-not-allowed"
+                                  : "text-primary hover:text-vanilla"
+                              }`}
+                              disabled={policies.length === 0}
+                            >
+                              {t("actions.generateAccess")}
+                            </button>
+                            {policies.length === 0 && (
+                              <div className="absolute left-0 bottom-full mb-2 w-48 p-3 bg-card text-platinum text-xs rounded-lg shadow-lg border border-card-border opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                                {t("alerts.policyRequired.message")}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>          {/* Mobile Card View */}
+          <div className="lg:hidden">
+            {loading ? (
+              <div className="px-4 py-12 text-center text-sunset">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-4"></div>
+                <p className="text-sm">{t("table.loading")}</p>
+              </div>
+            ) : filteredEmployees.length === 0 ? (
+              <div className="px-4 py-12 text-center text-sunset">
+                <Users className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                <p className="text-sm">{t("table.noEmployees")}</p>
+              </div>
+            ) : (
+              <div className="divide-y divide-card-border">
+                {filteredEmployees.map((employee) => (
+                  <div key={employee.id} className="p-4 hover:bg-background/30 transition-colors">
+                    {/* Header with avatar and status */}
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center min-w-0 flex-1">
+                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold flex-shrink-0">
                           {employee.first_name?.[0]?.toUpperCase()}
                           {employee.last_name?.[0]?.toUpperCase()}
                         </div>
-                        <span className="ml-3 text-base font-medium text-platinum">
-                          {employee.first_name} {employee.last_name}
+                        <div className="ml-3 min-w-0 flex-1">
+                          <h3 className="text-base font-semibold text-platinum truncate">
+                            {employee.first_name} {employee.last_name}
+                          </h3>
+                          <p className="text-sm text-sunset truncate">{employee.position}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        <span
+                          className={`inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full ${
+                            employee.current_attendance
+                              ? "bg-success/10 text-success"
+                              : "bg-card text-sunset"
+                          }`}
+                        >
+                          <Clock className="w-3 h-3" />
+                          <span className="hidden xs:inline">
+                            {employee.current_attendance ? t("status.working") : t("status.notWorking")}
+                          </span>
                         </span>
                       </div>
-                    </td>
-                    <td className="px-6 py-5 text-base text-sunset">
-                      {employee.email}
-                    </td>
-                    <td className="px-6 py-5 text-base text-sunset">
-                      {employee.position}
-                    </td>
-                    <td className="px-6 py-5 text-base text-sunset">
-                      {employee.department?.name || t("table.na")}
-                    </td>
-                    <td className="px-6 py-5">
-                      <span
-                        className={`inline-flex px-3 py-1.5 text-sm font-medium rounded-full ${
-                          employee.is_active
-                            ? "bg-success/10 text-success"
-                            : "bg-error/10 text-error"
-                        }`}
-                      >
-                        {employee.is_active
-                          ? t("status.active")
-                          : t("status.inactive")}
-                      </span>
-                    </td>
-                    <td className="px-6 py-5">
-                      <span
-                        className={`inline-flex px-3 py-1.5 text-sm font-medium rounded-full ${
-                          employee.status === "FULL_TIME"
-                            ? "bg-success/10 text-success"
-                            : employee.status === "PART_TIME"
-                            ? "bg-warning/10 text-warning"
-                            : "bg-card text-sunset"
-                        }`}
-                      >
-                        {t(
-                          `status.${
+                    </div>
+                    
+                    {/* Employee details grid */}
+                    <div className="grid grid-cols-2 gap-3 text-sm mb-4">
+                      <div className="min-w-0">
+                        <span className="text-sunset text-xs block">{t("table.email")}</span>
+                        <p className="text-platinum text-sm truncate">{employee.email}</p>
+                      </div>
+                      <div className="min-w-0">
+                        <span className="text-sunset text-xs block">{t("table.department")}</span>
+                        <p className="text-platinum text-sm truncate">{employee.department?.name || t("table.na")}</p>
+                      </div>
+                      <div>
+                        <span className="text-sunset text-xs block">{t("table.status")}</span>
+                        <span
+                          className={`inline-flex px-2 py-1 text-xs font-medium rounded-full mt-1 ${
+                            employee.is_active
+                              ? "bg-success/10 text-success"
+                              : "bg-error/10 text-error"
+                          }`}
+                        >
+                          {employee.is_active ? t("status.active") : t("status.inactive")}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-sunset text-xs block">{t("table.type")}</span>
+                        <span
+                          className={`inline-flex px-2 py-1 text-xs font-medium rounded-full mt-1 ${
                             employee.status === "FULL_TIME"
-                              ? "fullTime"
-                              : "partTime"
-                          }`
-                        )}
-                      </span>
-                    </td>
-                    <td className="px-6 py-5 text-base text-sunset">
-                      {new Date(employee.hire_date).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-5">
-                      <span
-                        className={`inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full ${
-                          employee.current_attendance
-                            ? "bg-success/10 text-success"
-                            : "bg-card text-sunset"
-                        }`}
-                      >
-                        <Clock className="w-4 h-4" />
-                        {employee.current_attendance
-                          ? t("status.working")
-                          : t("status.notWorking")}
-                      </span>
-                    </td>
-                    <td className="px-6 py-5">
-                      <EmployeeActions
-                        employee={employee}
-                        onEdit={handleEditEmployee}
-                        onGenerateDocument={(employee: Employee) => {
-                          setSelectedEmployee(employee);
-                          setSelectedDocument(null);
-                          setIsGenerateDocumentModalOpen(true);
-                        }}
-                        onGenerateAccess={generatePortalAccess}
-                        hasTimeOffPolicies={policies.length > 0}
-                      />
-                    </td>
-                    <td className="px-6 py-5">
-                      {accessTokens[employee.id] ? (
-                        <div>
-                          <div className="text-sm text-sunset mb-1">
-                            {t("actions.accessToken")}
-                          </div>
-                          <code className="text-base font-mono text-platinum">
+                              ? "bg-success/10 text-success"
+                              : employee.status === "PART_TIME"
+                              ? "bg-warning/10 text-warning"
+                              : "bg-card text-sunset"
+                          }`}
+                        >
+                          {t(
+                            `status.${
+                              employee.status === "FULL_TIME" ? "fullTime" : "partTime"
+                            }`
+                          )}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Footer with date and actions */}
+                    <div className="flex items-center justify-between pt-3 border-t border-card-border">
+                      <div className="text-xs text-sunset">
+                        <span className="block">{t("table.hireDate")}</span>
+                        <span className="font-medium">{new Date(employee.hire_date).toLocaleDateString()}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <EmployeeActions
+                          employee={employee}
+                          onEdit={handleEditEmployee}
+                          onGenerateDocument={(employee: Employee) => {
+                            setSelectedEmployee(employee);
+                            setSelectedDocument(null);
+                            setIsGenerateDocumentModalOpen(true);
+                          }}
+                          onGenerateAccess={generatePortalAccess}
+                          hasTimeOffPolicies={policies.length > 0}
+                        />
+                      </div>
+                    </div>
+                    
+                    {/* Access token section */}
+                    {accessTokens[employee.id] && (
+                      <div className="mt-3 p-3 bg-background/50 rounded-lg border border-card-border">
+                        <div className="text-xs text-sunset mb-2">{t("actions.accessToken")}:</div>
+                        <div className="bg-background rounded px-2 py-1 border">
+                          <code className="text-xs font-mono text-platinum break-all">
                             {accessTokens[employee.id]}
                           </code>
                         </div>
-                      ) : (
-                        <div className="relative group">
-                          <button
-                            onClick={() => generatePortalAccess(employee)}
-                            className={`text-xs ${
-                              policies.length === 0
-                                ? "text-sunset/50 cursor-not-allowed"
-                                : "text-primary hover:text-vanilla"
-                            }`}
-                            disabled={policies.length === 0}
-                          >
-                            {t("actions.generateAccess")}
-                          </button>
-                          {policies.length === 0 && (
-                            <div className="absolute left-0 bottom-full mb-2 w-48 p-3 bg-card text-platinum text-xs rounded-lg shadow-lg border border-card-border opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                              {t("alerts.policyRequired.message")}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
+
+        {/* Modals */}
+        <EmployeeFormModal
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+          employee={selectedEmployee}
+          departments={departments}
+          onSuccess={fetchEmployees}
+        />
+
+        <DepartmentFormModal
+          isOpen={isDepartmentModalOpen}
+          onClose={() => setIsDepartmentModalOpen(false)}
+          onSuccess={() => {
+            fetchDepartments();
+            setIsDepartmentModalOpen(false);
+          }}
+        />
+
+        <GenerateDocumentModal
+          isOpen={isGenerateDocumentModalOpen}
+          onClose={() => {
+            setIsGenerateDocumentModalOpen(false);
+            setSelectedEmployee(undefined);
+            setSelectedDocument(null);
+          }}
+          employee={selectedEmployee as Employee}
+          onSuccess={() => {
+            fetchDocuments();
+            setIsGenerateDocumentModalOpen(false);
+            setSuccessMessage(
+              t("alerts.documentSuccess.message")
+            );
+            setTimeout(() => {
+              setSuccessMessage(null);
+            }, 10000);
+          }}
+        />
+
+        <SignaturePad
+          isOpen={isSignatureModalOpen}
+          onClose={() => {
+            setIsSignatureModalOpen(false);
+            setSelectedDocument(null);
+          }}
+          document={selectedDocument as Document}
+          onSuccess={() => {
+            fetchDocuments();
+            setIsSignatureModalOpen(false);
+          }}
+        />
       </div>
-      {/* Modals */}
-      <EmployeeFormModal
-        isOpen={isModalOpen}
-        onClose={handleModalClose}
-        employee={selectedEmployee}
-        departments={departments}
-        onSuccess={fetchEmployees}
-      />
-
-      <DepartmentFormModal
-        isOpen={isDepartmentModalOpen}
-        onClose={() => setIsDepartmentModalOpen(false)}
-        onSuccess={() => {
-          fetchDepartments();
-          setIsDepartmentModalOpen(false);
-        }}
-      />
-
-      <GenerateDocumentModal
-        isOpen={isGenerateDocumentModalOpen}
-        onClose={() => {
-          setIsGenerateDocumentModalOpen(false);
-          setSelectedEmployee(undefined);
-          setSelectedDocument(null);
-        }}
-        employee={selectedEmployee as Employee}
-        onSuccess={() => {
-          fetchDocuments();
-          setIsGenerateDocumentModalOpen(false);
-          setSuccessMessage(
-            t("alerts.documentSuccess.message")
-          );
-          setTimeout(() => {
-            setSuccessMessage(null);
-          }, 10000);
-        }}
-      />
-
-      <SignaturePad
-        isOpen={isSignatureModalOpen}
-        onClose={() => {
-          setIsSignatureModalOpen(false);
-          setSelectedDocument(null);
-        }}
-        document={selectedDocument as Document}
-        onSuccess={() => {
-          fetchDocuments();
-          setIsSignatureModalOpen(false);
-        }}
-      />
-    </div>
   );
 }

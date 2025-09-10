@@ -307,6 +307,7 @@
     "errorFetchingDepartments": "Failed to fetch departments",
     "deleteDepartmentError": "Failed to delete department",
     "noDescription": "No description provided",
+    "departmentDistribution": "Department Distribution",
     "actions": {
       "editDepartment": "Edit Department",
       "deleteDepartment": "Delete Department"

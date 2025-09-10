@@ -94,12 +94,12 @@ export default function DocumentVersionModal({ isOpen, onClose, document, onSucc
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-50">
-      <div className="bg-card rounded-lg p-6 w-full max-w-md border border-card-border shadow-lg">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold text-platinum">{t('title')}</h2>
+    <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-50 p-4">
+      <div className="bg-card rounded-lg p-4 sm:p-6 w-full max-w-md border border-card-border shadow-lg max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center mb-4 sm:mb-6">
+          <h2 className="text-xl sm:text-2xl font-semibold text-platinum">{t('title')}</h2>
           <button onClick={onClose} className="text-sunset hover:text-primary">
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
 
@@ -115,9 +115,9 @@ export default function DocumentVersionModal({ isOpen, onClose, document, onSucc
             <label className="block text-sm font-medium text-sunset">
               {t('file')}
             </label>
-            <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md border-card-border hover:border-primary">
+            <div className="mt-1 flex justify-center px-4 sm:px-6 pt-4 sm:pt-5 pb-4 sm:pb-6 border-2 border-dashed rounded-md border-card-border hover:border-primary">
               <div className="space-y-1 text-center">
-                <Upload className="mx-auto h-12 w-12 text-sunset" />
+                <Upload className="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-sunset" />
                 <div className="flex text-sm text-sunset">
                   <label htmlFor="version-upload" className="relative cursor-pointer rounded-md font-medium text-primary hover:text-vanilla">
                     <span>{t('uploadAFile')}</span>
@@ -130,13 +130,13 @@ export default function DocumentVersionModal({ isOpen, onClose, document, onSucc
                       accept=".pdf,.doc,.docx,.xls,.xlsx"
                     />
                   </label>
-                  <p className="pl-1">{t('orDragAndDrop')}</p>
+                  <p className="pl-1 hidden sm:inline">{t('orDragAndDrop')}</p>
                 </div>
                 <p className="text-xs text-sunset/70">
                   {t('fileTypes')}
                 </p>
                 {file && (
-                  <p className="text-sm text-sunset">
+                  <p className="text-sm text-sunset truncate">
                     {t('selected', { fileName: file.name })}
                   </p>
                 )}
@@ -159,18 +159,18 @@ export default function DocumentVersionModal({ isOpen, onClose, document, onSucc
           </div>
 
           {/* Action Buttons */}
-          <div className="flex justify-end space-x-3">
+          <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3">
             <button
               type="button"
               onClick={onClose}
-              className="btn-secondary px-4 py-2 rounded-md"
+              className="btn-secondary px-4 py-2 rounded-md w-full sm:w-auto"
             >
               {tButtons('cancel')}
             </button>
             <button
               onClick={handleUpload}
               disabled={!file || uploading}
-              className="btn-primary px-4 py-2 rounded-md disabled:opacity-50"
+              className="btn-primary px-4 py-2 rounded-md disabled:opacity-50 w-full sm:w-auto"
             >
               {uploading ? tButtons('uploading') : tButtons('uploadVersion')}
             </button>

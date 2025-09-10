@@ -6,8 +6,13 @@ import { useAuthStore } from '@/store/auth';
 import { Dropdown } from './Dropdown';
 import { useTranslations } from 'next-intl';
 import LanguageSwitcher from './LanguageSwitcher';
+import { Menu } from 'lucide-react';
 
-export default function Navbar() {
+interface NavbarProps {
+  onMenuClick?: () => void;
+}
+
+export default function Navbar({ onMenuClick }: NavbarProps) {
   const router = useRouter();
   const params = useParams() as { locale: string };
   const { locale } = params;
@@ -46,12 +51,25 @@ export default function Navbar() {
   return (
     <nav className="bg-card border-b border-navbar-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16 sm:h-20">
           <div className="flex items-center space-x-4">
-            {/* Logo or brand space - you can add your logo here */}
+            {/* Mobile menu button */}
+            {onMenuClick && (
+              <button
+                onClick={onMenuClick}
+                className="lg:hidden p-2 rounded-md text-sunset hover:text-platinum hover:bg-background transition-colors"
+                aria-label="Open sidebar"
+              >
+                <Menu className="h-5 w-5" />
+              </button>
+            )}
+            {/* Mobile logo - only show on mobile when sidebar is closed */}
+            <div className="lg:hidden">
+              <h1 className="text-lg font-bold text-primary">NodoHR</h1>
+            </div>
           </div>
           
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3 sm:space-x-4">
             <LanguageSwitcher
               locale={locale}
               onSwitchToEnglish={switchToEnglish}
@@ -59,20 +77,20 @@ export default function Navbar() {
             />
             <Dropdown
               trigger={
-                <button className="flex items-center space-x-3 text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-primary/20">
+                <button className="flex items-center space-x-2 sm:space-x-3 text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-primary/20">
                   <div className="relative">
                     <img 
-                      className="h-11 w-11 rounded-full object-cover border-2 border-card-border"
+                      className="h-8 w-8 sm:h-11 sm:w-11 rounded-full object-cover border-2 border-card-border"
                       src={profile?.profile_picture || '/avatar.jpg'}
                       alt="" 
                     />
-                    <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-success ring-2 ring-card" />
+                    <span className="absolute bottom-0 right-0 block h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-success ring-1 sm:ring-2 ring-card" />
                   </div>
                   <div className="hidden md:block text-left">
-                    <p className="text-md font-medium text-foreground">{profile?.full_name || tCommon('loading')}</p>
-                    <p className="text-sm text-text-secondary">{profile?.company || tCommon('company')}</p>
+                    <p className="text-sm sm:text-md font-medium text-foreground">{profile?.full_name || tCommon('loading')}</p>
+                    <p className="text-xs sm:text-sm text-text-secondary">{profile?.company || tCommon('company')}</p>
                   </div>
-                  <svg className="h-5 w-5 text-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="h-4 w-4 sm:h-5 sm:w-5 text-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>

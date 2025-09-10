@@ -65,13 +65,13 @@ export default function ReviewDetailModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <div className="flex justify-between items-center">
-            <DialogTitle className="text-xl">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <DialogTitle className="text-lg sm:text-xl">
               {t('reviewDetails')} - {review.employee?.first_name} {review.employee?.last_name}
             </DialogTitle>
             <div className="flex gap-2">
-              <Button variant="ghost" size="sm" onClick={exportToPDF}>
-                <Download className="w-4 h-4 mr-2" />
+              <Button variant="ghost" size="sm" onClick={exportToPDF} className="text-xs sm:text-sm">
+                <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                 {t('exportPDF')}
               </Button>
               <Button variant="ghost" size="sm" onClick={onClose}>
@@ -84,8 +84,8 @@ export default function ReviewDetailModal({
         <div className="space-y-6">
           {/* Header Information */}
           <Card>
-            <CardContent className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <CardContent className="p-4 sm:p-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <h3 className="font-semibold text-platinum mb-3">{t('reviewInformation')}</h3>
                   <div className="space-y-2">

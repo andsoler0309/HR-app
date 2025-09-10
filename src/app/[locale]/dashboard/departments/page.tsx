@@ -65,14 +65,10 @@ export default function DepartmentsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background p-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-center min-h-[400px]">
-            <div className="flex flex-col items-center gap-4 text-sunset">
-              <div className="w-8 h-8 border-2 border-primary/20 border-t-flame rounded-full animate-spin" />
-              <span>{t('loadingDepartments')}</span>
-            </div>
-          </div>
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="flex flex-col items-center gap-4 text-sunset">
+          <div className="w-8 h-8 border-2 border-primary/20 border-t-flame rounded-full animate-spin" />
+          <span className="text-sm">{t('loadingDepartments')}</span>
         </div>
       </div>
     );
@@ -80,80 +76,86 @@ export default function DepartmentsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-background p-8">
-        <div className="max-w-7xl mx-auto">
-          <ErrorMessage message={error} className="mt-4" />
-        </div>
+      <div className="space-y-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-platinum">{t('title')}</h1>
+        <ErrorMessage message={error} />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto p-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold text-platinum">{t('title')}</h1>
-          <button
-            onClick={() => {
-              setSelectedDepartment(undefined);
-              setIsModalOpen(true);
-            }}
-            className="btn-primary flex items-center gap-2 px-4 py-2 rounded-lg"
-          >
-            <Plus className="w-4 h-4" />
-            {t('addDepartment')}
-          </button>
+    <div className="space-y-6">
+      {/* Header Section */}
+      <div className="flex flex-col space-y-4 sm:flex-row sm:justify-between sm:items-start sm:space-y-0">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-platinum">{t('title')}</h1>
+          <p className="text-sm text-sunset mt-1 sm:hidden">Organiza tu estructura empresarial</p>
         </div>
+        <button
+          onClick={() => {
+            setSelectedDepartment(undefined);
+            setIsModalOpen(true);
+          }}
+          className="btn-primary flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium w-full sm:w-auto"
+        >
+          <Plus className="w-4 h-4" />
+          {t('addDepartment')}
+        </button>
+      </div>
 
-        {departments.length === 0 ? (
-          <div className="bg-card rounded-xl shadow-md border border-card-border p-12">
-            <div className="flex flex-col items-center justify-center text-center">
-              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                <Users className="w-6 h-6 text-primary" />
-              </div>
-              <h3 className="text-lg font-medium text-platinum mb-2">{t('noDepartments')}</h3>
-              <p className="text-sunset mb-6">{t('getStarted')}</p>
-              <button
-                onClick={() => {
-                  setSelectedDepartment(undefined);
-                  setIsModalOpen(true);
-                }}
-                className="btn-primary flex items-center gap-2 px-4 py-2 rounded-lg"
-              >
-                <Plus className="w-4 h-4" />
-                {t('addDepartment')}
-              </button>
+      {departments.length === 0 ? (
+        <div className="bg-card rounded-xl shadow-sm border border-card-border p-8 sm:p-12">
+          <div className="flex flex-col items-center justify-center text-center">
+            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+              <Users className="w-6 h-6 text-primary" />
             </div>
+            <h3 className="text-lg font-medium text-platinum mb-2">{t('noDepartments')}</h3>
+            <p className="text-sunset mb-6 text-sm sm:text-base">{t('getStarted')}</p>
+            <button
+              onClick={() => {
+                setSelectedDepartment(undefined);
+                setIsModalOpen(true);
+              }}
+              className="btn-primary flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium"
+            >
+              <Plus className="w-4 h-4" />
+              {t('addDepartment')}
+            </button>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        </div>
+      ) : (
+        <>
+          {/* Departments Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
             {departments.map((department) => (
               <div
                 key={department.id}
-                className="bg-card rounded-xl shadow-md border border-card-border p-6 hover:shadow-lg transition-shadow"
+                className="bg-card rounded-xl shadow-sm border border-card-border p-4 sm:p-6 hover:shadow-md transition-all duration-200"
               >
                 <div className="flex justify-between items-start">
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-lg font-semibold text-platinum mb-2 truncate">
+                    <h3 className="text-base sm:text-lg font-semibold text-platinum mb-2 truncate">
                       {department.name}
                     </h3>
                     <p className="text-sm text-sunset line-clamp-2">
                       {department.description || t('noDescription')}
                     </p>
                   </div>
-                  <div className="flex gap-1 ml-4">
+                  <div className="flex gap-1 ml-3 flex-shrink-0">
                     <button
                       onClick={() => {
                         setSelectedDepartment(department);
                         setIsModalOpen(true);
                       }}
                       className="p-2 text-sunset hover:text-primary rounded-lg hover:bg-background transition-colors"
+                      aria-label="Editar departamento"
                     >
                       <Edit2 className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => handleDelete(department.id)}
                       className="p-2 text-sunset hover:text-error rounded-lg hover:bg-background transition-colors"
+                      aria-label="Eliminar departamento"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -162,12 +164,10 @@ export default function DepartmentsPage() {
               </div>
             ))}
           </div>
-        )}
-        {/* Add the DepartmentDistribution component here */}
-        <div className="mt-8">
-          <DepartmentDistribution />
-        </div>
-      </div>
+          {/* Department Distribution Chart */}
+            <DepartmentDistribution />
+        </>
+      )}
 
       <DepartmentFormModal
         isOpen={isModalOpen}

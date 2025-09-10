@@ -79,16 +79,16 @@ export default function DocumentShareModal({ isOpen, onClose, document, onSucces
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-50">
-      <div className="bg-card rounded-lg p-6 w-full max-w-md border border-card-border shadow-lg">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold text-platinum">Share Document</h2>
+    <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-50 p-4">
+      <div className="bg-card rounded-lg p-4 sm:p-6 w-full max-w-md border border-card-border shadow-lg max-h-[90vh] overflow-hidden flex flex-col">
+        <div className="flex justify-between items-center mb-4 sm:mb-6 shrink-0">
+          <h2 className="text-xl sm:text-2xl font-semibold text-platinum">Share Document</h2>
           <button onClick={onClose} className="text-sunset hover:text-primary">
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
    
-        <div className="space-y-4">
+        <div className="space-y-4 flex-1 overflow-hidden">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-sunset w-4 h-4" />
             <input
@@ -103,7 +103,7 @@ export default function DocumentShareModal({ isOpen, onClose, document, onSucces
             />
           </div>
    
-          <div className="border border-card-border rounded-md divide-y divide-card-border max-h-60 overflow-y-auto">
+          <div className="border border-card-border rounded-md divide-y divide-card-border max-h-48 sm:max-h-60 overflow-y-auto">
             {loading ? (
               <div className="p-4 text-center text-sunset">Loading...</div>
             ) : employees.length === 0 ? (
@@ -121,34 +121,34 @@ export default function DocumentShareModal({ isOpen, onClose, document, onSucces
                     )
                   }}
                 >
-                  <div>
-                    <p className="font-medium text-platinum">
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium text-platinum truncate">
                       {employee.first_name} {employee.last_name}
                     </p>
-                    <p className="text-sm text-sunset">
+                    <p className="text-sm text-sunset truncate">
                       {employee.department.name} • {employee.email}
                     </p>
                   </div>
                   {selectedEmployees.includes(employee.id) && (
-                    <Check className="w-5 h-5 text-success" />
+                    <Check className="w-5 h-5 text-success ml-2 shrink-0" />
                   )}
                 </div>
               ))
             )}
           </div>
    
-          <div className="flex justify-end space-x-3 mt-6">
+          <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 mt-6 shrink-0">
             <button
               type="button"
               onClick={onClose}
-              className="btn-secondary px-4 py-2 rounded-md"
+              className="btn-secondary px-4 py-2 rounded-md w-full sm:w-auto"
             >
               Cancel
             </button>
             <button
               onClick={handleShare}
               disabled={selectedEmployees.length === 0 || loading}
-              className="btn-primary px-4 py-2 rounded-md disabled:opacity-50"
+              className="btn-primary px-4 py-2 rounded-md disabled:opacity-50 w-full sm:w-auto"
             >
               Share
             </button>

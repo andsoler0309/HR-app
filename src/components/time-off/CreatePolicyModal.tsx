@@ -253,11 +253,11 @@ export default function CreatePolicyModal({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-50">
-      <div className="bg-card rounded-lg p-6 w-full max-w-lg overflow-y-auto max-h-full border border-card-border shadow-lg">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold text-platinum">{t('createPolicyModal.title')}</h2>
-          <button onClick={onClose} className="text-sunset hover:text-primary text-2xl leading-none" aria-label={t('createPolicyModal.close')}>
+    <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-50 p-4">
+      <div className="bg-card rounded-lg p-4 sm:p-6 w-full max-w-lg overflow-y-auto max-h-[90vh] border border-card-border shadow-lg">
+        <div className="flex justify-between items-center mb-4 sm:mb-6">
+          <h2 className="text-xl sm:text-2xl font-semibold text-platinum">{t('createPolicyModal.title')}</h2>
+          <button onClick={onClose} className="text-sunset hover:text-primary text-xl sm:text-2xl leading-none" aria-label={t('createPolicyModal.close')}>
             &times;
           </button>
         </div>
@@ -359,11 +359,11 @@ export default function CreatePolicyModal({
           </div>
    
           {/* Form Actions */}
-          <div className="flex justify-end space-x-3">
+          <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3">
             <button
               type="button"
               onClick={onClose}
-              className="btn-secondary px-4 py-2 rounded-md disabled:opacity-50"
+              className="btn-secondary px-4 py-2 rounded-md disabled:opacity-50 w-full sm:w-auto"
               disabled={isLoading}
             >
               {t('createPolicyModal.buttons.cancel')} {/* Translated "Cancel" */}
@@ -371,7 +371,7 @@ export default function CreatePolicyModal({
             <button
               type="submit"
               disabled={isLoading}
-              className="btn-primary px-4 py-2 rounded-md disabled:opacity-50"
+              className="btn-primary px-4 py-2 rounded-md disabled:opacity-50 w-full sm:w-auto"
             >
               {isLoading ? t('createPolicyModal.buttons.creating') : t('createPolicyModal.buttons.createPolicy')}
             </button>

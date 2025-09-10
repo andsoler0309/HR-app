@@ -69,12 +69,12 @@ export default function DocumentCategoryModal({ isOpen, onClose, onSuccess }: Pr
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-50">
-      <div className="bg-card rounded-lg p-6 w-full max-w-md border border-card-border shadow-lg">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold text-platinum">{t('createTitle')}</h2>
+    <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-50 p-4">
+      <div className="bg-card rounded-lg p-4 sm:p-6 w-full max-w-md border border-card-border shadow-lg max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center mb-4 sm:mb-6">
+          <h2 className="text-xl sm:text-2xl font-semibold text-platinum">{t('createTitle')}</h2>
           <button onClick={onClose} className="text-sunset hover:text-primary">
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
 
@@ -112,18 +112,18 @@ export default function DocumentCategoryModal({ isOpen, onClose, onSuccess }: Pr
             />
           </div>
 
-          <div className="flex justify-end space-x-3">
+          <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3">
             <button
               type="button"
               onClick={onClose}
-              className="btn-secondary px-4 py-2 rounded-md"
+              className="btn-secondary px-4 py-2 rounded-md w-full sm:w-auto"
             >
               {tButtons('cancel')}
             </button>
             <button
               type="submit"
               disabled={loading || !name.trim()}
-              className="btn-primary px-4 py-2 rounded-md disabled:opacity-50"
+              className="btn-primary px-4 py-2 rounded-md disabled:opacity-50 w-full sm:w-auto"
             >
               {loading ? tButtons('creating') : tButtons('createCategory')}
             </button>

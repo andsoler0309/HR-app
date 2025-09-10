@@ -188,12 +188,12 @@ export default function DocumentUploadModal({ isOpen, onClose, categories, emplo
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-50">
-      <div className="bg-card rounded-lg p-6 w-full max-w-md border border-card-border shadow-lg">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold text-platinum">{t('title')}</h2>
+    <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-50 p-4">
+      <div className="bg-card rounded-lg p-4 sm:p-6 w-full max-w-lg border border-card-border shadow-lg max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center mb-4 sm:mb-6">
+          <h2 className="text-xl sm:text-2xl font-semibold text-platinum">{t('title')}</h2>
           <button onClick={handleClose} className="text-sunset hover:text-primary">
-            <X className="w-6 h-6" />
+            <X className="w-5 sm:w-6 h-5 sm:h-6" />
           </button>
         </div>
 
@@ -212,7 +212,7 @@ export default function DocumentUploadModal({ isOpen, onClose, categories, emplo
           )}
 
           <div
-            className={`mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md ${
+            className={`mt-1 flex justify-center px-4 sm:px-6 pt-4 sm:pt-5 pb-4 sm:pb-6 border-2 border-dashed rounded-md ${
               dragActive ? 'border-primary bg-primary/10' : 'border-card-border'
             }`}
             onDragEnter={handleDrag}
@@ -221,8 +221,8 @@ export default function DocumentUploadModal({ isOpen, onClose, categories, emplo
             onDrop={handleDrop}
           >
             <div className="space-y-1 text-center">
-              <Upload className="mx-auto h-12 w-12 text-sunset" />
-              <div className="flex text-sm text-sunset">
+              <Upload className="mx-auto h-10 sm:h-12 w-10 sm:w-12 text-sunset" />
+              <div className="flex flex-col sm:flex-row text-sm text-sunset">
                 <label htmlFor="file-upload" className="relative cursor-pointer rounded-md font-medium text-primary hover:text-vanilla">
                   <span>{t('uploadAFile')}</span>
                   <input
@@ -233,13 +233,13 @@ export default function DocumentUploadModal({ isOpen, onClose, categories, emplo
                     onChange={handleFileChange}
                   />
                 </label>
-                <p className="pl-1">{t('orDragAndDrop')}</p>
+                <p className="pl-0 sm:pl-1">{t('orDragAndDrop')}</p>
               </div>
               <p className="text-xs text-sunset/70">
                 {t('fileTypes')}
               </p>
               {file && (
-                <p className="text-sm text-sunset">
+                <p className="text-sm text-sunset break-all">
                   {t('selected', { fileName: file.name })}
                 </p>
               )}
@@ -315,18 +315,18 @@ export default function DocumentUploadModal({ isOpen, onClose, categories, emplo
             />
           </div>
 
-          <div className="flex justify-end space-x-3">
+          <div className="flex flex-col sm:flex-row justify-end gap-3">
             <button
               type="button"
               onClick={handleClose}
-              className="btn-secondary px-4 py-2 rounded-md"
+              className="btn-secondary px-4 py-2 rounded-md w-full sm:w-auto"
             >
               {tButtons('cancel')}
             </button>
             <button
               type="submit"
               disabled={uploading || !file || !formData.name || !formData.category_id}
-              className="btn-primary px-4 py-2 rounded-md disabled:opacity-50"
+              className="btn-primary px-4 py-2 rounded-md disabled:opacity-50 w-full sm:w-auto"
             >
               {uploading ? tButtons('uploading') : tButtons('upload')}
             </button>
