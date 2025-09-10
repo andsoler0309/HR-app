@@ -66,7 +66,7 @@ export async function checkResourceLimits(
     employees: {
       tableName: 'employees',
       freeLimit: 3,
-      paidLimit: 100,
+      paidLimit: 50,
       errorMessage: (limit: number) => 
         `You've reached your limit of ${limit} employee${limit === 1 ? '' : 's'} on the free plan.`,
       companyIdField: 'company_id'
