@@ -7,7 +7,7 @@ import createMiddleware from 'next-intl/middleware';
 
 const routing = defineRouting({
   locales: ['en', 'es'],
-  defaultLocale: 'en'
+  defaultLocale: 'es'
 });
 
 // Create the next-intl middleware
@@ -98,6 +98,6 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|api|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|api|sitemap\\.xml|robots\\.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 };

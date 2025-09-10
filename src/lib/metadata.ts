@@ -2,19 +2,23 @@
 import { Metadata } from 'next'
 
 const defaultMetadata = {
-  title: 'NodoHR - Human Resources Management System',
-  description: 'Complete HR management solution for modern businesses. Manage employees, time off, documents, and more.',
+  title: 'NodoHR - Sistema de Gestión de Recursos Humanos',
+  description: 'Solución completa de gestión de RRHH para empresas modernas. Gestiona empleados, vacaciones, documentos y más.',
   applicationName: 'NodoHR',
   authors: [{ name: 'NodoHR' }],
   keywords: [
+    'software RRHH',
+    'gestión recursos humanos',
+    'gestión empleados',
+    'seguimiento vacaciones',
+    'recursos humanos',
+    'gestión personal',
+    'analíticas RRHH',
+    'gestión fuerza laboral',
     'HR software',
     'HR management',
     'employee management',
-    'time off tracking',
-    'human resources',
-    'personnel management',
-    'HR analytics',
-    'workforce management'
+    'time off tracking'
   ],
   creator: 'NodoHR',
   publisher: 'NodoHR',
@@ -44,7 +48,7 @@ export function constructMetadata({
   image = siteConfig.ogImage,
   icons = '/logo.svg',
   noIndex = false,
-  locale = 'en',
+  locale = 'es',
   alternateLanguages = true,
 }: {
   title?: string
@@ -56,15 +60,15 @@ export function constructMetadata({
   alternateLanguages?: boolean
 } = {}): Metadata {
   
-  const canonical = locale === 'en' 
+  const canonical = locale === 'es' 
     ? siteConfig.url 
     : `${siteConfig.url}/${locale}`;
 
   const alternates = alternateLanguages ? {
     canonical,
     languages: {
-      'en': siteConfig.url,
-      'es': `${siteConfig.url}/es`,
+      'es': siteConfig.url,
+      'en': `${siteConfig.url}/en`,
       'x-default': siteConfig.url,
     }
   } : undefined;

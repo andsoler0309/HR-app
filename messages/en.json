@@ -282,7 +282,8 @@
     "faq4Question": "What happens when my business grows beyond 50 employees?",
     "faq4Answer": "We offer enterprise plans for larger organizations. Contact our team and we'll create a custom solution that fits your expanded needs.",
     "faq5Question": "Do you provide customer support in Spanish?",
-    "faq5Answer": "Yes! Our entire platform and customer support is available in Spanish. We understand the local market and are here to help you succeed."
+    "faq5Answer": "Yes! Our entire platform and customer support is available in Spanish. We understand the local market and are here to help you succeed.",
+    "login": "Log In"
   },
   "navbar": {
     "signOut": "Sign out"

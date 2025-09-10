@@ -1,7 +1,5 @@
-"use client";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
 import {
   ArrowRight,
   Users,
@@ -12,27 +10,15 @@ import {
   Briefcase,
   ClipboardList,
 } from "lucide-react";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 
-export default function LandingPage() {
+interface LandingPageProps {
+  params: {
+    locale: string;
+  };
+}
+
+export default function LandingPage({ params: { locale } }: LandingPageProps) {
   const t = useTranslations("landing");
-  const params = useParams() as { locale: string };
-  const router = useRouter();
-  const locale = params.locale;
-
-  const switchToEnglish = () => {
-    const currentPath = window.location.pathname;
-    const segments = currentPath.split("/").filter(Boolean);
-    segments[0] = "en";
-    router.push("/" + segments.join("/"));
-  };
-
-  const switchToSpanish = () => {
-    const currentPath = window.location.pathname;
-    const segments = currentPath.split("/").filter(Boolean);
-    segments[0] = "es";
-    router.push("/" + segments.join("/"));
-  };
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
@@ -44,11 +30,54 @@ export default function LandingPage() {
           </Link>
 
           <div className="flex items-center space-x-2 sm:space-x-4">
-            <LanguageSwitcher
-              locale={locale}
-              onSwitchToEnglish={switchToEnglish}
-              onSwitchToSpanish={switchToSpanish}
-            />
+            {/* SEO-friendly language selector */}
+            <div className="relative group">
+              <div className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/50 rounded-md transition-colors border border-card-border cursor-pointer">
+                <span className="text-lg">
+                  {locale === 'es' ? '🇪🇸' : '🇺🇸'}
+                </span>
+                <span className="hidden sm:block">
+                  {locale === 'es' ? 'Español' : 'English'}
+                </span>
+                <svg className="h-4 w-4 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+              
+              {/* Dropdown menu */}
+              <div className="absolute right-0 mt-1 w-48 bg-card rounded-md shadow-lg ring-1 ring-card-border border border-card-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div className="py-1">
+                  <Link
+                    href="/es"
+                    className={`flex items-center space-x-3 px-4 py-2 text-sm hover:bg-muted/50 transition-colors ${
+                      locale === 'es' ? 'bg-primary/10 text-primary' : 'text-foreground'
+                    }`}
+                  >
+                    <span className="text-lg">🇪🇸</span>
+                    <span>Español</span>
+                    {locale === 'es' && (
+                      <svg className="h-4 w-4 ml-auto text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    )}
+                  </Link>
+                  <Link
+                    href="/en"
+                    className={`flex items-center space-x-3 px-4 py-2 text-sm hover:bg-muted/50 transition-colors ${
+                      locale === 'en' ? 'bg-primary/10 text-primary' : 'text-foreground'
+                    }`}
+                  >
+                    <span className="text-lg">🇺🇸</span>
+                    <span>English</span>
+                    {locale === 'en' && (
+                      <svg className="h-4 w-4 ml-auto text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    )}
+                  </Link>
+                </div>
+              </div>
+            </div>
 
             <div className="flex items-center space-x-2 sm:space-x-4">
               <Link
