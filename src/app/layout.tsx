@@ -2,6 +2,9 @@ import '@/app/globals.css'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { Analytics } from "@vercel/analytics/next"
+import { constructMetadata } from '@/lib/metadata'
+
+export const metadata = constructMetadata()
 
 export default async function Layout({
   children,

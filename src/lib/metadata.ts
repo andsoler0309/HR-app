@@ -32,7 +32,7 @@ const defaultMetadata = {
 export const siteConfig = {
   name: 'NodoHR',
   url: 'https://nodohr.com',
-  ogImage: 'https://nodohr.com/logo.svg',
+  ogImage: 'https://nodohr.com/nodo-logo.png',
   description: defaultMetadata.description,
   links: {
     twitter: 'https://twitter.com/nodohr',
@@ -46,7 +46,15 @@ export function constructMetadata({
   title = defaultMetadata.title,
   description = defaultMetadata.description,
   image = siteConfig.ogImage,
-  icons = '/logo.svg',
+  icons = {
+    icon: [
+      { url: '/logo.svg', type: 'image/svg+xml' },
+      { url: '/nodo-logo.png', type: 'image/png', sizes: '32x32' },
+      { url: '/nodo-logo.png', type: 'image/png', sizes: '192x192' }
+    ],
+    apple: '/nodo-logo.png',
+    shortcut: '/nodo-logo.png'
+  },
   noIndex = false,
   locale = 'es',
   alternateLanguages = true,
@@ -54,7 +62,7 @@ export function constructMetadata({
   title?: string
   description?: string
   image?: string
-  icons?: string
+  icons?: any
   noIndex?: boolean
   locale?: string
   alternateLanguages?: boolean

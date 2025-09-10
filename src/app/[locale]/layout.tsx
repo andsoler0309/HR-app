@@ -51,6 +51,9 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <head>
+        <link rel="icon" href="/nodo-logo.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/nodo-logo.png" />
+        <link rel="shortcut icon" href="/nodo-logo.png" />
         <SchemaOrg />
       </head>
       <body className="bg-background">

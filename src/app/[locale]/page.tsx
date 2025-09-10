@@ -156,7 +156,6 @@ export default function LandingPage({ params: { locale } }: LandingPageProps) {
       {/*    </div>*/}
       {/*  </div>*/}
       {/*</section>*/}
-
       {/* PYME Value Proposition Section */}
       <section className="py-16 px-6 sm:px-8 bg-card/50">
         <div className="max-w-7xl mx-auto">

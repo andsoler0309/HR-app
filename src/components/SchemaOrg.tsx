@@ -5,7 +5,7 @@ export default function SchemaOrg() {
     "name": "NodoHR",
     "alternateName": "NodoHR System",
     "url": "https://nodohr.com",
-    "logo": "https://nodohr.com/logo.svg",
+    "logo": "https://nodohr.com/nodo-logo.png",
     "description": "Complete HR management solution for modern businesses. Manage employees, time off, documents, and more.",
     "foundingDate": "2024",
     "contactPoint": {
@@ -72,7 +72,7 @@ export default function SchemaOrg() {
       "HR Analytics",
       "Multi-language Support"
     ],
-    "screenshot": "https://nodohr.com/logo.svg",
+    "screenshot": "https://nodohr.com/nodo-logo.png",
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "4.8",

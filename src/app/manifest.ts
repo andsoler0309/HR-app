@@ -8,8 +8,23 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: '/',
     display: 'standalone',
     background_color: '#ffffff',
-    theme_color: '#000000',
+    theme_color: '#6366f1',
     icons: [
+      {
+        src: '/nodo-logo.png',
+        sizes: '192x192',
+        type: 'image/png',
+      },
+      {
+        src: '/nodo-logo.png',
+        sizes: '512x512',
+        type: 'image/png',
+      },
+      {
+        src: '/nodo-logo.png',
+        sizes: '180x180',
+        type: 'image/png',
+      },
       {
         src: '/logo.svg',
         sizes: 'any',
