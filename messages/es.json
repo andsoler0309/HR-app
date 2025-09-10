@@ -241,7 +241,7 @@
         "operationsManager": "Gerente de Operaciones",
         "hrDirector": "Director de RRHH",
         "free": "GRATIS",
-        "premiumPrice": "$40.000 COP",
+        "premiumPrice": "$80.000 COP",
         "perMonth": "/mes",
         "allRightsReserved": "Todos los derechos reservados.",
         "employeePortal": "Portal del Empleado",
@@ -810,7 +810,7 @@
         "subscriptionWillEnd": "Tu suscripción finalizará el {date}",
         "subscribeToPremium": "Suscribirme al Plan Premium",
         "processing": "Procesando...",
-        "monthlyPrice": "$40.000 COP/mes - Cancela cuando quieras",
+        "monthlyPrice": "$80.000 COP/mes - Cancela cuando quieras",
         "processingSubscription": "Procesando suscripción...",
         "subscriptionBeingProcessed": "Tu suscripción está siendo procesada. Te notificaremos cuando esté activa."
     },

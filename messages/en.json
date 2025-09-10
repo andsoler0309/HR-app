@@ -805,7 +805,7 @@
     "subscriptionWillEnd": "Your subscription will end on {date}",
     "subscribeToPremium": "Subscribe to Premium Plan",
     "processing": "Processing...",
-    "monthlyPrice": "$40.000 COP/month - Cancel anytime",
+    "monthlyPrice": "$80.000 COP/month - Cancel anytime",
     "processingSubscription": "Processing subscription...",
     "subscriptionBeingProcessed": "Your subscription is being processed. We'll notify you when it's active."
   },

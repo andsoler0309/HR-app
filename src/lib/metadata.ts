@@ -33,6 +33,8 @@ export const siteConfig = {
   links: {
     twitter: 'https://twitter.com/nodohr',
     github: 'https://github.com/nodohr',
+    instagram: 'https://www.instagram.com/nodohr',
+    facebook: 'https://www.facebook.com/profile.php?id=61580547090254'
   },
 }
 
