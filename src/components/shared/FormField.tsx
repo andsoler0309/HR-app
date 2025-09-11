@@ -22,12 +22,16 @@ export default function FormField({
 }: FormFieldProps) {
   return (
     <div className={`space-y-2 ${className}`}>
-      <div className="flex items-center gap-2">
-        <label className="block text-sm font-medium text-foreground">
+      <div className="flex items-start justify-between gap-2">
+        <label className="block text-sm font-medium text-foreground leading-5">
           {label}
           {required && <span className="text-red-500 ml-1">*</span>}
         </label>
-        {helpText && <HelpIcon content={helpText} />}
+        {helpText && (
+          <div className="flex-shrink-0 mt-0.5">
+            <HelpIcon content={helpText} />
+          </div>
+        )}
       </div>
       
       {children}
@@ -63,13 +67,19 @@ export function FormSection({
   return (
     <div className={`space-y-4 ${className}`}>
       <div className="border-b border-card-border pb-3">
-        <div className="flex items-center gap-2">
-          <h3 className="text-lg font-medium text-foreground">{title}</h3>
-          {helpText && <HelpIcon content={helpText} />}
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex-1">
+            <h3 className="text-lg font-medium text-foreground leading-6">{title}</h3>
+            {description && (
+              <p className="text-sm text-text-secondary mt-1">{description}</p>
+            )}
+          </div>
+          {helpText && (
+            <div className="flex-shrink-0 mt-1">
+              <HelpIcon content={helpText} />
+            </div>
+          )}
         </div>
-        {description && (
-          <p className="text-sm text-text-secondary mt-1">{description}</p>
-        )}
       </div>
       <div className="space-y-4">
         {children}

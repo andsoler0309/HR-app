@@ -41,11 +41,11 @@ export default function Tooltip({
   const getTypeStyles = () => {
     switch (type) {
       case 'help':
-        return 'bg-blue-500/10 border-blue-500/20 text-blue-600';
+        return 'bg-blue-50 border-blue-200 text-blue-800 dark:bg-blue-900/20 dark:border-blue-700 dark:text-blue-200';
       case 'warning':
-        return 'bg-amber-500/10 border-amber-500/20 text-amber-600';
+        return 'bg-amber-50 border-amber-200 text-amber-800 dark:bg-amber-900/20 dark:border-amber-700 dark:text-amber-200';
       default:
-        return 'bg-card border-card-border text-foreground';
+        return 'bg-white border-gray-200 text-gray-800 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200';
     }
   };
 
@@ -54,7 +54,7 @@ export default function Tooltip({
 
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const tooltipRect = tooltipRef.current.getBoundingClientRect();
-    const padding = 8;
+    const padding = 12;
 
     let top = 0;
     let left = 0;
@@ -79,14 +79,22 @@ export default function Tooltip({
     }
 
     // Ensure tooltip stays within viewport
-    const margin = 8;
+    const margin = 16;
     if (left < margin) left = margin;
     if (left + tooltipRect.width > window.innerWidth - margin) {
       left = window.innerWidth - tooltipRect.width - margin;
     }
-    if (top < margin) top = margin;
+    if (top < margin) {
+      // If tooltip would go above viewport, position it below instead
+      top = triggerRect.bottom + padding;
+    }
     if (top + tooltipRect.height > window.innerHeight - margin) {
-      top = window.innerHeight - tooltipRect.height - margin;
+      // If tooltip would go below viewport, position it above instead
+      top = triggerRect.top - tooltipRect.height - padding;
+      // If still not enough space, position it at top of viewport
+      if (top < margin) {
+        top = margin;
+      }
     }
 
     setTooltipPosition({ top, left });
@@ -116,27 +124,29 @@ export default function Tooltip({
     }
   };
 
-  const tooltip = isVisible && createPortal(
+  const tooltip = isVisible && typeof document !== 'undefined' && createPortal(
     <AnimatePresence>
-      <motion.div
-        ref={tooltipRef}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
-        transition={{ duration: 0.15 }}
-        className={`fixed z-50 px-3 py-2 text-sm rounded-lg shadow-lg border max-w-xs ${getTypeStyles()}`}
-        style={{
-          top: tooltipPosition.top,
-          left: tooltipPosition.left,
-        }}
-      >
-        <div className="flex items-start gap-2">
-          <div className="flex-shrink-0 mt-0.5">
-            {getIcon()}
+      {isVisible && (
+        <motion.div
+          ref={tooltipRef}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.15 }}
+          className={`fixed z-[60] px-4 py-3 text-sm rounded-lg shadow-xl border max-w-sm ${getTypeStyles()}`}
+          style={{
+            top: tooltipPosition.top,
+            left: tooltipPosition.left,
+          }}
+        >
+          <div className="flex items-start gap-2">
+            <div className="flex-shrink-0 mt-0.5">
+              {getIcon()}
+            </div>
+            <div>{content}</div>
           </div>
-          <div>{content}</div>
-        </div>
-      </motion.div>
+        </motion.div>
+      )}
     </AnimatePresence>,
     document.body
   );
@@ -159,11 +169,41 @@ export default function Tooltip({
 
 // Helper component for help icons
 export function HelpIcon({ content, className = '' }: { content: string; className?: string }) {
+  const [isVisible, setIsVisible] = useState(false);
+  
+  console.log('HelpIcon content:', content); // Debug log
+  
+  if (!content) {
+    console.log('No content provided to HelpIcon'); // Debug log
+    return null;
+  }
+  
   return (
-    <Tooltip content={content} type="help" trigger="hover" className={className}>
-      <button className="text-text-secondary hover:text-foreground transition-colors">
+    <div className={`relative inline-block ${className}`}>
+      <button 
+        type="button"
+        className="text-text-secondary hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded p-1"
+        onMouseEnter={() => {
+          console.log('Mouse enter, showing tooltip'); // Debug log
+          setIsVisible(true);
+        }}
+        onMouseLeave={() => {
+          console.log('Mouse leave, hiding tooltip'); // Debug log
+          setIsVisible(false);
+        }}
+        onClick={() => setIsVisible(!isVisible)}
+      >
         <HelpCircle className="h-4 w-4" />
       </button>
-    </Tooltip>
+      
+      {isVisible && (
+        <div className="absolute z-[9999] right-0 top-6 w-64 px-3 py-2 text-sm bg-white border border-gray-200 rounded-lg shadow-lg text-gray-800 pointer-events-none">
+          <div className="flex items-start gap-2">
+            <HelpCircle className="h-4 w-4 text-blue-500 flex-shrink-0 mt-0.5" />
+            <div>{content}</div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

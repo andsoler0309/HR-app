@@ -52,6 +52,12 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
     const [subscriptionLimitError, setSubscriptionLimitError] = useState<any>(null);
     const isEditing = !!employee;
 
+    // Debug: Log translation values
+    console.log('Translation test:', {
+        firstName: t('firstName'),
+        helpTextFirstName: t('helpText.firstName'),
+    });
+
     const {
         register,
         handleSubmit,
@@ -259,12 +265,12 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                     <FormSection 
                         title={t('personalInfo')}
                         description={t('personalInfoDesc')}
-                        helpText="Basic information about the employee. This information will be used throughout the system for identification and contact purposes."
+                        helpText={t('helpText.personalInfoSection')}
                     >
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                             <FormField
                                 label={t('firstName')}
-                                helpText="Enter the employee's legal first name as it appears on official documents."
+                                helpText={t('helpText.firstName') || 'Ingresa el nombre legal del empleado tal como aparece en documentos oficiales.'}
                                 required
                                 error={errors.first_name ? t(`validation.${errors.first_name.message}`) : undefined}
                             >
@@ -277,7 +283,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
 
                             <FormField
                                 label={t('lastName')}
-                                helpText="Enter the employee's legal last name as it appears on official documents."
+                                helpText={t('helpText.lastName')}
                                 required
                                 error={errors.last_name ? t(`validation.${errors.last_name.message}`) : undefined}
                             >
@@ -290,7 +296,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
 
                             <FormField
                                 label={t('email')}
-                                helpText="This email will be used for system notifications and portal access. Make sure it's a valid email address."
+                                helpText={t('helpText.email')}
                                 required
                                 error={errors.email ? t(`validation.${errors.email.message}`) : undefined}
                             >
@@ -304,7 +310,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
 
                             <FormField
                                 label={t('documentId')}
-                                helpText="Enter the employee's national ID, passport number, or other official identification document."
+                                helpText={t('helpText.documentId')}
                                 required
                                 error={errors.document_id ? t(`validation.${errors.document_id.message}`) : undefined}
                             >
@@ -317,7 +323,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
 
                             <FormField
                                 label={t('phone')}
-                                helpText="Contact phone number for emergency situations and general communication."
+                                helpText={t('helpText.phone')}
                                 error={errors.phone ? t(`validation.${errors.phone.message}`) : undefined}
                             >
                                 <input
@@ -329,7 +335,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
 
                             <FormField
                                 label={t('birthday')}
-                                helpText="Used for birthday notifications and age-related calculations."
+                                helpText={t('helpText.birthday')}
                                 required
                                 error={errors.birthday ? t(`validation.${errors.birthday.message}`) : undefined}
                             >
@@ -346,12 +352,12 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                     <FormSection 
                         title={t('jobInfo')}
                         description={t('jobInfoDesc')}
-                        helpText="Work-related information that defines the employee's role, department, and employment terms."
+                        helpText={t('helpText.jobInfoSection')}
                     >
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                             <FormField
                                 label={t('department')}
-                                helpText="Assign the employee to a department. This affects reporting, permissions, and organizational structure."
+                                helpText={t('helpText.department')}
                                 required
                                 error={errors.department_id ? t(`validation.${errors.department_id.message}`) : undefined}
                             >
@@ -370,7 +376,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
 
                             <FormField
                                 label={t('position')}
-                                helpText="The employee's job title or position within the company."
+                                helpText={t('helpText.position')}
                                 required
                                 error={errors.position ? t(`validation.${errors.position.message}`) : undefined}
                             >
@@ -383,7 +389,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
 
                             <FormField
                                 label={t('employeeType')}
-                                helpText="Employment type affects benefits, working hours, and legal compliance requirements."
+                                helpText={t('helpText.employeeType')}
                                 required
                                 error={errors.status ? t(`validation.${errors.status.message}`) : undefined}
                             >
@@ -394,14 +400,14 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                                     <option value="">{t('selectEmployeeType')}</option>
                                     <option value="FULL_TIME">{t('employeeTypeOptions.fullTime')}</option>
                                     <option value="PART_TIME">{t('employeeTypeOptions.partTime')}</option>
-                                    <option value="CONTRACT">{t('employeeTypeOptions.contract')}</option>
-                                    <option value="INTERN">{t('employeeTypeOptions.intern')}</option>
+                                    <option value="CONTRACTOR">{t('employeeTypeOptions.contract')}</option>
+                                    <option value="TEMPORARY">{t('employeeTypeOptions.intern')}</option>
                                 </select>
                             </FormField>
 
                             <FormField
                                 label={t('hireDate')}
-                                helpText="The official start date of employment. Used for calculating tenure and benefits."
+                                helpText={t('helpText.hireDate')}
                                 required
                                 error={errors.hire_date ? t(`validation.${errors.hire_date.message}`) : undefined}
                             >
@@ -415,7 +421,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
 
                             <FormField
                                 label={t('salary')}
-                                helpText="Employee's base salary for payroll calculations. This information is kept confidential."
+                                helpText={t('helpText.salary')}
                                 error={errors.salary ? t(`validation.${errors.salary.message}`) : undefined}
                             >
                                 <input
@@ -428,7 +434,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
 
                             <FormField
                                 label={t('isActive')}
-                                helpText="Active employees can access the system and appear in reports. Inactive employees are archived."
+                                helpText={t('helpText.isActive')}
                                 error={errors.is_active ? t(`validation.${errors.is_active.message}`) : undefined}
                             >
                                 <select
