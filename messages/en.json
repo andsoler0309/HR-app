@@ -305,7 +305,80 @@
     "login": "Log In"
   },
   "navbar": {
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "help": {
+      "takeTour": "Take a Tour",
+      "showHelp": "Help Center",
+      "restartOnboarding": "Restart Onboarding",
+      "noTourAvailable": "Tour not available for this section. Tours are available for: Employees, Time Off, and Documents.",
+      "noHelpAvailable": "Help center not available for this section. Help content is available for: Employees, Time Off, and Documents.",
+      "goToEmployees": "Go to Employees",
+      "cancel": "Cancel"
+    }
+  },
+  "helpWidget": {
+    "title": "Help Center",
+    "subtitle": "Get help with",
+    "searchPlaceholder": "Search help articles...",
+    "noResults": "No help articles found",
+    "quickActions": "Quick Actions",
+    "contactSupport": "Contact Support",
+    "contactSupportDesc": "Get direct help from our specialized team",
+    "videoTutorials": "Video Tutorials",
+    "videoTutorialsDesc": "Learn with step-by-step visual guides",
+    "completeGuides": "Complete Guides",
+    "completeGuidesDesc": "Detailed documentation on all features",
+    "faq": "Frequently Asked Questions",
+    "faqDesc": "Find answers to the most common questions",
+    "tipTitle": "💡 Tip for",
+    "showMore": "Show more details",
+    "showLess": "Show less",
+    "dashboard": {
+      "overview": {
+        "title": "Dashboard - Overview",
+        "description": "The dashboard shows you a complete summary of your company: active employees, key metrics, growth trends and important alerts. Use filters to customize the view according to your needs.",
+        "details": "To make the most of the dashboard: 1) Check metrics daily, 2) Use date filters to analyze trends, 3) Click on cards to see specific details, 4) Set up alerts for critical metrics."
+      },
+      "metrics": {
+        "title": "Metric Cards",
+        "description": "The top cards show: Total employees, open positions, upcoming events and pending requests. Click any card to see details.",
+        "details": "Each card is interactive and shows: current value, comparison with previous period (↑↓), and direct access to the related section. Colors indicate status: green (good), yellow (attention), red (critical)."
+      },
+      "trends": {
+        "title": "Workforce Trends",
+        "description": "Visualize how your team has grown with interactive charts. Identify hiring patterns and plan future growth.",
+        "details": "Charts show: hires per month, staff turnover, growth by department. Use time controls to see different periods and zoom into specific data."
+      },
+      "quickActions": {
+        "title": "Quick Actions",
+        "description": "Quickly access the most common tasks: add employees, create departments, review time-off requests. Optimize your daily workflow.",
+        "details": "Quick actions change based on your role and permissions. Administrators see more options than managers. Customize which actions appear in Settings > Preferences."
+      },
+      "tip": "Use date filters in metrics to see specific trends for your company."
+    },
+    "employees": {
+      "overview": {
+        "title": "Employee Management - Introduction",
+        "description": "Here you can manage all your team information: personal data, work history, documents, evaluations and more. The table allows you to search, filter and export data easily.",
+        "details": "Employee management includes: profile creation, information updates, document management, evaluation tracking, portal access control, and custom report generation."
+      },
+      "add": {
+        "title": "Add New Employees",
+        "description": "Use the 'Add Employee' button to create complete profiles. Include personal data, contact information, position details, salary and profile photo. The system automatically generates a unique ID.",
+        "details": "The process includes 4 steps: 1) Personal data (name, email, phone, address), 2) Work information (position, department, start date, salary), 3) Documents (contract, photo, certificates), 4) Portal access configuration."
+      },
+      "profiles": {
+        "title": "Detailed Profiles",
+        "description": "Each employee has a complete profile with tabs for: Personal information, work history, documents, evaluations, time off and more. Update data in real time.",
+        "details": "Tabs include: General (basic data), Work (position, salary, history), Documents (contracts, certificates), Evaluations (performance, goals), Time Off (balance, history), Settings (access, permissions)."
+      },
+      "search": {
+        "title": "Advanced Search and Filters",
+        "description": "Use the search bar to find employees by name, email or ID. Filters allow you to segment by department, status, hire date or any custom criteria.",
+        "details": "Smart search: type any part of name, email, or ID. Available filters: department, status (active/inactive), hire date, salary range, contract type. Save frequent filters as 'favorites'."
+      },
+      "tip": "Export the employee list regularly to maintain updated backups."
+    }
   },
   "sidebar": {
     "employees": "Employees",
@@ -1133,6 +1206,114 @@
       "userAgent": "User Agent",
       "details": "Additional Details",
       "close": "Close"
+    }
+  },
+  "tours": {
+    "employees": {
+      "step1": {
+        "title": "Employee Management",
+        "content": "Here you can manage all your team information. Add new employees, edit profiles and manage portal access."
+      },
+      "step2": {
+        "title": "Add Employees",
+        "content": "Click here to add a new employee. If you don't have departments created, the system will guide you to create one first."
+      },
+      "step3": {
+        "title": "Employee Dashboard",
+        "content": "This panel shows quick statistics of your team: total employees, active, inactive and currently working."
+      },
+      "step4": {
+        "title": "Upcoming Events",
+        "content": "Stay up to date with birthdays and work anniversaries of your team. Never forget to celebrate important moments."
+      },
+      "step5": {
+        "title": "Search and Filters",
+        "content": "Use the search bar to find specific employees and filters to organize them by department."
+      },
+      "step6": {
+        "title": "Employee List",
+        "content": "Here all your employees are shown with key information. On mobile they are displayed as cards, on desktop as a table."
+      },
+      "step7": {
+        "title": "Employee Actions",
+        "content": "For each employee you can: edit information, generate documents, create portal access and more important actions."
+      },
+      "step8": {
+        "title": "Portal Access",
+        "content": "Generate access tokens so employees can access their personal portal and manage their own requests."
+      }
+    },
+    "timeoff": {
+      "step1": {
+        "title": "Vacation and Leave Management",
+        "content": "Here you manage everything related to time off: requests, balances, policies and vacation calendar."
+      },
+      "step2": {
+        "title": "Update Balances",
+        "content": "This button automatically updates vacation balances based on anniversaries and company policies."
+      },
+      "step3": {
+        "title": "Employee Search",
+        "content": "Search specifically for employee vacation balances to review their current status."
+      },
+      "step4": {
+        "title": "Balances by Type",
+        "content": "Balances are grouped by leave type (vacation, sick, personal). Each card shows total, used and remaining days."
+      },
+      "step5": {
+        "title": "Vacation Calendar",
+        "content": "Visualize all approved requests on a calendar. Ideal for planning and avoiding staff conflicts."
+      },
+      "step6": {
+        "title": "Request Management",
+        "content": "Review, approve or reject time off requests. Includes requests from employee portal and internal requests."
+      },
+      "step7": {
+        "title": "Time Off Policies",
+        "content": "Configure vacation rules: days per year, leave types, and special conditions for your company."
+      },
+      "step8": {
+        "title": "Request Status",
+        "content": "Requests have different statuses: pending (yellow), approved (green), rejected (red). You can change status with a click."
+      }
+    },
+    "documents": {
+      "step1": {
+        "title": "Document Management",
+        "content": "Centralize all your company documents: contracts, policies, certificates and more. Organize, share and manage digital signatures."
+      },
+      "step2": {
+        "title": "Create Categories",
+        "content": "Before uploading documents, create categories to organize them (e.g.: Contracts, Policies, Certifications)."
+      },
+      "step3": {
+        "title": "Upload Documents",
+        "content": "Click here to upload new documents. You can associate them with specific employees and categories."
+      },
+      "step4": {
+        "title": "Documents vs Templates",
+        "content": "Documents: specific files. Templates: reusable formats to generate personalized documents."
+      },
+      "step5": {
+        "title": "Advanced Search",
+        "content": "Search by document name, associated employee, and filter by category or specific employee."
+      },
+      "step6": {
+        "title": "Browse by Categories",
+        "content": "Click on any category to filter documents. Each category shows the number of documents it contains."
+      },
+      "step7": {
+        "title": "Document Views",
+        "content": "Switch between grid view (ideal for images) and list view (better for detailed information)."
+      },
+      "step8": {
+        "title": "Document Actions",
+        "content": "For each document you can: view, download, share, request digital signature, or delete."
+      },
+      "step9": {
+        "title": "Digital Signature",
+        "content": "Documents can require digital signatures. The system manages the signature workflow and notifications automatically."
+      }
     }
   }
 }

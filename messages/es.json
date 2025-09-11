@@ -305,7 +305,80 @@
         "faq5Answer": "¡Sí! Toda nuestra plataforma y soporte al cliente está disponible en español. Entendemos el mercado local y estamos aquí para ayudarte a tener éxito."
     },
     "navbar": {
-        "signOut": "Cerrar sesión"
+        "signOut": "Cerrar sesión",
+        "help": {
+            "takeTour": "Hacer un Recorrido",
+            "showHelp": "Centro de Ayuda",
+            "restartOnboarding": "Reiniciar Tutorial",
+            "noTourAvailable": "Tour no disponible para esta sección. Los tours están disponibles para: Empleados, Tiempo Libre y Documentos.",
+            "noHelpAvailable": "Centro de ayuda no disponible para esta sección. El contenido de ayuda está disponible para: Empleados, Tiempo Libre y Documentos.",
+            "goToEmployees": "Ir a Empleados",
+            "cancel": "Cancelar"
+        }
+    },
+    "helpWidget": {
+        "title": "Centro de Ayuda",
+        "subtitle": "Obtén ayuda con",
+        "searchPlaceholder": "Buscar artículos de ayuda...",
+        "noResults": "No se encontraron artículos de ayuda",
+        "quickActions": "Acciones Rápidas",
+        "contactSupport": "Contactar Soporte",
+        "contactSupportDesc": "Obtén ayuda directa de nuestro equipo especializado",
+        "videoTutorials": "Tutoriales en Video",
+        "videoTutorialsDesc": "Aprende con guías visuales paso a paso",
+        "completeGuides": "Guías Completas",
+        "completeGuidesDesc": "Documentación detallada sobre todas las funciones",
+        "faq": "Preguntas Frecuentes",
+        "faqDesc": "Encuentra respuestas a las dudas más comunes",
+        "tipTitle": "💡 Consejo para",
+        "showMore": "Ver más detalles",
+        "showLess": "Ver menos",
+        "dashboard": {
+            "overview": {
+                "title": "Panel de Control - Visión General",
+                "description": "El dashboard te muestra un resumen completo de tu empresa: empleados activos, métricas clave, tendencias de crecimiento y alertas importantes. Usa los filtros para personalizar la vista según tus necesidades.",
+                "details": "Para aprovechar al máximo el dashboard: 1) Revisa las métricas diariamente, 2) Usa los filtros de fecha para analizar tendencias, 3) Haz clic en las tarjetas para ver detalles específicos, 4) Configura alertas para métricas críticas."
+            },
+            "metrics": {
+                "title": "Tarjetas de Métricas",
+                "description": "Las tarjetas superiores muestran: Total de empleados, posiciones abiertas, eventos próximos y solicitudes pendientes. Haz clic en cualquier tarjeta para ver detalles.",
+                "details": "Cada tarjeta es interactiva y muestra: valor actual, comparación con período anterior (↑↓), y acceso directo a la sección relacionada. Los colores indican el estado: verde (bueno), amarillo (atención), rojo (crítico)."
+            },
+            "trends": {
+                "title": "Tendencias de Personal",
+                "description": "Visualiza cómo ha crecido tu equipo con gráficos interactivos. Identifica patrones de contratación y planifica el crecimiento futuro.",
+                "details": "Los gráficos muestran: contrataciones por mes, rotación de personal, crecimiento por departamento. Usa los controles de tiempo para ver diferentes períodos y hacer zoom en datos específicos."
+            },
+            "quickActions": {
+                "title": "Acciones Rápidas",
+                "description": "Accede rápidamente a las tareas más comunes: agregar empleados, crear departamentos, revisar solicitudes de tiempo libre. Optimiza tu flujo de trabajo diario.",
+                "details": "Las acciones rápidas cambian según tu rol y permisos. Los administradores ven más opciones que los managers. Personaliza qué acciones aparecen en Configuración > Preferencias."
+            },
+            "tip": "Usa los filtros de fecha en las métricas para ver tendencias específicas de tu empresa."
+        },
+        "employees": {
+            "overview": {
+                "title": "Gestión de Empleados - Introducción",
+                "description": "Aquí puedes administrar toda la información de tu equipo: datos personales, historial laboral, documentos, evaluaciones y más. La tabla te permite buscar, filtrar y exportar datos fácilmente.",
+                "details": "La gestión de empleados incluye: creación de perfiles, actualización de información, gestión de documentos, seguimiento de evaluaciones, control de accesos al portal, y generación de reportes personalizados."
+            },
+            "add": {
+                "title": "Agregar Nuevos Empleados",
+                "description": "Usa el botón 'Agregar Empleado' para crear perfiles completos. Incluye datos personales, información de contacto, detalles del puesto, salario y foto de perfil. El sistema genera automáticamente un ID único.",
+                "details": "El proceso incluye 4 pasos: 1) Datos personales (nombre, email, teléfono, dirección), 2) Información laboral (puesto, departamento, fecha de inicio, salario), 3) Documentos (contrato, foto, certificados), 4) Configuración de acceso al portal."
+            },
+            "profiles": {
+                "title": "Perfiles Detallados",
+                "description": "Cada empleado tiene un perfil completo con pestañas para: Información personal, historial laboral, documentos, evaluaciones, tiempo libre y más. Actualiza datos en tiempo real.",
+                "details": "Las pestañas incluyen: General (datos básicos), Laboral (puesto, salario, historial), Documentos (contratos, certificados), Evaluaciones (desempeño, objetivos), Tiempo Libre (balance, historial), Configuración (accesos, permisos)."
+            },
+            "search": {
+                "title": "Búsqueda y Filtros Avanzados",
+                "description": "Usa la barra de búsqueda para encontrar empleados por nombre, email o ID. Los filtros te permiten segmentar por departamento, estado, fecha de ingreso o cualquier criterio personalizado.",
+                "details": "Búsqueda inteligente: escribe cualquier parte del nombre, email, o ID. Filtros disponibles: departamento, estado (activo/inactivo), fecha de ingreso, rango salarial, tipo de contrato. Guarda filtros frecuentes como 'favoritos'."
+            },
+            "tip": "Exporta la lista de empleados regularmente para mantener respaldos actualizados."
+        }
     },
     "sidebar": {
         "employees": "Empleados",
@@ -1134,5 +1207,113 @@
         "details": "Detalles Adicionales",
         "close": "Cerrar"
       }
+    },
+    "tours": {
+        "employees": {
+            "step1": {
+                "title": "Gestión de Empleados",
+                "content": "Aquí puedes administrar toda la información de tu equipo. Agrega nuevos empleados, edita perfiles y gestiona accesos al portal."
+            },
+            "step2": {
+                "title": "Agregar Empleados",
+                "content": "Haz clic aquí para agregar un nuevo empleado. Si no tienes departamentos creados, el sistema te guiará para crear uno primero."
+            },
+            "step3": {
+                "title": "Panel de Empleados",
+                "content": "Este panel muestra estadísticas rápidas de tu equipo: total de empleados, activos, inactivos y trabajando actualmente."
+            },
+            "step4": {
+                "title": "Eventos Próximos",
+                "content": "Mantente al día con cumpleaños y aniversarios laborales de tu equipo. Nunca olvides celebrar momentos importantes."
+            },
+            "step5": {
+                "title": "Búsqueda y Filtros",
+                "content": "Usa la barra de búsqueda para encontrar empleados específicos y los filtros para organizarlos por departamento."
+            },
+            "step6": {
+                "title": "Lista de Empleados",
+                "content": "Aquí se muestran todos tus empleados con información clave. En móvil se muestran como tarjetas, en escritorio como tabla."
+            },
+            "step7": {
+                "title": "Acciones de Empleado",
+                "content": "Para cada empleado puedes: editar información, generar documentos, crear acceso al portal y más acciones importantes."
+            },
+            "step8": {
+                "title": "Acceso al Portal",
+                "content": "Genera tokens de acceso para que los empleados puedan acceder a su portal personal y gestionar sus propias solicitudes."
+            }
+        },
+        "timeoff": {
+            "step1": {
+                "title": "Gestión de Vacaciones y Permisos",
+                "content": "Aquí administras todo lo relacionado con tiempo libre: solicitudes, balances, políticas y calendario de vacaciones."
+            },
+            "step2": {
+                "title": "Actualizar Balances",
+                "content": "Este botón actualiza automáticamente los balances de vacaciones basado en aniversarios y políticas de la empresa."
+            },
+            "step3": {
+                "title": "Búsqueda de Empleados",
+                "content": "Busca específicamente los balances de vacaciones de empleados para revisar su estado actual."
+            },
+            "step4": {
+                "title": "Balances por Tipo",
+                "content": "Los balances se agrupan por tipo de permiso (vacaciones, enfermedad, personal). Cada tarjeta muestra días totales, usados y restantes."
+            },
+            "step5": {
+                "title": "Calendario de Vacaciones",
+                "content": "Visualiza todas las solicitudes aprobadas en un calendario. Ideal para planificar y evitar conflictos de personal."
+            },
+            "step6": {
+                "title": "Gestión de Solicitudes",
+                "content": "Revisa, aprueba o rechaza solicitudes de tiempo libre. Incluye solicitudes del portal de empleados y solicitudes internas."
+            },
+            "step7": {
+                "title": "Políticas de Tiempo Libre",
+                "content": "Configura las reglas de vacaciones: días por año, tipos de permisos, y condiciones especiales para tu empresa."
+            },
+            "step8": {
+                "title": "Estados de Solicitud",
+                "content": "Las solicitudes tienen diferentes estados: pendiente (amarillo), aprobada (verde), rechazada (rojo). Puedes cambiar el estado con un clic."
+            }
+        },
+        "documents": {
+            "step1": {
+                "title": "Gestión de Documentos",
+                "content": "Centraliza todos los documentos de tu empresa: contratos, políticas, certificados y más. Organiza, comparte y gestiona firmas digitales."
+            },
+            "step2": {
+                "title": "Crear Categorías",
+                "content": "Antes de subir documentos, crea categorías para organizarlos (ej: Contratos, Políticas, Certificaciones)."
+            },
+            "step3": {
+                "title": "Subir Documentos",
+                "content": "Haz clic aquí para subir nuevos documentos. Puedes asociarlos con empleados específicos y categorías."
+            },
+            "step4": {
+                "title": "Documentos vs Plantillas",
+                "content": "Documentos: archivos específicos. Plantillas: formatos reutilizables para generar documentos personalizados."
+            },
+            "step5": {
+                "title": "Búsqueda Avanzada",
+                "content": "Busca por nombre de documento, empleado asociado, y filtra por categoría o empleado específico."
+            },
+            "step6": {
+                "title": "Explorar por Categorías",
+                "content": "Haz clic en cualquier categoría para filtrar documentos. Cada categoría muestra el número de documentos que contiene."
+            },
+            "step7": {
+                "title": "Vistas de Documentos",
+                "content": "Cambia entre vista de cuadrícula (ideal para imágenes) y vista de lista (mejor para información detallada)."
+            },
+            "step8": {
+                "title": "Acciones de Documento",
+                "content": "Para cada documento puedes: ver, descargar, compartir, solicitar firma digital, o eliminar."
+            },
+            "step9": {
+                "title": "Firma Digital",
+                "content": "Los documentos pueden requerir firmas digitales. El sistema gestiona el flujo de firmas y notificaciones automáticamente."
+            }
+        }
     }
 }

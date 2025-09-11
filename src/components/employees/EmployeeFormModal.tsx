@@ -14,6 +14,7 @@ import {
   SubscriptionLimitNotification, 
   isSubscriptionLimitError 
 } from '@/components/shared/SubscriptionLimitNotification';
+import FormField, { FormSection } from '@/components/shared/FormField';
 
 const employeeSchema = z.object({
     first_name: z.string().min(2, 'validation.firstNameRequired'),
@@ -255,216 +256,191 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                 {error && <ErrorMessage message={error} className="mb-4 sm:mb-6" />}
 
                 <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-6 sm:space-y-8">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                        <div>
-                            <label className="block text-sm sm:text-base font-medium text-sunset mb-2">
-                                {t('firstName')}
-                            </label>
-                            <input
-                                {...register('first_name')}
-                                className="input-base w-full"
-                                placeholder={t('firstName')}
-                            />
-                            {errors.first_name && (
-                                <p className="mt-2 text-sm sm:text-base text-error">
-                                    {t(`validation.${errors.first_name.message}`)}
-                                </p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label className="block text-sm sm:text-base font-medium text-sunset mb-2">
-                                {t('lastName')}
-                            </label>
-                            <input
-                                {...register('last_name')}
-                                className="input-base w-full"
-                                placeholder={t('lastName')}
-                            />
-                            {errors.last_name && (
-                                <p className="mt-2 text-sm sm:text-base text-error">
-                                    {t(`validation.${errors.last_name.message}`)}
-                                </p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label className="block text-sm sm:text-base font-medium text-sunset mb-2">
-                                {t('email')}
-                            </label>
-                            <input
-                                {...register('email')}
-                                type="email"
-                                className="input-base w-full"
-                                placeholder={t('email')}
-                            />
-                            {errors.email && (
-                                <p className="mt-2 text-sm sm:text-base text-error">
-                                    {t(`validation.${errors.email.message}`)}
-                                </p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label className="block text-sm sm:text-base font-medium text-sunset mb-2">
-                                {t('documentId')}
-                            </label>
-                            <input
-                                {...register('document_id')}
-                                className="input-base w-full"
-                                placeholder={t('documentId')}
-                            />
-                            {errors.document_id && (
-                                <p className="mt-2 text-sm sm:text-base text-error">
-                                    {t(`validation.${errors.document_id.message}`)}
-                                </p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label className="block text-sm sm:text-base font-medium text-sunset mb-2">
-                                {t('phone')}
-                            </label>
-                            <input
-                                {...register('phone')}
-                                className="input-base w-full"
-                                placeholder={t('phone')}
-                            />
-                            {errors.phone && (
-                                <p className="mt-2 text-sm sm:text-base text-error">
-                                    {t(`validation.${errors.phone.message}`)}
-                                </p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label className="block text-sm sm:text-base font-medium text-sunset mb-2">
-                                {t('department')}
-                            </label>
-                            <select
-                                {...register('department_id')}
-                                className="input-base w-full"
+                    <FormSection 
+                        title={t('personalInfo')}
+                        description={t('personalInfoDesc')}
+                        helpText="Basic information about the employee. This information will be used throughout the system for identification and contact purposes."
+                    >
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                            <FormField
+                                label={t('firstName')}
+                                helpText="Enter the employee's legal first name as it appears on official documents."
+                                required
+                                error={errors.first_name ? t(`validation.${errors.first_name.message}`) : undefined}
                             >
-                                <option value="">{t('selectDepartment')}</option>
-                                {departments.map((dept) => (
-                                    <option key={dept.id} value={dept.id}>
-                                        {dept.name}
-                                    </option>
-                                ))}
-                            </select>
-                            {errors.department_id && (
-                                <p className="mt-2 text-sm sm:text-base text-error">
-                                    {t(`validation.${errors.department_id.message}`)}
-                                </p>
-                            )}
-                        </div>
+                                <input
+                                    {...register('first_name')}
+                                    className="input-base w-full"
+                                    placeholder={t('firstName')}
+                                />
+                            </FormField>
 
-                        <div>
-                            <label className="block text-sm sm:text-base font-medium text-sunset mb-2">
-                                {t('position')}
-                            </label>
-                            <input
-                                {...register('position')}
-                                className="input-base w-full"
-                                placeholder={t('position')}
-                            />
-                            {errors.position && (
-                                <p className="mt-2 text-sm sm:text-base text-error">
-                                    {t(`validation.${errors.position.message}`)}
-                                </p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label className="block text-sm sm:text-base font-medium text-sunset mb-2">
-                                {t('employeeType')}
-                            </label>
-                            <select
-                                {...register('status')}
-                                className="input-base w-full"
+                            <FormField
+                                label={t('lastName')}
+                                helpText="Enter the employee's legal last name as it appears on official documents."
+                                required
+                                error={errors.last_name ? t(`validation.${errors.last_name.message}`) : undefined}
                             >
-                                <option value="">{t('selectEmployeeType')}</option>
-                                <option value="FULL_TIME">{t('employeeTypeOptions.fullTime')}</option>
-                                <option value="PART_TIME">{t('employeeTypeOptions.partTime')}</option>
-                                <option value="CONTRACT">{t('employeeTypeOptions.contract')}</option>
-                                <option value="INTERN">{t('employeeTypeOptions.intern')}</option>
-                            </select>
-                            {errors.status && (
-                                <p className="mt-2 text-base text-error">
-                                    {t(`validation.${errors.status.message}`)}
-                                </p>
-                            )}
-                        </div>
+                                <input
+                                    {...register('last_name')}
+                                    className="input-base w-full"
+                                    placeholder={t('lastName')}
+                                />
+                            </FormField>
 
-                        <div>
-                            <label className="block text-base font-medium text-sunset mb-2">
-                                {t('hireDate')}
-                            </label>
-                            <input
-                                {...register('hire_date')}
-                                type="date"
-                                className="input-base w-full"
-                                placeholder={t('hireDate')}
-                            />
-                            {errors.hire_date && (
-                                <p className="mt-2 text-base text-error">
-                                    {t(`validation.${errors.hire_date.message}`)}
-                                </p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label className="block text-base font-medium text-sunset mb-2">
-                                {t('salary')}
-                            </label>
-                            <input
-                                {...register('salary', { valueAsNumber: true })}
-                                type="number"
-                                className="input-base w-full"
-                                placeholder={t('salary')}
-                            />
-                            {errors.salary && (
-                                <p className="mt-2 text-base text-error">
-                                    {t(`validation.${errors.salary.message}`)}
-                                </p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label className="block text-base font-medium text-sunset mb-2">
-                                {t('birthday')}
-                            </label>
-                            <input
-                                {...register('birthday')}
-                                type="date"
-                                className="input-base w-full"
-                                placeholder={t('birthday')}
-                            />
-                            {errors.birthday && (
-                                <p className="mt-2 text-base text-error">
-                                    {t(`validation.${errors.birthday.message}`)}
-                                </p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label className="block text-base font-medium text-sunset mb-2">
-                                {t('isActive')}
-                            </label>
-                            <select
-                                {...register('is_active')}
-                                className="input-base w-full"
+                            <FormField
+                                label={t('email')}
+                                helpText="This email will be used for system notifications and portal access. Make sure it's a valid email address."
+                                required
+                                error={errors.email ? t(`validation.${errors.email.message}`) : undefined}
                             >
-                                <option value="true">{t('isActiveOptions.true')}</option>
-                                <option value="false">{t('isActiveOptions.false')}</option>
-                            </select>
-                            {errors.is_active && (
-                                <p className="mt-2 text-base text-error">
-                                    {t(`validation.${errors.is_active.message}`)}
-                                </p>
-                            )}
+                                <input
+                                    {...register('email')}
+                                    type="email"
+                                    className="input-base w-full"
+                                    placeholder={t('email')}
+                                />
+                            </FormField>
+
+                            <FormField
+                                label={t('documentId')}
+                                helpText="Enter the employee's national ID, passport number, or other official identification document."
+                                required
+                                error={errors.document_id ? t(`validation.${errors.document_id.message}`) : undefined}
+                            >
+                                <input
+                                    {...register('document_id')}
+                                    className="input-base w-full"
+                                    placeholder={t('documentId')}
+                                />
+                            </FormField>
+
+                            <FormField
+                                label={t('phone')}
+                                helpText="Contact phone number for emergency situations and general communication."
+                                error={errors.phone ? t(`validation.${errors.phone.message}`) : undefined}
+                            >
+                                <input
+                                    {...register('phone')}
+                                    className="input-base w-full"
+                                    placeholder={t('phone')}
+                                />
+                            </FormField>
+
+                            <FormField
+                                label={t('birthday')}
+                                helpText="Used for birthday notifications and age-related calculations."
+                                required
+                                error={errors.birthday ? t(`validation.${errors.birthday.message}`) : undefined}
+                            >
+                                <input
+                                    {...register('birthday')}
+                                    type="date"
+                                    className="input-base w-full"
+                                    placeholder={t('birthday')}
+                                />
+                            </FormField>
                         </div>
-                    </div>
+                    </FormSection>
+
+                    <FormSection 
+                        title={t('jobInfo')}
+                        description={t('jobInfoDesc')}
+                        helpText="Work-related information that defines the employee's role, department, and employment terms."
+                    >
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                            <FormField
+                                label={t('department')}
+                                helpText="Assign the employee to a department. This affects reporting, permissions, and organizational structure."
+                                required
+                                error={errors.department_id ? t(`validation.${errors.department_id.message}`) : undefined}
+                            >
+                                <select
+                                    {...register('department_id')}
+                                    className="input-base w-full"
+                                >
+                                    <option value="">{t('selectDepartment')}</option>
+                                    {departments.map((dept) => (
+                                        <option key={dept.id} value={dept.id}>
+                                            {dept.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </FormField>
+
+                            <FormField
+                                label={t('position')}
+                                helpText="The employee's job title or position within the company."
+                                required
+                                error={errors.position ? t(`validation.${errors.position.message}`) : undefined}
+                            >
+                                <input
+                                    {...register('position')}
+                                    className="input-base w-full"
+                                    placeholder={t('position')}
+                                />
+                            </FormField>
+
+                            <FormField
+                                label={t('employeeType')}
+                                helpText="Employment type affects benefits, working hours, and legal compliance requirements."
+                                required
+                                error={errors.status ? t(`validation.${errors.status.message}`) : undefined}
+                            >
+                                <select
+                                    {...register('status')}
+                                    className="input-base w-full"
+                                >
+                                    <option value="">{t('selectEmployeeType')}</option>
+                                    <option value="FULL_TIME">{t('employeeTypeOptions.fullTime')}</option>
+                                    <option value="PART_TIME">{t('employeeTypeOptions.partTime')}</option>
+                                    <option value="CONTRACT">{t('employeeTypeOptions.contract')}</option>
+                                    <option value="INTERN">{t('employeeTypeOptions.intern')}</option>
+                                </select>
+                            </FormField>
+
+                            <FormField
+                                label={t('hireDate')}
+                                helpText="The official start date of employment. Used for calculating tenure and benefits."
+                                required
+                                error={errors.hire_date ? t(`validation.${errors.hire_date.message}`) : undefined}
+                            >
+                                <input
+                                    {...register('hire_date')}
+                                    type="date"
+                                    className="input-base w-full"
+                                    placeholder={t('hireDate')}
+                                />
+                            </FormField>
+
+                            <FormField
+                                label={t('salary')}
+                                helpText="Employee's base salary for payroll calculations. This information is kept confidential."
+                                error={errors.salary ? t(`validation.${errors.salary.message}`) : undefined}
+                            >
+                                <input
+                                    {...register('salary', { valueAsNumber: true })}
+                                    type="number"
+                                    className="input-base w-full"
+                                    placeholder={t('salary')}
+                                />
+                            </FormField>
+
+                            <FormField
+                                label={t('isActive')}
+                                helpText="Active employees can access the system and appear in reports. Inactive employees are archived."
+                                error={errors.is_active ? t(`validation.${errors.is_active.message}`) : undefined}
+                            >
+                                <select
+                                    {...register('is_active')}
+                                    className="input-base w-full"
+                                >
+                                    <option value="true">{t('isActiveOptions.true')}</option>
+                                    <option value="false">{t('isActiveOptions.false')}</option>
+                                </select>
+                            </FormField>
+                        </div>
+                    </FormSection>
 
                     <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4">
                         <button

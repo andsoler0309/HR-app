@@ -1,12 +1,15 @@
 'use client';
-import { useRouter, useParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useRouter, useParams, usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/auth';
 import { Dropdown } from './Dropdown';
 import { useTranslations } from 'next-intl';
 import LanguageSwitcher from './LanguageSwitcher';
-import { Menu } from 'lucide-react';
+import { Menu, HelpCircle, GraduationCap, RefreshCw } from 'lucide-react';
+import { useOnboarding } from '@/hooks/useOnboarding';
+import { useHelp } from '@/context/HelpContext';
+import NotificationModal from './shared/NotificationModal';
 
 interface NavbarProps {
   onMenuClick?: () => void;
@@ -15,11 +18,18 @@ interface NavbarProps {
 export default function Navbar({ onMenuClick }: NavbarProps) {
   const router = useRouter();
   const params = useParams() as { locale: string };
+  const pathname = usePathname();
   const { locale } = params;
 
   const { profile, fetchProfile, signOut } = useAuthStore();
+  const { resetOnboarding } = useOnboarding();
+  const { showTour, showHelp } = useHelp();
   const t = useTranslations('navbar');
   const tCommon = useTranslations('common');
+
+  // Modal states
+  const [showTourModal, setShowTourModal] = useState(false);
+  const [showHelpModal, setShowHelpModal] = useState(false);
 
   useEffect(() => {
     fetchProfile();
@@ -32,6 +42,48 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
     } catch (error) {
       console.error('Error signing out:', error);
     }
+  };
+
+  const handleShowTour = () => {
+    // Check if current page has tour available
+    const currentPath = pathname.split('/').pop();
+    const pagesWithTours = ['employees', 'time-off', 'documents'];
+    
+    if (pagesWithTours.includes(currentPath || '')) {
+      showTour();
+    } else {
+      // Show modal for pages without tour
+      setShowTourModal(true);
+    }
+  };
+
+  const handleShowHelp = () => {
+    // Check if current page has help content available
+    const currentPath = pathname.split('/').pop();
+    const pagesWithHelp = ['employees', 'time-off', 'documents'];
+    
+    if (pagesWithHelp.includes(currentPath || '')) {
+      showHelp();
+    } else {
+      // Show modal for pages without help
+      setShowHelpModal(true);
+    }
+  };
+
+  const handleGoToEmployees = () => {
+    setShowTourModal(false);
+    router.push(`/${locale}/dashboard/employees`);
+  };
+
+  const handleGoToEmployeesFromHelp = () => {
+    setShowHelpModal(false);
+    router.push(`/${locale}/dashboard/employees`);
+  };
+
+  const handleRestartOnboarding = () => {
+    resetOnboarding();
+    // Refresh the page to show onboarding progress
+    window.location.reload();
   };
 
   const switchToEnglish = () => {
@@ -96,12 +148,69 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
                 </button>
               }
               items={[
-                { label: t('signOut'), onClick: handleSignOut }
+                { 
+                  label: t('help.takeTour'), 
+                  onClick: handleShowTour,
+                  icon: <GraduationCap className="h-4 w-4" />
+                },
+                { 
+                  label: t('help.showHelp'), 
+                  onClick: handleShowHelp,
+                  icon: <HelpCircle className="h-4 w-4" />
+                },
+                { 
+                  label: t('help.restartOnboarding'), 
+                  onClick: handleRestartOnboarding,
+                  icon: <RefreshCw className="h-4 w-4" />
+                },
+                { 
+                  label: '---', 
+                  onClick: () => {},
+                  disabled: true 
+                },
+                { 
+                  label: t('signOut'), 
+                  onClick: handleSignOut 
+                }
               ]}
             />
           </div>
         </div>
       </div>
+
+      {/* Tour Modal */}
+      <NotificationModal
+        isOpen={showTourModal}
+        onClose={() => setShowTourModal(false)}
+        title={t('help.takeTour')}
+        message={t('help.noTourAvailable')}
+        type="tour"
+        actionButton={{
+          label: t('help.goToEmployees'),
+          onClick: handleGoToEmployees
+        }}
+        cancelButton={{
+          label: t('help.cancel'),
+          onClick: () => setShowTourModal(false)
+        }}
+      />
+
+      {/* Help Modal */}
+      <NotificationModal
+        isOpen={showHelpModal}
+        onClose={() => setShowHelpModal(false)}
+        title={t('help.showHelp')}
+        message={t('help.noHelpAvailable')}
+        type="help"
+        actionButton={{
+          label: t('help.goToEmployees'),
+          onClick: handleGoToEmployeesFromHelp
+        }}
+        cancelButton={{
+          label: t('help.cancel'),
+          onClick: () => setShowHelpModal(false)
+        }}
+      />
     </nav>
   );
 }

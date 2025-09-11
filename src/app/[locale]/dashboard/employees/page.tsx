@@ -26,12 +26,19 @@ import { Document } from "@/types/document";
 import { useTranslations } from "next-intl";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import DepartmentFormModal from "@/components/departments/DepartmentFormModal";
+import TourGuide from "@/components/shared/TourGuide";
+import HelpWidget from "@/components/shared/HelpWidget";
+import { useHelp } from "@/context/HelpContext";
+import { createEmployeesTour } from "@/lib/tour-configs/employees-tour";
 
 export default function EmployeesPage() {
   const t = useTranslations("employees");
+  const tTours = useTranslations("tours");
   const router = useRouter();
   const params = useParams();
   const locale = params.locale as string;
+  const { tourIsVisible, helpIsVisible, setTourVisible, setHelpVisible } = useHelp();
+  
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [policies, setPolicies] = useState<TimeOffPolicy[]>([]);
@@ -343,6 +350,7 @@ export default function EmployeesPage() {
           <div className="relative group">
             <button
               onClick={handleAddEmployee}
+              data-tour="add-employee"
               className={`btn-primary flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium w-full sm:w-auto ${
                 departments.length === 0 
                   ? "opacity-75 cursor-help" 
@@ -361,10 +369,12 @@ export default function EmployeesPage() {
         </div>
       </div>
 
-      <EmployeeDashboard employees={employees} />
+      <div className="employee-dashboard">
+        <EmployeeDashboard employees={employees} />
+      </div>
       
       {/* Upcoming Events Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="upcoming-events grid grid-cols-1 lg:grid-cols-2 gap-4">
         <UpcomingBirthdays employees={employees} />
         <UpcomingAnniversaries employees={employees} />
       </div>
@@ -405,9 +415,9 @@ export default function EmployeesPage() {
       </div>
 
       {/* Employees Table/Cards */}
-      <div className="bg-card rounded-xl shadow-sm border border-card-border overflow-hidden">
+      <div className="employee-table bg-card rounded-xl shadow-sm border border-card-border overflow-hidden">
         {/* Search and Filter Bar */}
-        <div className="p-4 border-b border-card-border bg-card/50">
+        <div className="search-filters p-4 border-b border-card-border bg-card/50">
           <div className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-3 sm:items-center">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-sunset w-4 h-4" />
@@ -571,48 +581,52 @@ export default function EmployeesPage() {
                         </span>
                       </td>
                       <td className="px-4 py-4">
-                        <EmployeeActions
-                          employee={employee}
-                          onEdit={handleEditEmployee}
-                          onGenerateDocument={(employee: Employee) => {
-                            setSelectedEmployee(employee);
-                            setSelectedDocument(null);
-                            setIsGenerateDocumentModalOpen(true);
-                          }}
-                          onGenerateAccess={generatePortalAccess}
-                          hasTimeOffPolicies={policies.length > 0}
-                        />
+                        <div data-tour="employee-actions">
+                          <EmployeeActions
+                            employee={employee}
+                            onEdit={handleEditEmployee}
+                            onGenerateDocument={(employee: Employee) => {
+                              setSelectedEmployee(employee);
+                              setSelectedDocument(null);
+                              setIsGenerateDocumentModalOpen(true);
+                            }}
+                            onGenerateAccess={generatePortalAccess}
+                            hasTimeOffPolicies={policies.length > 0}
+                          />
+                        </div>
                       </td>
                       <td className="px-4 py-4">
-                        {accessTokens[employee.id] ? (
-                          <div>
-                            <div className="text-sm text-sunset mb-1">
-                              {t("actions.accessToken")}
-                            </div>
-                            <code className="text-base font-mono text-platinum">
-                              {accessTokens[employee.id]}
-                            </code>
-                          </div>
-                        ) : (
-                          <div className="relative group">
-                            <button
-                              onClick={() => generatePortalAccess(employee)}
-                              className={`text-xs ${
-                                policies.length === 0
-                                  ? "text-sunset/50 cursor-not-allowed"
-                                  : "text-primary hover:text-vanilla"
-                              }`}
-                              disabled={policies.length === 0}
-                            >
-                              {t("actions.generateAccess")}
-                            </button>
-                            {policies.length === 0 && (
-                              <div className="absolute left-0 bottom-full mb-2 w-48 p-3 bg-card text-platinum text-xs rounded-lg shadow-lg border border-card-border opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                                {t("alerts.policyRequired.message")}
+                        <div className="portal-access">
+                          {accessTokens[employee.id] ? (
+                            <div>
+                              <div className="text-sm text-sunset mb-1">
+                                {t("actions.accessToken")}
                               </div>
-                            )}
-                          </div>
-                        )}
+                              <code className="text-base font-mono text-platinum">
+                                {accessTokens[employee.id]}
+                              </code>
+                            </div>
+                          ) : (
+                            <div className="relative group">
+                              <button
+                                onClick={() => generatePortalAccess(employee)}
+                                className={`text-xs ${
+                                  policies.length === 0
+                                    ? "text-sunset/50 cursor-not-allowed"
+                                    : "text-primary hover:text-vanilla"
+                                }`}
+                                disabled={policies.length === 0}
+                              >
+                                {t("actions.generateAccess")}
+                              </button>
+                              {policies.length === 0 && (
+                                <div className="absolute left-0 bottom-full mb-2 w-48 p-3 bg-card text-platinum text-xs rounded-lg shadow-lg border border-card-border opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                                  {t("alerts.policyRequired.message")}
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   ))
@@ -794,6 +808,23 @@ export default function EmployeesPage() {
           onSuccess={() => {
             fetchDocuments();
             setIsSignatureModalOpen(false);
+          }}
+        />
+
+        {/* Tour Guide */}
+        <TourGuide
+          steps={createEmployeesTour(tTours)}
+          isOpen={tourIsVisible}
+          onClose={() => setTourVisible(false)}
+          onComplete={() => setTourVisible(false)}
+        />
+
+        {/* Help Widget */}
+        <HelpWidget 
+          currentPage="employees" 
+          forceOpen={helpIsVisible}
+          onOpenChange={(isOpen) => {
+            if (!isOpen) setHelpVisible(false);
           }}
         />
       </div>

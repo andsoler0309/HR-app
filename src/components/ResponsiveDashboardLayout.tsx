@@ -2,12 +2,13 @@
 import { useState } from 'react';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
+import { HelpProvider, useHelp } from '@/context/HelpContext';
 
 interface ResponsiveDashboardLayoutProps {
   children: React.ReactNode;
 }
 
-export default function ResponsiveDashboardLayout({ children }: ResponsiveDashboardLayoutProps) {
+function DashboardContent({ children }: ResponsiveDashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -30,7 +31,9 @@ export default function ResponsiveDashboardLayout({ children }: ResponsiveDashbo
       
       {/* Main content */}
       <div className="flex flex-col flex-1 min-w-0 lg:max-w-none">
-        <Navbar onMenuClick={() => setSidebarOpen(true)} />
+        <Navbar 
+          onMenuClick={() => setSidebarOpen(true)}
+        />
         <main className="flex-1 overflow-hidden">
           <div className="h-full overflow-y-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-6xl mx-auto py-4 sm:py-6">
@@ -40,5 +43,13 @@ export default function ResponsiveDashboardLayout({ children }: ResponsiveDashbo
         </main>
       </div>
     </div>
+  );
+}
+
+export default function ResponsiveDashboardLayout({ children }: ResponsiveDashboardLayoutProps) {
+  return (
+    <HelpProvider>
+      <DashboardContent>{children}</DashboardContent>
+    </HelpProvider>
   );
 }

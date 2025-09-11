@@ -10,6 +10,10 @@ import TimeOffRequests from '@/components/time-off/Requests'
 import RequestTimeOffModal from '@/components/time-off/RequestModal'
 import CreatePolicyModal from '@/components/time-off/CreatePolicyModal'
 import PoliciesManagement from '@/components/time-off/PoliciesManagement' // Import the Policies Management component
+import TourGuide from '@/components/shared/TourGuide'
+import HelpWidget from '@/components/shared/HelpWidget'
+import { useHelp } from '@/context/HelpContext'
+import { createTimeOffTour } from '@/lib/tour-configs/timeoff-tour'
 import { supabase } from '@/lib/supabase'
 import type { TimeOffRequest, TimeOffBalance, TimeOffPolicy } from '@/types/timeoff'
 import { useCompany } from '@/hooks/useCompany'
@@ -18,6 +22,8 @@ import { calculateDays } from '@/lib/utils'
 
 export default function TimeOffPage() {
   const t = useTranslations('TimeOffPage') // Initialize useTranslations with the namespace 'TimeOffPage'
+  const tTours = useTranslations('tours');
+  const { tourIsVisible, helpIsVisible, setTourVisible, setHelpVisible } = useHelp();
 
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false)
   const [isPolicyModalOpen, setIsPolicyModalOpen] = useState(false)
@@ -377,6 +383,7 @@ export default function TimeOffPage() {
         <button
           onClick={refreshBalances}
           disabled={isRefreshing}
+          data-tour="refresh-balances"
           className="btn-secondary inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium w-full sm:w-auto"
         >
           {isRefreshing ? (
@@ -401,7 +408,7 @@ export default function TimeOffPage() {
           placeholder={t('placeholders.searchEmployee')}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="input-base pl-12 text-base py-3 w-full"
+          className="search-input input-base pl-12 text-base py-3 w-full"
         />
       </div>
 
@@ -411,7 +418,7 @@ export default function TimeOffPage() {
       {Object.entries(groupedBalances).map(([type, typeBalances]) => (
         <div key={type}>
           <h2 className="text-base font-medium text-sunset mb-4">{t(`balanceTypes.${type}`)}</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="balance-cards grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {typeBalances.map((balance) => (
               <div
                 key={balance.id}
@@ -506,12 +513,14 @@ export default function TimeOffPage() {
           </TabsContent>
 
           <TabsContent value="requests" className="p-4 sm:p-8 focus:outline-none">
-            <TimeOffRequests 
-              requests={requests} 
-              loading={loading}
-              onApprove={approveRequest}
-              onReject={rejectRequest}
-            />
+            <div className="request-status">
+              <TimeOffRequests 
+                requests={requests} 
+                loading={loading}
+                onApprove={approveRequest}
+                onReject={rejectRequest}
+              />
+            </div>
           </TabsContent>
 
           <TabsContent value="policies" className="p-4 sm:p-8 focus:outline-none">
@@ -535,6 +544,23 @@ export default function TimeOffPage() {
         isOpen={isPolicyModalOpen}
         onClose={() => setIsPolicyModalOpen(false)}
         onSuccess={fetchData}
+      />
+
+      {/* Tour Guide */}
+      <TourGuide
+        steps={createTimeOffTour(tTours)}
+        isOpen={tourIsVisible}
+        onClose={() => setTourVisible(false)}
+        onComplete={() => setTourVisible(false)}
+      />
+
+      {/* Help Widget */}
+      <HelpWidget 
+        currentPage="time-off" 
+        forceOpen={helpIsVisible}
+        onOpenChange={(isOpen) => {
+          if (!isOpen) setHelpVisible(false);
+        }}
       />
     </div>
   )

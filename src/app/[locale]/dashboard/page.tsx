@@ -1,5 +1,6 @@
 'use client'
 import { useSearchParams } from 'next/navigation'
+import { useState, useEffect } from 'react'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { CheckCircle2, AlertCircle, Clock } from 'lucide-react'
 import { DashboardProvider } from '@/context/DashboardContext'
@@ -10,6 +11,13 @@ import RecentActivities from '@/components/dashboard/RecentActivities'
 import TimeOffCalendar from '@/components/dashboard/TimeOffCalendar'
 import QuickActions from '@/components/dashboard/QuickActions'
 import RecentApplications from '@/components/dashboard/RecentApplications'
+import TourGuide from '@/components/shared/TourGuide'
+import HelpWidget from '@/components/shared/HelpWidget'
+import OnboardingProgress from '@/components/shared/OnboardingProgress'
+import WelcomeModal from '@/components/shared/WelcomeModal'
+import { useOnboarding } from '@/hooks/useOnboarding'
+import { useHelp } from '@/context/HelpContext'
+import { dashboardTour } from '@/lib/tour-configs'
 
 const PaymentAlert = ({ status }: { status: string }) => {
   switch (status) {
@@ -57,10 +65,49 @@ const PaymentAlert = ({ status }: { status: string }) => {
 function DashboardContent() {
     const searchParams = useSearchParams()
     const paymentStatus = searchParams.get('payment')
+    const { shouldShowOnboarding, markStepComplete, onboardingState } = useOnboarding()
+    const { tourIsVisible, helpIsVisible, setTourVisible, setHelpVisible } = useHelp()
+    const [showWelcome, setShowWelcome] = useState(false)
+
+    // Show welcome modal for completely new users
+    useEffect(() => {
+      if (!onboardingState.hasCompletedTour && onboardingState.currentStep === 'welcome') {
+        setShowWelcome(true)
+      }
+    }, [onboardingState])
+
+    // Listen for tour requests from navbar
+    useEffect(() => {
+      if (tourIsVisible) {
+        setTourVisible(true)
+      }
+    }, [tourIsVisible])
+  
+    const handleStartStep = (step: string) => {
+      if (step === 'tour') {
+        setTourVisible(true)
+      }
+      // Handle other onboarding steps here
+    }
+
+    const handleTourComplete = () => {
+      markStepComplete('hasCompletedTour')
+      setTourVisible(false)
+    }
+
+    const handleWelcomeStartTour = () => {
+      setShowWelcome(false)
+      setTourVisible(true)
+    }
   
     return (
       <div className="space-y-6">
         {paymentStatus && <PaymentAlert status={paymentStatus} />}
+        
+        {/* Onboarding Progress */}
+        {shouldShowOnboarding() && (
+          <OnboardingProgress onStartStep={handleStartStep} />
+        )}
         
         <div className="flex flex-col space-y-4 sm:flex-row sm:justify-between sm:items-start sm:space-y-0">
           <div>
@@ -69,12 +116,18 @@ function DashboardContent() {
           </div>
         </div>
         
-        <MetricCards />
+        <div className="metric-cards">
+          <MetricCards />
+        </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-          <RecentActivities />
+          <div className="recent-activities">
+            <RecentActivities />
+          </div>
           <TimeOffCalendar />
-          <QuickActions />
+          <div className="quick-actions">
+            <QuickActions />
+          </div>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-6">
           <div className="lg:col-span-3">
@@ -85,6 +138,32 @@ function DashboardContent() {
           </div>
         </div>
         <RecentApplications />
+
+        {/* Welcome Modal */}
+        <WelcomeModal
+          isOpen={showWelcome}
+          onClose={() => setShowWelcome(false)}
+          onStartTour={handleWelcomeStartTour}
+        />
+
+        {/* Tour Guide */}
+        <TourGuide
+          steps={dashboardTour}
+          isOpen={tourIsVisible}
+          onClose={() => setTourVisible(false)}
+          onComplete={handleTourComplete}
+        />
+
+        {/* Help Widget */}
+        <div className="help-widget">
+          <HelpWidget 
+            currentPage="dashboard" 
+            forceOpen={helpIsVisible}
+            onOpenChange={(isOpen) => {
+              if (!isOpen) setHelpVisible(false);
+            }}
+          />
+        </div>
       </div>
     )
   }
