@@ -461,6 +461,8 @@
             "deleteTemplate": "Eliminar Plantilla",
             "preview": "Vista Previa",
             "save": "Guardar",
+            "saving": "Guardando...",
+            "loading": "Cargando...",
             "requireSignature": "Requerir Firma Electrónica",
             "enableSignature": "Habilitar si este documento requiere firmas electrónicas",
             "employeeSignature": "Firma del Empleado",
@@ -468,7 +470,8 @@
             "upload": "Subir",
             "uploading": "Subiendo...",
             "signDocument": "Firmar Documento",
-            "generateDocument": "Generar Documento"
+            "generateDocument": "Generar Documento",
+            "close": "Cerrar"
         },
         "tabs": {
             "documents": "Documentos",
@@ -508,6 +511,8 @@
             "enterDescription": "Ingrese la descripción...",
             "requireSignature": "Requerir Firma Electrónica",
             "enableSignature": "Habilitar si este documento requiere firmas electrónicas",
+            "enabled": "Habilitado",
+            "disabled": "Deshabilitado",
             "requiredSignatures": "Firmas Requeridas",
             "employeeSignature": "Firma del Empleado",
             "managerSignature": "Firma del Gerente",
@@ -520,6 +525,15 @@
             "loadingTemplates": "Cargando plantillas...",
             "noTemplates": "No se encontraron plantillas. ¡Crea tu primera plantilla!",
             "confirmDelete": "¿Está seguro de que desea eliminar esta plantilla?",
+            "generateDocument": "Generar Documento",
+            "template": "Plantilla",
+            "selectEmployee": "Seleccionar Empleado",
+            "optional": "opcional",
+            "generalDocument": "Documento General (sin empleado)",
+            "generating": "Generando...",
+            "documentGenerated": "¡Documento Generado!",
+            "documentGeneratedDescription": "El documento se ha generado exitosamente. Puedes encontrarlo en la sección de documentos.",
+            "viewDocuments": "Ver Documentos",
             "error": {
                 "noAuthenticatedUser": "No hay un usuario autenticado",
                 "unknownError": "Ocurrió un error desconocido"
@@ -561,6 +575,20 @@
         "delete": {
             "confirm": "¿Está seguro de que desea eliminar este documento?"
         },
+        "deleteModal": {
+            "title": "Eliminar Documento",
+            "message": "¿Está seguro de que desea eliminar este documento? Esta acción no se puede deshacer.",
+            "warning": "Una vez eliminado, no podrá recuperar este documento ni su contenido.",
+            "confirmDelete": "Eliminar",
+            "deleting": "Eliminando..."
+        },
+        "deleteTemplateModal": {
+            "title": "Eliminar Plantilla",
+            "message": "¿Está seguro de que desea eliminar esta plantilla? Esta acción no se puede deshacer.",
+            "warning": "Una vez eliminada, no podrá recuperar esta plantilla ni generar documentos con ella.",
+            "confirmDelete": "Eliminar",
+            "deleting": "Eliminando..."
+        },
         "uploadVersionModal": {
             "title": "Subir Nueva Versión",
             "file": "Archivo",
@@ -580,7 +608,39 @@
             "versionHistory": "Historial de Versiones",
             "currentVersion": "Versión Actual",
             "versionNumber": "v{version}",
-            "versionDate": "{date}"
+            "versionDate": "{date}",
+            "signDocument": "Firmar Documento",
+            "signatureMode": "Modo de Firma",
+            "dragSignatures": "Arrastra y suelta firmas en el documento",
+            "addSignature": "Agregar Firma",
+            "saveDocument": "Guardar Documento",
+            "pageOf": "Página {current} de {total}",
+            "signaturesCount": "{count} firmas agregadas",
+            "moveSignature": "Arrastra para mover",
+            "resizeSignature": "Arrastra las esquinas para redimensionar",
+            "back": "Atrás"
+        },
+        "savedSignatures": {
+            "title": "Firmas Guardadas",
+            "yourSignatures": "Tus Firmas",
+            "createNew": "Crear Nueva",
+            "createSignature": "Crear Firma",
+            "signatureName": "Nombre de la Firma",
+            "enterSignatureName": "Ingresa el nombre de la firma",
+            "drawSignature": "Dibuja tu firma",
+            "clear": "Limpiar",
+            "saveSignature": "Guardar Firma",
+            "noSignatures": "Aún no tienes firmas guardadas. ¡Crea tu primera firma!",
+            "confirmDelete": "¿Estás seguro de que quieres eliminar esta firma?"
+        },
+        "signing": {
+            "success": "Documento firmado exitosamente",
+            "signaturesApplied": "Firmas digitales aplicadas",
+            "pdfUpdated": "PDF actualizado en el sistema",
+            "statusUpdated": "Estado actualizado a \"Firmado\"",
+            "documentProcessed": "Documento procesado",
+            "close": "Cerrar",
+            "viewDocuments": "Actualizar página"
         },
         "generateDocumentModal": {
             "title": "Generar Documento para {firstName} {lastName}",

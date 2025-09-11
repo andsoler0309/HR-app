@@ -139,19 +139,9 @@ const GenerateDocumentModal = ({ isOpen, onClose, employee, onSuccess }: Generat
 
       if (documentError) throw new Error(t('error.unknownError'));
 
-      if (selectedTemplate.requires_signature) {
-        const signatureRequests = selectedTemplate.required_signatures?.map(role => ({
-          document_id: document.id,
-          signer_id: user.id,
-          signature_status: 'pending'
-        }));
-
-        const { error: signatureError } = await supabase
-          .from('document_signatures')
-          .insert(signatureRequests);
-
-        if (signatureError) throw new Error(t('error.unknownError'));
-      }
+      // Note: Signature requirements are now handled directly in the document fields
+      // requires_signature, signed_by, signed_at, signature_status are set when document is created
+      // No need for separate document_signatures table
 
       onSuccess();
       handleClose();

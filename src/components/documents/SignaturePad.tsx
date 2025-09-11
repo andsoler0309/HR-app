@@ -26,54 +26,134 @@ const SignaturePad = ({ isOpen, onClose, document, onSuccess }: SignaturePadProp
 
   // Initialize canvas when component mounts
   useEffect(() => {
-    if (isOpen && canvasRef.current) {
-      const canvas = canvasRef.current;
-      const ctx = canvas.getContext('2d');
+    if (!isOpen || !canvasRef.current) return;
+    
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-      // Set canvas size
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
+    // Set canvas size to exactly match the element size
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
 
-      // Set drawing style
-      ctx!.strokeStyle = '#000';
-      ctx!.lineWidth = 2;
-      ctx!.lineCap = 'round';
-    }
+    // Set drawing style
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
   }, [isOpen]);
 
-  const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    const canvas = canvasRef.current;
-    const ctx = canvas!.getContext('2d');
-    const rect = canvas!.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+  const getMousePosition = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    // Use offsetX and offsetY which are more reliable for canvas coordinates
+    return {
+      x: e.nativeEvent.offsetX,
+      y: e.nativeEvent.offsetY
+    };
+  };
 
-    ctx!.beginPath();
-    ctx!.moveTo(x, y);
+  const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    const { x, y } = getMousePosition(e);
+
+    // Debug: Draw a small circle at the start point to verify coordinates
+    ctx.beginPath();
+    ctx.arc(x, y, 3, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    ctx.beginPath();
+    ctx.moveTo(x, y);
     setIsDrawing(true);
   };
 
   const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
     if (!isDrawing) return;
 
     const canvas = canvasRef.current;
-    const ctx = canvas!.getContext('2d');
-    const rect = canvas!.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    const { x, y } = getMousePosition(e);
 
-    ctx!.lineTo(x, y);
-    ctx!.stroke();
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y);
   };
 
   const stopDrawing = () => {
     setIsDrawing(false);
   };
 
+  // Touch event handlers for mobile support
+  const getTouchPosition = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (e.touches.length === 0) return { x: 0, y: 0 };
+    const touch = e.touches[0];
+    const canvas = canvasRef.current;
+    if (!canvas) return { x: 0, y: 0 };
+    
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: touch.clientX - rect.left,
+      y: touch.clientY - rect.top
+    };
+  };
+
+  const startTouchDrawing = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault(); // Prevent scrolling
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    const { x, y } = getTouchPosition(e);
+
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    setIsDrawing(true);
+  };
+
+  const touchDraw = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault(); // Prevent scrolling
+    if (!isDrawing) return;
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    const { x, y } = getTouchPosition(e);
+
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  };
+
+  const stopTouchDrawing = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+    setIsDrawing(false);
+  };
+
   const clearSignature = () => {
     const canvas = canvasRef.current;
-    const ctx = canvas!.getContext('2d');
-    ctx!.clearRect(0, 0, canvas!.width, canvas!.height);
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    // Clear the entire canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
 
   const saveSignature = async () => {
@@ -87,18 +167,6 @@ const SignaturePad = ({ isOpen, onClose, document, onSuccess }: SignaturePadProp
       if (userError || !user) throw new Error(tErrors('noAuthenticatedUser'));
 
       const signatureData = canvasRef.current.toDataURL();
-
-      // Update signature status
-      const { error: signatureError } = await supabase
-        .from('document_signatures')
-        .update({
-          signature_date: new Date(),
-          signature_status: 'signed'
-        })
-        .eq('document_id', document.id)
-        .eq('signer_id', user.id);
-
-      if (signatureError) throw new Error(tErrors('saveError'));
 
       // Download the original PDF
       const response = await fetch(document.file_url);
@@ -147,7 +215,7 @@ const SignaturePad = ({ isOpen, onClose, document, onSuccess }: SignaturePadProp
 
       // Save the modified PDF
       const modifiedPdfBytes = await pdfDoc.save();
-      const pdfBlob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
+      const pdfBlob = new Blob([new Uint8Array(modifiedPdfBytes)], { type: 'application/pdf' });
 
       // Upload new version
       const fileName = `${crypto.randomUUID()}.pdf`;
@@ -169,11 +237,17 @@ const SignaturePad = ({ isOpen, onClose, document, onSuccess }: SignaturePadProp
 
       if (urlError || !publicUrlData?.signedUrl) throw new Error(tErrors('saveError'));
 
-      // Update document status
+      // Actualizar documento con la nueva firma
+      const currentSignedBy = document.signed_by || [];
+      const newSignedBy = [...currentSignedBy, user.id];
+
       const { error: docError } = await supabase
         .from('documents')
         .update({ 
-          status: 'signed',
+          status: 'active', // Cambiar a activo después de firmar
+          signature_status: 'signed',
+          signed_by: newSignedBy,
+          signed_at: new Date().toISOString(),
           file_url: publicUrlData.signedUrl,
           version: document.version + 1
         })
@@ -210,11 +284,14 @@ const SignaturePad = ({ isOpen, onClose, document, onSuccess }: SignaturePadProp
           <div className="bg-white rounded-lg border border-card-border p-4">
             <canvas
               ref={canvasRef}
-              className="w-full h-48 border border-dashed border-card-border rounded cursor-crosshair"
+              className="w-full h-48 border border-dashed border-card-border rounded cursor-crosshair touch-none block"
               onMouseDown={startDrawing}
               onMouseMove={draw}
               onMouseUp={stopDrawing}
               onMouseLeave={stopDrawing}
+              onTouchStart={startTouchDrawing}
+              onTouchMove={touchDraw}
+              onTouchEnd={stopTouchDrawing}
             />
           </div>
 

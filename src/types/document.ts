@@ -20,6 +20,13 @@ export interface DocumentCategory {
     status: 'active' | 'archived' | 'deleted' | 'pending_signature'
     version: number
     uploaded_by: string
+    requires_signature?: boolean
+    is_signed?: boolean // Campo para compatibilidad con la base de datos
+    generated_from_template?: string
+    signed_by?: string[] // Array de IDs de usuarios que han firmado
+    signed_at?: string
+    signature_status?: 'pending' | 'signed' | 'rejected'
+    signature_data?: any[] // Array de datos de firmas posicionadas
     created_at: string
     updated_at?: string
     category?: DocumentCategory

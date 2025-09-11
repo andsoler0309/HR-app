@@ -1,53 +1,62 @@
 'use client'
-import { useEffect, useState } from 'react'
-import { Document } from '@/types/document'
-import { Download, Share2, Clock, ArrowLeft } from 'lucide-react'
-import { supabase } from '@/lib/supabase'
-import { useTranslations } from 'next-intl'
+import React, { useState, useEffect } from 'react';
+import { PenLine, Download, ArrowLeft } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { Document } from '@/types/document';
+import { supabase } from '@/lib/supabase';
 
 interface Props {
-  document: Document
-  onClose: () => void
+  document: Document;
+  onClose: () => void;
+  signatureMode?: boolean; // Nueva prop para abrir en modo de firma
 }
 
-export default function DocumentViewer({ document, onClose }: Props) {
-  const t = useTranslations('documents.viewer')
-  const tButtons = useTranslations('documents.buttons') // Assuming you have a buttons namespace for common button labels
-
-  const [showVersions, setShowVersions] = useState(false)
-  const [isShareModalOpen, setIsShareModalOpen] = useState(false)
-  const [isVersionModalOpen, setIsVersionModalOpen] = useState(false)
-  const [showSignaturePad, setShowSignaturePad] = useState(false);
+export default function DocumentViewer({ document, onClose, signatureMode = false }: Props) {
+  const t = useTranslations('documents.viewer');
+  
   const [needsSignature, setNeedsSignature] = useState(false);
+  const [isSignatureMode, setIsSignatureMode] = useState(signatureMode); // Inicializar con la prop
+  const [mounted, setMounted] = useState(false);
+  const [PDFSignatureViewer, setPDFSignatureViewer] = useState<React.ComponentType<any> | null>(null);
 
   useEffect(() => {
+    setMounted(true);
     checkSignatureStatus();
-  }, [document]);
+    
+    // Si se pasa signatureMode como true, forzar el modo de firma
+    if (signatureMode) {
+      setIsSignatureMode(true);
+    }
+    
+    // Load the PDF signature viewer dynamically only on client side
+    if (typeof window !== 'undefined') {
+      import('./PDFSignatureViewer').then((mod) => {
+        setPDFSignatureViewer(() => mod.default);
+      }).catch((error) => {
+        console.error('Error loading PDFSignatureViewer:', error);
+      });
+    }
+  }, [document, signatureMode]);
 
   const checkSignatureStatus = async () => {
-    if (document.status !== 'pending_signature') return;
+    if (!document.requires_signature) return;
 
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    const { data: signature } = await supabase
-      .from('document_signatures')
-      .select('*')
-      .eq('document_id', document.id)
-      .eq('signer_id', user.id)
-      .eq('signature_status', 'pending')
-      .single();
-
-    setNeedsSignature(!!signature);
+    // Check if user has already signed using the signed_by array
+    const signedBy = document.signed_by || [];
+    const hasUserSigned = signedBy.includes(user.id);
+    
+    setNeedsSignature(document.requires_signature && !hasUserSigned);
   };
 
-
   const getFileType = (fileType: string) => {
-    if (fileType.includes('pdf')) return 'PDF'
-    if (fileType.includes('word')) return 'Word'
-    if (fileType.includes('sheet')) return 'Excel'
-    return 'Document'
-  }
+    if (fileType.includes('pdf')) return 'PDF';
+    if (fileType.includes('word')) return 'Word';
+    if (fileType.includes('sheet')) return 'Excel';
+    return 'Document';
+  };
 
   const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString('en-US', {
@@ -56,9 +65,33 @@ export default function DocumentViewer({ document, onClose }: Props) {
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
-    })
+    });
+  };
+
+  // Don't render until mounted to avoid SSR issues
+  if (!mounted) {
+    return null;
   }
 
+  // Show signature viewer if in signature mode
+  if (isSignatureMode) {
+    if (!PDFSignatureViewer) {
+      return (
+        <div className="fixed inset-0 bg-background z-50 flex items-center justify-center">
+          <div className="text-sunset">Loading signature viewer...</div>
+        </div>
+      );
+    }
+    
+    return (
+      <PDFSignatureViewer 
+        document={document} 
+        onClose={() => setIsSignatureMode(false)} 
+      />
+    );
+  }
+
+  // Regular document viewer
   return (
     <div className="fixed inset-0 bg-background z-50 flex flex-col">
       {/* Header */}
@@ -80,6 +113,15 @@ export default function DocumentViewer({ document, onClose }: Props) {
             </div>
           </div>
           <div className="flex items-center space-x-2">
+            {needsSignature && (
+              <button
+                onClick={() => setIsSignatureMode(true)}
+                className="btn-primary flex items-center px-4 py-2 rounded-md"
+              >
+                <PenLine className="w-4 h-4 mr-2" />
+                {t('signDocument')}
+              </button>
+            )}
             <button
               onClick={() => window.open(document.file_url, '_blank')}
               className="btn-secondary flex items-center px-4 py-2 rounded-md"
@@ -87,57 +129,30 @@ export default function DocumentViewer({ document, onClose }: Props) {
               <Download className="w-4 h-4 mr-2" />
               {t('download')}
             </button>
-            {/*<button*/}
-            {/*  onClick={() => setIsShareModalOpen(true)}*/}
-            {/*  className="btn-secondary flex items-center px-4 py-2 rounded-md"*/}
-            {/*>*/}
-            {/*  <Share2 className="w-4 h-4 mr-2" />*/}
-            {/*  {t('share')}*/}
-            {/*</button>*/}
-            {/*<button*/}
-            {/*  onClick={() => setShowVersions(!showVersions)}*/}
-            {/*  className="btn-secondary flex items-center px-4 py-2 rounded-md"*/}
-            {/*>*/}
-            {/*  <Clock className="w-4 h-4 mr-2" />*/}
-            {/*  {t('versionHistory')}*/}
-            {/*</button>*/}
           </div>
         </div>
       </div>
    
       {/* Main content */}
       <div className="flex-1 overflow-hidden">
-        <div className="h-full flex">
-          {/* Document preview */}
-          <div className={`flex-1 bg-background ${showVersions ? 'mr-64' : ''}`}>
-            <iframe
-              src={document.file_url}
-              className="w-full h-full"
-              title={document.name}
-            />
-          </div>
-   
-          {/* Version history sidebar */}
-          {showVersions && (
-            <div className="w-64 border-l border-card-border bg-card overflow-y-auto">
-              <div className="p-4">
-                <h2 className="font-semibold text-platinum mb-4">{t('versionHistory')}</h2>
-                <div className="space-y-4">
-                  <div className="border border-card-border rounded-md p-3 bg-background">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-platinum">{t('currentVersion')}</span>
-                      <span className="text-xs text-sunset">{t('versionNumber', { version: document.version })}</span>
-                    </div>
-                    <p className="text-xs text-sunset mt-1">
-                      {t('versionDate', { date: formatDate(document.updated_at || document.created_at) })}
-                    </p>
-                  </div>
-                </div>
-              </div>
+        {isSignatureMode && PDFSignatureViewer ? (
+          <PDFSignatureViewer 
+            document={document} 
+            onClose={() => setIsSignatureMode(false)} 
+          />
+        ) : (
+          <div className="h-full flex">
+            {/* Document preview */}
+            <div className="flex-1 bg-background">
+              <iframe
+                src={document.file_url}
+                className="w-full h-full"
+                title={document.name}
+              />
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
-   );
+  );
 }

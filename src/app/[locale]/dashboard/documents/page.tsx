@@ -23,6 +23,7 @@ import { Employee } from '@/types/employee';
 import DocumentTemplates from '@/components/documents/DocumentTemplates';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import SignaturePad from '@/components/documents/SignaturePad';
+import DeleteConfirmationModal from '@/components/documents/DeleteConfirmationModal';
 import EmptyState from '@/components/documents/EmptyState';
 import TourGuide from '@/components/shared/TourGuide';
 import HelpWidget from '@/components/shared/HelpWidget';
@@ -52,6 +53,9 @@ export default function DocumentsPage() {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [selectedDocumentForSign, setSelectedDocumentForSign] = useState<Document | null>(null);
   const [isSignatureModalOpen, setIsSignatureModalOpen] = useState(false);
+  const [documentToDelete, setDocumentToDelete] = useState<Document | null>(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Fetch initial data
   useEffect(() => {
@@ -139,20 +143,36 @@ export default function DocumentsPage() {
     setIsShareModalOpen(true);
   };
 
-  const handleDelete = async (document: Document) => {
-    if (!confirm(t('delete.confirm'))) return;
+  const handleDelete = (document: Document) => {
+    setDocumentToDelete(document);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!documentToDelete) return;
 
     try {
+      setIsDeleting(true);
       const { error } = await supabase
         .from('documents')
         .update({ status: 'deleted' })
-        .eq('id', document.id);
+        .eq('id', documentToDelete.id);
 
       if (error) throw error;
+      
       fetchDocuments();
+      setIsDeleteModalOpen(false);
+      setDocumentToDelete(null);
     } catch (error) {
       console.error('Error deleting document:', error);
+    } finally {
+      setIsDeleting(false);
     }
+  };
+
+  const cancelDelete = () => {
+    setIsDeleteModalOpen(false);
+    setDocumentToDelete(null);
   };
 
   // Handle opening upload modal or category modal if no categories
@@ -167,22 +187,24 @@ export default function DocumentsPage() {
   const handleSignRequest = async (document: Document) => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user) {
+        console.error('No authenticated user found');
+        return;
+      }
 
-      // Check if there's a pending signature for this user
-      const { data: signature, error } = await supabase
-        .from('document_signatures')
-        .select('*')
-        .eq('document_id', document.id)
-        .eq('signer_id', user.id)
-        .eq('signature_status', 'pending')
-        .single();
-
-      if (error) throw error;
-
-      if (signature) {
-        setSelectedDocumentForSign(document);
-        setIsSignatureModalOpen(true);
+      // Check if document requires signature and user hasn't signed yet
+      if (document.requires_signature) {
+        const signedBy = document.signed_by || [];
+        const hasUserSigned = signedBy.includes(user.id);
+        
+        if (!hasUserSigned) {
+          // Open document viewer in signature mode
+          setSelectedDocumentForSign(document);
+        } else {
+          console.log('User has already signed this document');
+        }
+      } else {
+        console.log('Document does not require signature');
       }
     } catch (error) {
       console.error('Error checking signature status:', error);
@@ -426,7 +448,10 @@ export default function DocumentsPage() {
       {selectedDocument && (
         <DocumentViewer
           document={selectedDocument}
-          onClose={() => setSelectedDocument(null)}
+          onClose={() => {
+            setSelectedDocument(null);
+            fetchDocuments(); // Recargar en caso de que se haya firmado
+          }}
         />
       )}
  
@@ -443,20 +468,24 @@ export default function DocumentsPage() {
       )}
 
       {selectedDocumentForSign && (
-        <SignaturePad
-          isOpen={isSignatureModalOpen}
-          onClose={() => {
-            setIsSignatureModalOpen(false);
-            setSelectedDocumentForSign(null);
-          }}
+        <DocumentViewer
           document={selectedDocumentForSign}
-          onSuccess={() => {
-            fetchDocuments();
-            setIsSignatureModalOpen(false);
+          signatureMode={true}
+          onClose={() => {
             setSelectedDocumentForSign(null);
+            fetchDocuments(); // Recargar documentos para actualizar el estado de firma
           }}
         />
       )}
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={cancelDelete}
+        onConfirm={confirmDelete}
+        document={documentToDelete}
+        loading={isDeleting}
+      />
 
       {/* Tour Guide */}
       <TourGuide

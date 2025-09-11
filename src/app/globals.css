@@ -28,6 +28,10 @@
   .btn-secondary {
     @apply bg-secondary text-corporate-white hover:bg-secondary/90 focus:ring-2 focus:ring-secondary/20 disabled:opacity-50 transition-colors;
   }
+  
+  .btn-danger {
+    @apply bg-red-600 text-white hover:bg-red-700 focus:ring-2 focus:ring-red-500/20 disabled:opacity-50 transition-colors;
+  }
 }
 
 /* React Day Picker customization */
@@ -241,5 +245,28 @@
     50% {
       box-shadow: 0 0 25px rgba(59, 130, 246, 0.6);
     }
+  }
+}
+
+/* Document Template Styles */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+.font-cursive {
+  font-family: 'Dancing Script', cursive;
+}
+
+.font-serif {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Document preview print styles */
+@media print {
+  .document-preview {
+    box-shadow: none;
+  }
+  
+  .document-preview * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 }

@@ -29,27 +29,6 @@ export default function DocumentList({
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
   }
 
-
-  const renderActions = (document: Document) => {
-    if (document.status === 'pending_signature') {
-      return (
-        <button
-          onClick={() => onSignRequest(document)}
-          className="inline-flex items-center gap-2 px-3 py-1.5 text-sm bg-primary text-white rounded-lg"
-        >
-          <PenLine className="w-4 h-4" />
-          {t('signDocument')}
-        </button>
-      );
-    }
-
-    return null;
-  };
-
-
-
-
-
   return (
     <div className="bg-card rounded-lg border border-card-border shadow-md divide-y divide-card-border">
       {documents.map((document) => (
@@ -74,6 +53,11 @@ export default function DocumentList({
                   {document.category.name}
                 </span>
               )}
+              {document.requires_signature && document.signature_status !== 'signed' && !document.is_signed && (
+                <span className="inline-flex px-2 py-0.5 text-xs font-medium rounded-full bg-orange-100 text-orange-600">
+                  Pendiente firma
+                </span>
+              )}
             </div>
             
             <div className="flex items-center gap-2 mt-1">
@@ -94,30 +78,43 @@ export default function DocumentList({
               </span>
             </div>
           </div>
-  
-          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-            {renderActions(document)}
-            <button
-              onClick={() => onDownload(document)}
-              className="p-2 text-sunset hover:text-primary hover:bg-background rounded-lg transition-colors"
-              title="Download"
-            >
-              <DownloadCloud className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => onShare(document)}
-              className="p-2 text-sunset hover:text-primary hover:bg-background rounded-lg transition-colors"
-              title="Share"
-            >
-              <Share2 className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => onDelete(document)}
-              className="p-2 text-sunset hover:text-error hover:bg-error/10 rounded-lg transition-colors"
-              title="Delete"
-            >
-              <Trash2 className="w-4 h-4" />
-            </button>
+
+          <div className="flex items-center gap-2">
+            {/* Botón de firma siempre visible a la derecha */}
+            {document.requires_signature && document.signature_status !== 'signed' && !document.is_signed && (
+              <button
+                onClick={() => onSignRequest(document)}
+                className="inline-flex items-center gap-2 px-3 py-1.5 text-sm bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+              >
+                <PenLine className="w-4 h-4" />
+                {t('signDocument')}
+              </button>
+            )}
+            
+            {/* Botones de acción en hover */}
+            <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button
+                onClick={() => onDownload(document)}
+                className="p-2 text-sunset hover:text-primary hover:bg-background rounded-lg transition-colors"
+                title="Download"
+              >
+                <DownloadCloud className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => onShare(document)}
+                className="p-2 text-sunset hover:text-primary hover:bg-background rounded-lg transition-colors"
+                title="Share"
+              >
+                <Share2 className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => onDelete(document)}
+                className="p-2 text-sunset hover:text-error hover:bg-error/10 rounded-lg transition-colors"
+                title="Delete"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
       ))}

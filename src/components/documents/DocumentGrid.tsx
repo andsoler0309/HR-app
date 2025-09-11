@@ -34,24 +34,6 @@ export default function DocumentGrid({
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
   }
 
-  const renderActions = (document: Document) => {
-    if (document.status === 'pending_signature') {
-      return (
-        <button
-          onClick={() => onSignRequest(document)}
-          className="inline-flex items-center gap-2 px-3 py-1.5 text-sm bg-primary text-white rounded-lg"
-        >
-          <PenLine className="w-4 h-4" />
-          {t('signDocument')}
-        </button>
-      );
-    }
-
-    return null;
-  }
-
-
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {documents.map((document) => (
@@ -94,28 +76,39 @@ export default function DocumentGrid({
   
           {/* Actions */}
           <div className="flex justify-center gap-1 p-3 border-t border-card-border">
-            {renderActions(document)}
-            <button
-              onClick={() => onDownload(document)}
-              className="p-2 text-sunset hover:text-primary hover:bg-background rounded-lg transition-colors"
-              title="Download"
-            >
-              <DownloadCloud className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => onShare(document)}
-              className="p-2 text-sunset hover:text-primary hover:bg-background rounded-lg transition-colors"
-              title="Share"
-            >
-              <Share2 className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => onDelete(document)}
-              className="p-2 text-sunset hover:text-error hover:bg-error/10 rounded-lg transition-colors"
-              title="Delete"
-            >
-              <Trash2 className="w-4 h-4" />
-            </button>
+            {document.requires_signature && document.signature_status !== 'signed' && !document.is_signed ? (
+              <button
+                onClick={() => onSignRequest(document)}
+                className="inline-flex items-center gap-2 px-3 py-1.5 text-sm bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+              >
+                <PenLine className="w-4 h-4" />
+                {t('signDocument')}
+              </button>
+            ) : (
+              <>
+                <button
+                  onClick={() => onDownload(document)}
+                  className="p-2 text-sunset hover:text-primary hover:bg-background rounded-lg transition-colors"
+                  title="Download"
+                >
+                  <DownloadCloud className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => onShare(document)}
+                  className="p-2 text-sunset hover:text-primary hover:bg-background rounded-lg transition-colors"
+                  title="Share"
+                >
+                  <Share2 className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => onDelete(document)}
+                  className="p-2 text-sunset hover:text-error hover:bg-error/10 rounded-lg transition-colors"
+                  title="Delete"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </>
+            )}
           </div>
         </div>
       ))}

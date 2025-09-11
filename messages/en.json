@@ -461,6 +461,8 @@
       "deleteTemplate": "Delete Template",
       "preview": "Preview",
       "save": "Save",
+      "saving": "Saving...",
+      "loading": "Loading...",
       "requireSignature": "Require Electronic Signature",
       "enableSignature": "Enable if this document requires electronic signatures",
       "employeeSignature": "Employee Signature",
@@ -468,7 +470,8 @@
       "upload": "Upload",
       "uploading": "Uploading...",
       "signDocument": "Sign Document",
-      "generateDocument": "Generate Document"
+      "generateDocument": "Generate Document",
+      "close": "Close"
     },
     "tabs": {
       "documents": "Documents",
@@ -508,6 +511,8 @@
       "enterDescription": "Enter description...",
       "requireSignature": "Require Electronic Signature",
       "enableSignature": "Enable if this document requires electronic signatures",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
       "requiredSignatures": "Required Signatures",
       "employeeSignature": "Employee Signature",
       "managerSignature": "Manager Signature",
@@ -520,6 +525,15 @@
       "loadingTemplates": "Loading templates...",
       "noTemplates": "No templates found. Create your first template!",
       "confirmDelete": "Are you sure you want to delete this template?",
+      "generateDocument": "Generate Document",
+      "template": "Template",
+      "selectEmployee": "Select Employee",
+      "optional": "optional",
+      "generalDocument": "General Document (no employee)",
+      "generating": "Generating...",
+      "documentGenerated": "Document Generated!",
+      "documentGeneratedDescription": "The document has been generated successfully. You can find it in the documents section.",
+      "viewDocuments": "View Documents",
       "error": {
         "noAuthenticatedUser": "No authenticated user",
         "unknownError": "An unknown error occurred"
@@ -561,6 +575,20 @@
     "delete": {
       "confirm": "Are you sure you want to delete this document?"
     },
+    "deleteModal": {
+      "title": "Delete Document",
+      "message": "Are you sure you want to delete this document? This action cannot be undone.",
+      "warning": "Once deleted, you will not be able to recover this document or its content.",
+      "confirmDelete": "Delete",
+      "deleting": "Deleting..."
+    },
+    "deleteTemplateModal": {
+      "title": "Delete Template",
+      "message": "Are you sure you want to delete this template? This action cannot be undone.",
+      "warning": "Once deleted, you will not be able to recover this template or generate documents with it.",
+      "confirmDelete": "Delete",
+      "deleting": "Deleting..."
+    },
     "uploadVersionModal": {
       "title": "Upload New Version",
       "file": "File",
@@ -580,7 +608,39 @@
       "versionHistory": "Version History",
       "currentVersion": "Current Version",
       "versionNumber": "v{version}",
-      "versionDate": "{date}"
+      "versionDate": "{date}",
+      "signDocument": "Sign Document",
+      "signatureMode": "Signature Mode",
+      "dragSignatures": "Drag and drop signatures onto the document",
+      "addSignature": "Add Signature",
+      "saveDocument": "Save Document",
+      "pageOf": "Page {current} of {total}",
+      "signaturesCount": "{count} signatures added",
+      "moveSignature": "Drag to move",
+      "resizeSignature": "Drag corners to resize",
+      "back": "Back"
+    },
+    "savedSignatures": {
+      "title": "Saved Signatures",
+      "yourSignatures": "Your Signatures",
+      "createNew": "Create New",
+      "createSignature": "Create Signature",
+      "signatureName": "Signature Name",
+      "enterSignatureName": "Enter signature name",
+      "drawSignature": "Draw your signature",
+      "clear": "Clear",
+      "saveSignature": "Save Signature",
+      "noSignatures": "No signatures saved yet. Create your first signature!",
+      "confirmDelete": "Are you sure you want to delete this signature?"
+    },
+    "signing": {
+      "success": "Document signed successfully",
+      "signaturesApplied": "Digital signatures applied",
+      "pdfUpdated": "PDF updated in the system",
+      "statusUpdated": "Status updated to \"Signed\"",
+      "documentProcessed": "Document processed",
+      "close": "Close",
+      "viewDocuments": "Refresh page"
     },
     "generateDocumentModal": {
       "title": "Generate Document for {firstName} {lastName}",
