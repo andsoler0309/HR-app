@@ -821,58 +821,89 @@ const DocumentTemplates = () => {
             templates.map((template) => (
               <Card
                 key={template.id}
-                className="p-4 hover:shadow-lg transition-shadow"
+                className="group relative overflow-hidden border border-card-border hover:border-primary/30 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-card to-card/50"
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-start gap-3 flex-1 min-w-0">
-                    <div className="p-2 bg-primary/10 text-primary rounded-lg flex-shrink-0">
-                      <FileText className="w-5 h-5" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <h3 className="font-medium text-platinum truncate">{template.name}</h3>
-                      {template.description && (
-                        <p className="text-sm text-sunset mt-1 line-clamp-2">
-                          {template.description}
-                        </p>
-                      )}
-                      <div className="flex flex-wrap gap-2 mt-2">
-                        {template.category && (
-                          <span className="inline-block text-xs bg-background px-2 py-1 rounded-full text-sunset">
-                            {template.category.name}
-                          </span>
-                        )}
-                        {template.requires_signature && (
-                          <span className="inline-block text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
-                            {tButtons('requireSignature')}
-                          </span>
+                {/* Header con icono y badges */}
+                <div className="p-4 border-b border-card-border/50">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-start gap-3 flex-1 min-w-0">
+                      <div className={`p-3 rounded-xl flex-shrink-0 transition-colors ${
+                        template.requires_signature 
+                          ? 'bg-primary/15 text-primary group-hover:bg-primary/20' 
+                          : 'bg-sunset/10 text-sunset group-hover:bg-sunset/15'
+                      }`}>
+                        <FileText className="w-5 h-5" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="font-semibold text-lg text-platinum group-hover:text-primary transition-colors">
+                          {template.name}
+                        </h3>
+                        {template.description && (
+                          <p className="text-sm text-sunset/80 mt-1 line-clamp-2 leading-relaxed">
+                            {template.description}
+                          </p>
                         )}
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
-                    <button
-                      onClick={() => handleGenerateDocument(template)}
-                      className="p-1.5 sm:p-2 text-primary hover:text-primary/80 hover:bg-primary/10 rounded-lg transition-colors"
-                      title="Generar Documento"
-                    >
-                      <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleEdit(template)}
-                      className="p-1.5 sm:p-2 text-sunset hover:text-vanilla hover:bg-background rounded-lg transition-colors"
-                      title="Editar"
-                    >
-                      <PenLine className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(template)}
-                      className="p-1.5 sm:p-2 text-error hover:text-error/80 hover:bg-error/10 rounded-lg transition-colors"
-                      title="Eliminar"
-                    >
-                      <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    </button>
+
+                  {/* Badges mejorados */}
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {template.category && (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-background/80 text-sunset border border-sunset/20 rounded-full">
+                        <span className="w-2 h-2 bg-sunset/40 rounded-full"></span>
+                        {template.category.name}
+                      </span>
+                    )}
+                    {template.requires_signature ? (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-primary/10 text-primary border border-primary/20 rounded-full">
+                        <PenLine className="w-3 h-3" />
+                        {tButtons('requireSignature')}
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-green-50 text-green-600 border border-green-200 rounded-full">
+                        <span className="w-2 h-2 bg-green-400 rounded-full"></span>
+                        Sin firma requerida
+                      </span>
+                    )}
                   </div>
                 </div>
+
+                {/* Actions */}
+                <div className="p-4 bg-card/30">
+                  <div className="flex items-center justify-between">
+                    <div className="text-xs text-sunset/60">
+                      Plantilla • Versión 1.0
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => handleGenerateDocument(template)}
+                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary hover:text-white bg-primary/10 hover:bg-primary border border-primary/20 hover:border-primary rounded-lg transition-all duration-200"
+                        title="Generar Documento"
+                      >
+                        <FileText className="w-4 h-4" />
+                        <span className="hidden sm:inline">Generar</span>
+                      </button>
+                      <button
+                        onClick={() => handleEdit(template)}
+                        className="p-2 text-sunset hover:text-vanilla hover:bg-background border border-transparent hover:border-sunset/20 rounded-lg transition-all duration-200"
+                        title="Editar"
+                      >
+                        <PenLine className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(template)}
+                        className="p-2 text-error/70 hover:text-error hover:bg-error/10 border border-transparent hover:border-error/20 rounded-lg transition-all duration-200"
+                        title="Eliminar"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Hover effect overlay */}
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
               </Card>
             ))
           )}
