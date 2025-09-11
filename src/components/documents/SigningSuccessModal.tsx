@@ -38,10 +38,10 @@ export default function SigningSuccessModal({
             <CheckCircle className="w-8 h-8 text-green-600" />
           </div>
           <h2 className="text-xl font-semibold text-platinum mb-2">
-            🎉 ¡Documento firmado exitosamente!
+            🎉 {t('success')}
           </h2>
           <p className="text-sunset text-sm">
-            Las firmas han sido integradas permanentemente al PDF
+            {t('successSubtitle')}
           </p>
         </div>
 
@@ -52,7 +52,7 @@ export default function SigningSuccessModal({
               <FileText className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
               <div>
                 <h3 className="font-medium text-green-800 mb-1">
-                  Documento procesado
+                  {t('documentProcessed')}
                 </h3>
                 <p className="text-green-700 text-sm break-words">
                   {documentName}
@@ -64,15 +64,15 @@ export default function SigningSuccessModal({
           <div className="space-y-3 text-sm text-sunset">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span>Firmas digitales aplicadas</span>
+              <span>{t('signaturesApplied')}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span>PDF actualizado en el sistema</span>
+              <span>{t('pdfUpdated')}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span>Estado actualizado a "Firmado"</span>
+              <span>{t('statusUpdated')}</span>
             </div>
           </div>
         </div>
@@ -83,13 +83,13 @@ export default function SigningSuccessModal({
             onClick={onClose}
             className="flex-1 px-4 py-2 text-sunset hover:text-platinum border border-card-border rounded-lg hover:bg-background transition-colors"
           >
-            Cerrar
+            {t('close')}
           </button>
           <button
             onClick={handleRedirect}
             className="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
           >
-            <span>Actualizar página</span>
+            <span>{t('viewDocuments')}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>

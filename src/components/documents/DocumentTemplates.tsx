@@ -138,6 +138,7 @@ const DocumentTemplates = () => {
   const router = useRouter();
   const t = useTranslations('documents.templates');
   const tButtons = useTranslations('documents.buttons');
+  const tSigning = useTranslations('documents.signing');
   const tCategoryModal = useTranslations('documents.category');
   const { companyName } = useCompany();
 
@@ -591,7 +592,7 @@ const DocumentTemplates = () => {
                     <span className={`text-xs font-medium ${
                       formData.requires_signature ? 'text-primary' : 'text-sunset/60'
                     }`}>
-                      {formData.requires_signature ? t('enabled') || 'Habilitado' : t('disabled') || 'Deshabilitado'}
+                      {formData.requires_signature ? t('enabled') : t('disabled')}
                     </span>
                     <Switch
                       checked={formData.requires_signature}
@@ -607,7 +608,7 @@ const DocumentTemplates = () => {
                       {t('requiredSignatures')}
                     </label>
                     <div className="space-y-2">
-                      <label className="flex items-center gap-2">
+                      {/* <label className="flex items-center gap-2">
                         <input
                           type="checkbox"
                           checked={formData.required_signatures.includes('employee')}
@@ -615,7 +616,7 @@ const DocumentTemplates = () => {
                           className="rounded border-card-border text-primary focus:ring-flame"
                         />
                         <span className="text-sm text-sunset">{t('employeeSignature')}</span>
-                      </label>
+                      </label> */}
                       <label className="flex items-center gap-2">
                         <input
                           type="checkbox"
@@ -671,7 +672,7 @@ const DocumentTemplates = () => {
                       onClick={() => setShowPreview(false)}
                       className="text-sunset hover:text-vanilla text-sm"
                     >
-                      Ocultar Preview
+                      {t('hidePreview')}
                     </button>
                   </div>
                 </div>
@@ -693,10 +694,10 @@ const DocumentTemplates = () => {
                   <div className="flex items-center justify-between mb-4">
                     <h4 className="text-sm font-medium text-gray-700 flex items-center gap-2">
                       <Eye className="w-4 h-4" />
-                      Vista Previa del Documento
+                      {t('documentPreview')}
                     </h4>
                     <div className="text-xs text-gray-500 bg-white px-2 py-1 rounded">
-                      Tamaño Carta (8.5" x 11")
+                      {t('letterSize')}
                     </div>
                   </div>
                   
@@ -722,20 +723,20 @@ const DocumentTemplates = () => {
                       className="px-3 py-1 text-xs bg-white border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50"
                       disabled={previewZoom >= 1.5}
                     >
-                      🔍+ Acercar
+                      {t('zoomIn')}
                     </button>
                     <button
                       onClick={() => setPreviewZoom(Math.max(previewZoom - 0.1, 0.5))}
                       className="px-3 py-1 text-xs bg-white border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50"
                       disabled={previewZoom <= 0.5}
                     >
-                      🔍- Alejar
+                      {t('zoomOut')}
                     </button>
                     <button
                       onClick={() => setPreviewZoom(1)}
                       className="px-3 py-1 text-xs bg-white border border-gray-300 rounded hover:bg-gray-50"
                     >
-                      � Tamaño Real
+                      {t('actualSize')}
                     </button>
                     <button
                       onClick={() => {
@@ -745,7 +746,7 @@ const DocumentTemplates = () => {
                           printWindow.document.write(`
                             <html>
                               <head>
-                                <title>Vista Previa - ${formData.name}</title>
+                                <title>${t('printTitle')} - ${formData.name}</title>
                                 <style>
                                   @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap');
                                   body { margin: 0; padding: 20px; font-family: 'Playfair Display', serif; }
@@ -764,15 +765,15 @@ const DocumentTemplates = () => {
                                       ${formData.required_signatures.includes('employee') ? `
                                         <div class="signature">
                                           <div class="signature-line"></div>
-                                          <div>Firma del Empleado</div>
-                                          <div>Fecha: _______________</div>
+                                          <div>${tSigning('employeeSignature')}</div>
+                                          <div>${tSigning('date')}: _______________</div>
                                         </div>
                                       ` : ''}
                                       ${formData.required_signatures.includes('manager') ? `
                                         <div class="signature">
                                           <div class="signature-line"></div>
-                                          <div>Firma del Supervisor</div>
-                                          <div>Fecha: _______________</div>
+                                          <div>${tSigning('managerSignature')}</div>
+                                          <div>${tSigning('date')}: _______________</div>
                                         </div>
                                       ` : ''}
                                     </div>
@@ -786,7 +787,7 @@ const DocumentTemplates = () => {
                       }}
                       className="px-3 py-1 text-xs bg-white border border-gray-300 rounded hover:bg-gray-50"
                     >
-                      🖨️ Vista Previa de Impresión
+                      {t('print')}
                     </button>
                   </div>
                 </div>
@@ -863,7 +864,7 @@ const DocumentTemplates = () => {
                     ) : (
                       <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-green-50 text-green-600 border border-green-200 rounded-full">
                         <span className="w-2 h-2 bg-green-400 rounded-full"></span>
-                        Sin firma requerida
+                        {t('noSignatureRequired')}
                       </span>
                     )}
                   </div>
@@ -873,28 +874,28 @@ const DocumentTemplates = () => {
                 <div className="p-4 bg-card/30">
                   <div className="flex items-center justify-between">
                     <div className="text-xs text-sunset/60">
-                      Plantilla • Versión 1.0
+                      {t('templateVersion')}
                     </div>
                     <div className="flex items-center gap-1">
                       <button
                         onClick={() => handleGenerateDocument(template)}
                         className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary hover:text-white bg-primary/10 hover:bg-primary border border-primary/20 hover:border-primary rounded-lg transition-all duration-200"
-                        title="Generar Documento"
+                        title={t('generateDocumentTitle')}
                       >
                         <FileText className="w-4 h-4" />
-                        <span className="hidden sm:inline">Generar</span>
+                        <span className="hidden sm:inline">{t('generate')}</span>
                       </button>
                       <button
                         onClick={() => handleEdit(template)}
                         className="p-2 text-sunset hover:text-vanilla hover:bg-background border border-transparent hover:border-sunset/20 rounded-lg transition-all duration-200"
-                        title="Editar"
+                        title={t('edit')}
                       >
                         <PenLine className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => handleDelete(template)}
                         className="p-2 text-error/70 hover:text-error hover:bg-error/10 border border-transparent hover:border-error/20 rounded-lg transition-all duration-200"
-                        title="Eliminar"
+                        title={t('delete')}
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -983,7 +984,7 @@ const DocumentTemplates = () => {
                   {isGenerating && (
                     <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
                   )}
-                  {isGenerating ? t('generating') || 'Generando...' : tButtons('generateDocument')}
+                  {isGenerating ? t('generating') : tButtons('generateDocument')}
                 </button>
               </div>
             </div>
@@ -1002,17 +1003,17 @@ const DocumentTemplates = () => {
                 </svg>
               </div>
               <h3 className="text-lg font-semibold text-platinum mb-2">
-                {t('documentGenerated') || '¡Documento Generado!'}
+                {t('documentGenerated')}
               </h3>
               <p className="text-sm text-sunset mb-6">
-                {t('documentGeneratedDescription') || 'El documento se ha generado exitosamente. Puedes encontrarlo en la sección de documentos.'}
+                {t('documentGeneratedDescription')}
               </p>
               <div className="flex justify-center gap-3">
                 <button
                   onClick={() => setShowSuccessModal(false)}
                   className="btn-secondary px-4 py-2 rounded-lg"
                 >
-                  {tButtons('close') || 'Cerrar'}
+                  {tButtons('close')}
                 </button>
                 <button
                   onClick={() => {
@@ -1025,7 +1026,7 @@ const DocumentTemplates = () => {
                   }}
                   className="btn-primary px-4 py-2 rounded-lg"
                 >
-                  {t('viewDocuments') || 'Ver Documentos'}
+                  {t('viewDocuments')}
                 </button>
               </div>
             </div>
