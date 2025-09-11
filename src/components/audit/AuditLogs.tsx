@@ -237,10 +237,10 @@ export default function AuditLogs() {
               <label className="block text-sm font-medium text-sunset mb-1">
                 {t('action')}
               </label>
-              <select
+                            <select
                 value={filters.action || ''}
                 onChange={(e) => setFilters(prev => ({ ...prev, action: e.target.value as AuditAction || undefined }))}
-                className="input-base w-full"
+                className="select-custom w-full"
               >
                 <option value="">{t('allActions')}</option>
                 <option value="CREATE">{t('actions.create')}</option>
@@ -257,10 +257,15 @@ export default function AuditLogs() {
               <label className="block text-sm font-medium text-sunset mb-1">
                 {t('resource')}
               </label>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-sunset mb-1">
+                {t('resource')}
+              </label>
               <select
                 value={filters.resource || ''}
                 onChange={(e) => setFilters(prev => ({ ...prev, resource: e.target.value as AuditResource || undefined }))}
-                className="input-base w-full"
+                className="select-custom w-full"
               >
                 <option value="">{t('allResources')}</option>
                 <option value="EMPLOYEE">{t('resources.employee')}</option>

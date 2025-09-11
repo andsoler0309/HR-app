@@ -275,7 +275,7 @@ export default function CreatePolicyModal({
             <label className="block text-sm font-medium text-sunset">{t('createPolicyModal.labels.policyType')}</label>
             <select
               {...register('type')}
-              className={`input-base mt-1 block w-full ${
+              className={`select-custom mt-1 block w-full ${
                 errors.type ? 'border-error' : 'border-card-border'
               }`}
               disabled={isLoading}

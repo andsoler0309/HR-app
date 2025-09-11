@@ -128,7 +128,7 @@ export default function RequestForm({ user, onSuccess }: RequestFormProps) {
           <select
             value={type}
             onChange={(e) => setType(e.target.value)}
-            className="input-base w-full pl-10 pr-10"
+            className="select-custom w-full pl-10 pr-10"
           >
             <option value="TIME_OFF">{t('timeOffRequest')}</option>
           </select>
@@ -195,7 +195,7 @@ export default function RequestForm({ user, onSuccess }: RequestFormProps) {
                   leave_type: e.target.value,
                 })
               }
-              className="input-base w-full"
+              className="select-custom w-full"
             >
               <option value="">{t('selectLeaveType')}</option>
               {policies.map((policy) => (

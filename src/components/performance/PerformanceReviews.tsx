@@ -257,7 +257,7 @@ export default function PerformanceReviews() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as ReviewStatus | 'ALL')}
-              className="input-base"
+              className="select-custom"
             >
               <option value="ALL">{t('allStatuses')}</option>
               <option value="DRAFT">{t('status.draft')}</option>

@@ -415,7 +415,7 @@ export default function EmployeesPage() {
       </div>
 
       {/* Employees Table/Cards */}
-      <div className="employee-table bg-card rounded-xl shadow-sm border border-card-border overflow-hidden">
+      <div className="employee-table bg-card rounded-xl shadow-sm border border-card-border overflow-hidden flex-1 min-h-0">
         {/* Search and Filter Bar */}
         <div className="search-filters p-4 border-b border-card-border bg-card/50">
           <div className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-3 sm:items-center">
@@ -431,7 +431,7 @@ export default function EmployeesPage() {
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
               <select
-                className="input-base px-3 py-2.5 text-sm bg-background border-card-border focus:border-primary"
+                className="select-custom"
                 value={departmentFilter}
                 onChange={(e) => setDepartmentFilter(e.target.value)}
               >
@@ -453,38 +453,35 @@ export default function EmployeesPage() {
             </div>
           </div>
         </div>          {/* Table - Desktop View */}
-          <div className="hidden lg:block overflow-x-auto scrollbar-custom">
-            <table className="w-full">
-              <thead>
+          <div className="hidden lg:block overflow-x-auto">
+            <table className="w-full min-w-max">
+              <thead className="bg-slate-50/50">
                 <tr className="border-b border-card-border">
-                  <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-4 py-4">
+                  <th className="text-xs font-semibold text-slate-600 uppercase tracking-wider text-left px-4 py-3">
                     {t("table.name")}
                   </th>
-                  <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-4 py-4">
+                  <th className="text-xs font-semibold text-slate-600 uppercase tracking-wider text-left px-4 py-3">
                     {t("table.email")}
                   </th>
-                  <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-4 py-4">
-                    {t("table.position")}
-                  </th>
-                  <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-4 py-4">
+                  <th className="text-xs font-semibold text-slate-600 uppercase tracking-wider text-left px-4 py-3">
                     {t("table.department")}
                   </th>
-                  <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-4 py-4">
+                  <th className="text-xs font-semibold text-slate-600 uppercase tracking-wider text-left px-4 py-3">
                     {t("table.status")}
                   </th>
-                  <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-4 py-4">
+                  <th className="text-xs font-semibold text-slate-600 uppercase tracking-wider text-left px-4 py-3">
                     {t("table.type")}
                   </th>
-                  <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-4 py-4">
+                  <th className="text-xs font-semibold text-slate-600 uppercase tracking-wider text-left px-4 py-3">
                     {t("table.hireDate")}
                   </th>
-                  <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-4 py-4">
+                  <th className="text-xs font-semibold text-slate-600 uppercase tracking-wider text-left px-4 py-3">
                     {t("table.workingStatus")}
                   </th>
-                  <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-4 py-4">
+                  <th className="text-xs font-semibold text-slate-600 uppercase tracking-wider text-left px-4 py-3">
                     {t("table.actions")}
                   </th>
-                  <th className="text-sm font-medium text-sunset uppercase tracking-wider text-left px-4 py-4">
+                  <th className="text-xs font-semibold text-slate-600 uppercase tracking-wider text-left px-4 py-3">
                     {t("table.token")}
                   </th>
                 </tr>
@@ -510,75 +507,104 @@ export default function EmployeesPage() {
                   </tr>
                 ) : (
                   filteredEmployees.map((employee) => (
-                    <tr key={employee.id} className="hover:bg-background/50">
+                    <tr key={employee.id} className="hover:bg-background/50 transition-colors duration-200 border-b border-card-border/50 last:border-b-0">
                       <td className="px-4 py-4">
                         <div className="flex items-center">
-                          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-base text-primary">
+                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary via-primary to-accent flex items-center justify-center text-sm font-semibold text-white shadow-md ring-2 ring-white flex-shrink-0">
                             {employee.first_name?.[0]?.toUpperCase()}
                             {employee.last_name?.[0]?.toUpperCase()}
                           </div>
-                          <span className="ml-3 text-base font-medium text-platinum">
-                            {employee.first_name} {employee.last_name}
+                          <div className="ml-3">
+                            <div className="text-base font-semibold text-platinum">
+                              {employee.first_name} {employee.last_name}
+                            </div>
+                            <div className="text-sm text-sunset/80">
+                              {employee.position}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-4 py-4">
+                        <span className="text-sm text-sunset font-medium">
+                          {employee.email}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4">
+                        <span className="text-sm text-sunset">
+                          {employee.department?.name || t("table.na")}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4">
+                        <div className="flex items-center">
+                          <span
+                            className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border ${
+                              employee.is_active
+                                ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                                : "bg-rose-50 text-rose-700 border-rose-200"
+                            }`}
+                          >
+                            <div className={`w-1.5 h-1.5 rounded-full ${
+                              employee.is_active ? "bg-emerald-500" : "bg-rose-500"
+                            }`} />
+                            {employee.is_active
+                              ? t("status.active")
+                              : t("status.inactive")}
                           </span>
                         </div>
                       </td>
-                      <td className="px-4 py-4 text-base text-sunset">
-                        {employee.email}
-                      </td>
-                      <td className="px-4 py-4 text-base text-sunset">
-                        {employee.position}
-                      </td>
-                      <td className="px-4 py-4 text-base text-sunset">
-                        {employee.department?.name || t("table.na")}
-                      </td>
                       <td className="px-4 py-4">
-                        <span
-                          className={`inline-flex px-3 py-1.5 text-sm font-medium rounded-full ${
-                            employee.is_active
-                              ? "bg-success/10 text-success"
-                              : "bg-error/10 text-error"
-                          }`}
-                        >
-                          {employee.is_active
-                            ? t("status.active")
-                            : t("status.inactive")}
-                        </span>
-                      </td>
-                      <td className="px-4 py-4">
-                        <span
-                          className={`inline-flex px-3 py-1.5 text-sm font-medium rounded-full ${
-                            employee.status === "FULL_TIME"
-                              ? "bg-success/10 text-success"
-                              : employee.status === "PART_TIME"
-                              ? "bg-warning/10 text-warning"
-                              : "bg-card text-sunset"
-                          }`}
-                        >
-                          {t(
-                            `status.${
+                        <div className="flex items-center">
+                          <span
+                            className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border ${
                               employee.status === "FULL_TIME"
-                                ? "fullTime"
-                                : "partTime"
-                            }`
-                          )}
-                        </span>
-                      </td>
-                      <td className="px-4 py-4 text-base text-sunset">
-                        {new Date(employee.hire_date).toLocaleDateString()}
+                                ? "bg-blue-50 text-blue-700 border-blue-200"
+                                : employee.status === "PART_TIME"
+                                ? "bg-amber-50 text-amber-700 border-amber-200"
+                                : "bg-gray-50 text-gray-600 border-gray-200"
+                            }`}
+                          >
+                            <div className={`w-1.5 h-1.5 rounded-full ${
+                              employee.status === "FULL_TIME"
+                                ? "bg-blue-500"
+                                : employee.status === "PART_TIME"
+                                ? "bg-amber-500"
+                                : "bg-gray-400"
+                            }`} />
+                            {t(
+                              `status.${
+                                employee.status === "FULL_TIME"
+                                  ? "fullTime"
+                                  : "partTime"
+                              }`
+                            )}
+                          </span>
+                        </div>
                       </td>
                       <td className="px-4 py-4">
-                        <span
-                          className={`inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full ${
-                            employee.current_attendance
-                              ? "bg-success/10 text-success"
-                              : "bg-card text-sunset"
-                          }`}
-                        >
-                          <Clock className="w-4 h-4" />
-                          {employee.current_attendance
-                            ? t("status.working")
-                            : t("status.notWorking")}
+                        <span className="text-sm text-sunset font-medium">
+                          {new Date(employee.hire_date).toLocaleDateString()}
                         </span>
+                      </td>
+                      <td className="px-4 py-4">
+                        <div className="flex items-center">
+                          <span
+                            className={`inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-lg border transition-all duration-200 ${
+                              employee.current_attendance
+                                ? "bg-green-50 text-green-700 border-green-200"
+                                : "bg-slate-50 text-slate-600 border-slate-200"
+                            }`}
+                          >
+                            <div className="relative">
+                              <Clock className="w-3.5 h-3.5" />
+                              {employee.current_attendance && (
+                                <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                              )}
+                            </div>
+                            {employee.current_attendance
+                              ? t("status.working")
+                              : t("status.notWorking")}
+                          </span>
+                        </div>
                       </td>
                       <td className="px-4 py-4">
                         <div data-tour="employee-actions">
@@ -595,32 +621,34 @@ export default function EmployeesPage() {
                           />
                         </div>
                       </td>
-                      <td className="px-4 py-4">
+                      <td className="px-4 py-4 max-w-xs">
                         <div className="portal-access">
                           {accessTokens[employee.id] ? (
-                            <div>
-                              <div className="text-sm text-sunset mb-1">
+                            <div className="bg-slate-50 rounded-lg p-2 border border-slate-200">
+                              <div className="text-xs text-slate-600 mb-1 font-medium">
                                 {t("actions.accessToken")}
                               </div>
-                              <code className="text-base font-mono text-platinum">
-                                {accessTokens[employee.id]}
-                              </code>
+                              <div className="bg-white rounded p-1.5 border border-slate-200 shadow-sm">
+                                <code className="text-xs font-mono text-slate-700 break-all block truncate">
+                                  {accessTokens[employee.id]}
+                                </code>
+                              </div>
                             </div>
                           ) : (
                             <div className="relative group">
                               <button
                                 onClick={() => generatePortalAccess(employee)}
-                                className={`text-xs ${
+                                className={`text-xs px-3 py-1.5 rounded-lg border font-medium transition-all duration-200 ${
                                   policies.length === 0
-                                    ? "text-sunset/50 cursor-not-allowed"
-                                    : "text-primary hover:text-vanilla"
+                                    ? "text-slate-400 cursor-not-allowed bg-slate-50 border-slate-200"
+                                    : "text-primary hover:text-white hover:bg-primary border-primary/30 hover:border-primary hover:shadow-sm"
                                 }`}
                                 disabled={policies.length === 0}
                               >
                                 {t("actions.generateAccess")}
                               </button>
                               {policies.length === 0 && (
-                                <div className="absolute left-0 bottom-full mb-2 w-48 p-3 bg-card text-platinum text-xs rounded-lg shadow-lg border border-card-border opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                                <div className="absolute left-0 bottom-full mb-2 w-48 p-3 bg-white text-slate-600 text-xs rounded-lg shadow-lg border border-slate-200 opacity-0 group-hover:opacity-100 transition-opacity z-10">
                                   {t("alerts.policyRequired.message")}
                                 </div>
                               )}
@@ -648,11 +676,11 @@ export default function EmployeesPage() {
             ) : (
               <div className="divide-y divide-card-border">
                 {filteredEmployees.map((employee) => (
-                  <div key={employee.id} className="p-4 hover:bg-background/30 transition-colors">
+                  <div key={employee.id} className="p-4 hover:bg-background/30 transition-colors duration-200">
                     {/* Header with avatar and status */}
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center min-w-0 flex-1">
-                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold flex-shrink-0">
+                        <div className="w-11 h-11 rounded-full bg-gradient-to-br from-primary via-primary to-accent flex items-center justify-center text-white font-semibold flex-shrink-0 shadow-md ring-2 ring-white">
                           {employee.first_name?.[0]?.toUpperCase()}
                           {employee.last_name?.[0]?.toUpperCase()}
                         </div>
@@ -660,18 +688,23 @@ export default function EmployeesPage() {
                           <h3 className="text-base font-semibold text-platinum truncate">
                             {employee.first_name} {employee.last_name}
                           </h3>
-                          <p className="text-sm text-sunset truncate">{employee.position}</p>
+                          <p className="text-sm text-sunset/80 truncate">{employee.position}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2 flex-shrink-0">
                         <span
-                          className={`inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full ${
+                          className={`inline-flex items-center gap-1.5 px-2 py-1 text-xs font-medium rounded-lg border ${
                             employee.current_attendance
-                              ? "bg-success/10 text-success"
-                              : "bg-card text-sunset"
+                              ? "bg-green-50 text-green-700 border-green-200"
+                              : "bg-slate-50 text-slate-600 border-slate-200"
                           }`}
                         >
-                          <Clock className="w-3 h-3" />
+                          <div className="relative">
+                            <Clock className="w-3 h-3" />
+                            {employee.current_attendance && (
+                              <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+                            )}
+                          </div>
                           <span className="hidden xs:inline">
                             {employee.current_attendance ? t("status.working") : t("status.notWorking")}
                           </span>
@@ -682,36 +715,46 @@ export default function EmployeesPage() {
                     {/* Employee details grid */}
                     <div className="grid grid-cols-2 gap-3 text-sm mb-4">
                       <div className="min-w-0">
-                        <span className="text-sunset text-xs block">{t("table.email")}</span>
+                        <span className="text-sunset text-xs block font-medium mb-1">{t("table.email")}</span>
                         <p className="text-platinum text-sm truncate">{employee.email}</p>
                       </div>
                       <div className="min-w-0">
-                        <span className="text-sunset text-xs block">{t("table.department")}</span>
+                        <span className="text-sunset text-xs block font-medium mb-1">{t("table.department")}</span>
                         <p className="text-platinum text-sm truncate">{employee.department?.name || t("table.na")}</p>
                       </div>
                       <div>
-                        <span className="text-sunset text-xs block">{t("table.status")}</span>
+                        <span className="text-sunset text-xs block font-medium mb-1">{t("table.status")}</span>
                         <span
-                          className={`inline-flex px-2 py-1 text-xs font-medium rounded-full mt-1 ${
+                          className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-lg border ${
                             employee.is_active
-                              ? "bg-success/10 text-success"
-                              : "bg-error/10 text-error"
+                              ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                              : "bg-rose-50 text-rose-700 border-rose-200"
                           }`}
                         >
+                          <div className={`w-1.5 h-1.5 rounded-full ${
+                            employee.is_active ? "bg-emerald-500" : "bg-rose-500"
+                          }`} />
                           {employee.is_active ? t("status.active") : t("status.inactive")}
                         </span>
                       </div>
                       <div>
-                        <span className="text-sunset text-xs block">{t("table.type")}</span>
+                        <span className="text-sunset text-xs block font-medium mb-1">{t("table.type")}</span>
                         <span
-                          className={`inline-flex px-2 py-1 text-xs font-medium rounded-full mt-1 ${
+                          className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-lg border ${
                             employee.status === "FULL_TIME"
-                              ? "bg-success/10 text-success"
+                              ? "bg-blue-50 text-blue-700 border-blue-200"
                               : employee.status === "PART_TIME"
-                              ? "bg-warning/10 text-warning"
-                              : "bg-card text-sunset"
+                              ? "bg-amber-50 text-amber-700 border-amber-200"
+                              : "bg-gray-50 text-gray-600 border-gray-200"
                           }`}
                         >
+                          <div className={`w-1.5 h-1.5 rounded-full ${
+                            employee.status === "FULL_TIME"
+                              ? "bg-blue-500"
+                              : employee.status === "PART_TIME"
+                              ? "bg-amber-500"
+                              : "bg-gray-400"
+                          }`} />
                           {t(
                             `status.${
                               employee.status === "FULL_TIME" ? "fullTime" : "partTime"
@@ -724,8 +767,8 @@ export default function EmployeesPage() {
                     {/* Footer with date and actions */}
                     <div className="flex items-center justify-between pt-3 border-t border-card-border">
                       <div className="text-xs text-sunset">
-                        <span className="block">{t("table.hireDate")}</span>
-                        <span className="font-medium">{new Date(employee.hire_date).toLocaleDateString()}</span>
+                        <span className="block font-medium">{t("table.hireDate")}</span>
+                        <span className="font-semibold text-platinum">{new Date(employee.hire_date).toLocaleDateString()}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <EmployeeActions
@@ -744,10 +787,10 @@ export default function EmployeesPage() {
                     
                     {/* Access token section */}
                     {accessTokens[employee.id] && (
-                      <div className="mt-3 p-3 bg-background/50 rounded-lg border border-card-border">
-                        <div className="text-xs text-sunset mb-2">{t("actions.accessToken")}:</div>
-                        <div className="bg-background rounded px-2 py-1 border">
-                          <code className="text-xs font-mono text-platinum break-all">
+                      <div className="mt-3 p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+                        <div className="text-xs text-slate-600 mb-1.5 font-medium">{t("actions.accessToken")}:</div>
+                        <div className="bg-white rounded p-2 border border-slate-200 shadow-sm">
+                          <code className="text-xs font-mono text-slate-700 break-all line-clamp-2">
                             {accessTokens[employee.id]}
                           </code>
                         </div>

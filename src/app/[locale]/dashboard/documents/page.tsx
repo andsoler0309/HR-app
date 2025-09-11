@@ -278,7 +278,7 @@ export default function DocumentsPage() {
                   </div>
                   <div className="flex flex-col sm:flex-row gap-4">
                     <select
-                      className="input-base px-4 py-2.5 w-full sm:w-48"
+                      className="select-custom w-full sm:w-48"
                       value={categoryFilter}
                       onChange={(e) => setCategoryFilter(e.target.value)}
                     >
@@ -293,7 +293,7 @@ export default function DocumentsPage() {
                     </select>
                     {/* Add Employee Filter */}
                     <select
-                      className="input-base px-4 py-2.5 w-full sm:w-48"
+                      className="select-custom w-full sm:w-48"
                       value={employeeFilter}
                       onChange={(e) => setEmployeeFilter(e.target.value)}
                     >

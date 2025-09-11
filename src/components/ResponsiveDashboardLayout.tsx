@@ -12,7 +12,7 @@ function DashboardContent({ children }: ResponsiveDashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex min-h-screen bg-background">
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <div 
@@ -30,12 +30,14 @@ function DashboardContent({ children }: ResponsiveDashboardLayoutProps) {
       </div>
       
       {/* Main content */}
-      <div className="flex flex-col flex-1 min-w-0 lg:max-w-none">
-        <Navbar 
-          onMenuClick={() => setSidebarOpen(true)}
-        />
-        <main className="flex-1 overflow-hidden">
-          <div className="h-full overflow-y-auto px-4 sm:px-6 lg:px-8">
+      <div className="flex flex-col flex-1 min-w-0 lg:max-w-none min-h-screen">
+        <div className="sticky top-0 z-30 bg-background">
+          <Navbar 
+            onMenuClick={() => setSidebarOpen(true)}
+          />
+        </div>
+        <main className="flex-1">
+          <div className="px-4 sm:px-6 lg:px-8" style={{ scrollBehavior: 'smooth' }}>
             <div className="max-w-6xl mx-auto py-4 sm:py-6">
               {children}
             </div>

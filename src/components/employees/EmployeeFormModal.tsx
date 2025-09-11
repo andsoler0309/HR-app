@@ -357,7 +357,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                             >
                                 <select
                                     {...register('department_id')}
-                                    className="input-base w-full"
+                                    className="select-custom w-full"
                                 >
                                     <option value="">{t('selectDepartment')}</option>
                                     {departments.map((dept) => (
@@ -389,7 +389,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                             >
                                 <select
                                     {...register('status')}
-                                    className="input-base w-full"
+                                    className="select-custom w-full"
                                 >
                                     <option value="">{t('selectEmployeeType')}</option>
                                     <option value="FULL_TIME">{t('employeeTypeOptions.fullTime')}</option>
@@ -433,7 +433,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                             >
                                 <select
                                     {...register('is_active')}
-                                    className="input-base w-full"
+                                    className="select-custom w-full"
                                 >
                                     <option value="true">{t('isActiveOptions.true')}</option>
                                     <option value="false">{t('isActiveOptions.false')}</option>

@@ -129,7 +129,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
             />
             <Dropdown
               trigger={
-                <button className="flex items-center space-x-2 sm:space-x-3 text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-primary/20">
+                <button className="flex items-center space-x-3 sm:space-x-4 text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-primary/20">
                   <div className="relative">
                     <img 
                       className="h-8 w-8 sm:h-11 sm:w-11 rounded-full object-cover border-2 border-card-border"
@@ -138,13 +138,15 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
                     />
                     <span className="absolute bottom-0 right-0 block h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-success ring-1 sm:ring-2 ring-card" />
                   </div>
-                  <div className="hidden md:block text-left">
-                    <p className="text-sm sm:text-md font-medium text-foreground">{profile?.full_name || tCommon('loading')}</p>
-                    <p className="text-xs sm:text-sm text-text-secondary">{profile?.company || tCommon('company')}</p>
+                  <div className="hidden md:block text-left min-w-0 flex-1">
+                    <p className="text-sm sm:text-md font-medium text-foreground truncate">{profile?.full_name || tCommon('loading')}</p>
+                    <p className="text-xs sm:text-sm text-text-secondary truncate">{profile?.company || tCommon('company')}</p>
                   </div>
-                  <svg className="h-4 w-4 sm:h-5 sm:w-5 text-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
+                  <div className="flex-shrink-0">
+                    <svg className="h-4 w-4 sm:h-5 sm:w-5 text-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
                 </button>
               }
               items={[

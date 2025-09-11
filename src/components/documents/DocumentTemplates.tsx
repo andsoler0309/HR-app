@@ -375,7 +375,7 @@ const DocumentTemplates = () => {
                 <select
                   value={formData.category_id}
                   onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
-                  className="input-base w-full"
+                  className="select-custom w-full"
                 >
                   <option value="">{t('selectCategory')}</option>
                   {categories.map((category) => (
@@ -484,7 +484,7 @@ const DocumentTemplates = () => {
                   <select
                     value={previewEmployee?.id || ''}
                     onChange={(e) => setPreviewEmployee(employees.find(emp => emp.id === e.target.value) || null)}
-                    className="input-base w-full mb-4"
+                    className="select-custom w-full mb-4"
                   >
                     <option value="">{t('previewWithoutEmployee')}</option>
                     {employees.map((employee) => (

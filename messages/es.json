@@ -589,6 +589,7 @@
     },
     "TimeOffPage": {
         "title": "Gestión de Ausencias",
+        "currentSection": "Sección actual",
         "buttons": {
             "refreshing": "Actualizando...",
             "refreshBalances": "Actualizar Saldos",
@@ -628,6 +629,11 @@
             "calendar": "Calendario",
             "requests": "Solicitudes",
             "policies": "Políticas"
+        },
+        "descriptions": {
+            "calendar": "Visualiza las ausencias en formato calendario",
+            "requests": "Gestiona las solicitudes de ausencias pendientes",
+            "policies": "Configura las políticas de ausencias de la empresa"
         },
         "errors": {
             "policyNotFound": "Política no encontrada para el tipo de ausencia: {leaveType}",

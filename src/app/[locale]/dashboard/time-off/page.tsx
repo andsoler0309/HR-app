@@ -33,8 +33,23 @@ export default function TimeOffPage() {
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [isRefreshing, setIsRefreshing] = useState(false)
+  const [activeTab, setActiveTab] = useState('calendar')
 
   const { companyId } = useCompany()
+
+  // Function to get the current section name
+  const getCurrentSectionName = () => {
+    switch (activeTab) {
+      case 'calendar':
+        return t('tabs.calendar')
+      case 'requests':
+        return t('tabs.requests')
+      case 'policies':
+        return t('tabs.policies')
+      default:
+        return t('tabs.calendar')
+    }
+  }
 
   const filteredBalances = balances.filter(balance => 
     `${balance.employee?.first_name} ${balance.employee?.last_name}`
@@ -378,7 +393,16 @@ export default function TimeOffPage() {
       <div className="flex flex-col space-y-4 sm:flex-row sm:justify-between sm:items-start sm:space-y-0">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-platinum">{t('title')}</h1>
-          <p className="text-sm text-sunset mt-1 sm:hidden">Gestión de vacaciones y permisos</p>
+          <div className="flex items-center space-x-3 mt-3">
+            <span className="text-sm text-sunset font-medium">{t('currentSection')}:</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 backdrop-blur-sm">
+              <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+              <span className="text-sm font-medium text-primary">
+                {getCurrentSectionName()}
+              </span>
+            </div>
+          </div>
+          <p className="text-sm text-sunset mt-2 sm:hidden">Gestión de vacaciones y permisos</p>
         </div>
         <button
           onClick={refreshBalances}
@@ -469,38 +493,44 @@ export default function TimeOffPage() {
       ))}
   
       {/* Tabs Section */}
-      <div className="bg-card rounded-lg border border-card-border">
-        <Tabs defaultValue="calendar" className="w-full">
-          <div className="border-b border-card-border">
-            <div className="px-4 sm:px-8">
-              <TabsList className="flex flex-col sm:flex-row gap-2 -mb-px w-full sm:w-auto">
+      <div className="bg-card rounded-lg border border-card-border overflow-hidden">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <div className="bg-background/30 border-b border-card-border/50">
+            <div className="px-4 sm:px-8 py-2">
+              <TabsList className="bg-transparent p-0 h-auto gap-0 w-full justify-center">
                 <TabsTrigger 
                   value="calendar"
-                  className="px-3 sm:px-5 py-3 text-sm sm:text-base font-medium rounded-t-lg w-full sm:w-auto
-                  data-[state=active]:text-platinum 
-                  data-[state=inactive]:text-sunset data-[state=inactive]:hover:text-platinum
-                  focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flame/50
-                  transition-colors"
+                  className="relative px-6 py-4 text-sm sm:text-base font-medium rounded-none bg-transparent border-0 w-full sm:w-auto
+                  data-[state=active]:text-primary data-[state=active]:bg-card data-[state=active]:shadow-sm
+                  data-[state=inactive]:text-sunset data-[state=inactive]:hover:text-platinum data-[state=inactive]:hover:bg-background/20
+                  focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/50
+                  transition-all duration-300 ease-in-out
+                  before:absolute before:bottom-0 before:left-0 before:right-0 before:h-0.5 before:bg-primary before:scale-x-0 before:origin-center before:transition-transform before:duration-300
+                  data-[state=active]:before:scale-x-100"
                 >
                   {t('tabs.calendar')}
                 </TabsTrigger>
                 <TabsTrigger 
                   value="requests"
-                  className="px-3 sm:px-5 py-3 text-sm sm:text-base font-medium rounded-t-lg w-full sm:w-auto
-                  data-[state=active]:text-platinum 
-                  data-[state=inactive]:text-sunset data-[state=inactive]:hover:text-platinum
-                  focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flame/50
-                  transition-colors"
+                  className="relative px-6 py-4 text-sm sm:text-base font-medium rounded-none bg-transparent border-0 w-full sm:w-auto
+                  data-[state=active]:text-primary data-[state=active]:bg-card data-[state=active]:shadow-sm
+                  data-[state=inactive]:text-sunset data-[state=inactive]:hover:text-platinum data-[state=inactive]:hover:bg-background/20
+                  focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/50
+                  transition-all duration-300 ease-in-out
+                  before:absolute before:bottom-0 before:left-0 before:right-0 before:h-0.5 before:bg-primary before:scale-x-0 before:origin-center before:transition-transform before:duration-300
+                  data-[state=active]:before:scale-x-100"
                 >
                   {t('tabs.requests')}
                 </TabsTrigger>
                 <TabsTrigger 
                   value="policies"
-                  className="px-3 sm:px-5 py-3 text-sm sm:text-base font-medium rounded-t-lg w-full sm:w-auto
-                  data-[state=active]:text-platinum 
-                  data-[state=inactive]:text-sunset data-[state=inactive]:hover:text-platinum
-                  focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flame/50
-                  transition-colors"
+                  className="relative px-6 py-4 text-sm sm:text-base font-medium rounded-none bg-transparent border-0 w-full sm:w-auto
+                  data-[state=active]:text-primary data-[state=active]:bg-card data-[state=active]:shadow-sm
+                  data-[state=inactive]:text-sunset data-[state=inactive]:hover:text-platinum data-[state=inactive]:hover:bg-background/20
+                  focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/50
+                  transition-all duration-300 ease-in-out
+                  before:absolute before:bottom-0 before:left-0 before:right-0 before:h-0.5 before:bg-primary before:scale-x-0 before:origin-center before:transition-transform before:duration-300
+                  data-[state=active]:before:scale-x-100"
                 >
                   {t('tabs.policies')}
                 </TabsTrigger>
@@ -509,10 +539,32 @@ export default function TimeOffPage() {
           </div>
 
           <TabsContent value="calendar" className="p-4 sm:p-8 focus:outline-none">
+            <div className="mb-6 pb-4 border-b border-card-border/30">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  <div className="w-3 h-3 bg-primary rounded-full"></div>
+                </div>
+                <h2 className="text-xl font-semibold text-platinum">
+                  {t('tabs.calendar')}
+                </h2>
+              </div>
+              <p className="text-sunset ml-11">{t('descriptions.calendar')}</p>
+            </div>
             <TimeOffCalendar requests={requests} loading={loading} />
           </TabsContent>
 
           <TabsContent value="requests" className="p-4 sm:p-8 focus:outline-none">
+            <div className="mb-6 pb-4 border-b border-card-border/30">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  <div className="w-3 h-3 bg-primary rounded-full"></div>
+                </div>
+                <h2 className="text-xl font-semibold text-platinum">
+                  {t('tabs.requests')}
+                </h2>
+              </div>
+              <p className="text-sunset ml-11">{t('descriptions.requests')}</p>
+            </div>
             <div className="request-status">
               <TimeOffRequests 
                 requests={requests} 
@@ -524,6 +576,17 @@ export default function TimeOffPage() {
           </TabsContent>
 
           <TabsContent value="policies" className="p-4 sm:p-8 focus:outline-none">
+            <div className="mb-6 pb-4 border-b border-card-border/30">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  <div className="w-3 h-3 bg-primary rounded-full"></div>
+                </div>
+                <h2 className="text-xl font-semibold text-platinum">
+                  {t('tabs.policies')}
+                </h2>
+              </div>
+              <p className="text-sunset ml-11">{t('descriptions.policies')}</p>
+            </div>
             <PoliciesManagement 
               policies={policies} 
               onPolicyChange={fetchData} 

@@ -269,7 +269,7 @@ export default function DocumentUploadModal({ isOpen, onClose, categories, emplo
               name="category_id"
               value={formData.category_id}
               onChange={handleInputChange}
-              className="input-base mt-1"
+              className="select-custom mt-1"
               required
             >
               <option value="">{t('selectCategory')}</option>
@@ -289,7 +289,7 @@ export default function DocumentUploadModal({ isOpen, onClose, categories, emplo
               name="employee_id"
               value={formData.employee_id}
               onChange={handleInputChange}
-              className="input-base mt-1"
+              className="select-custom mt-1"
               required
             >
               <option value="">{t('selectEmployee')}</option>

@@ -589,6 +589,7 @@
   },
   "TimeOffPage": {
     "title": "Time Off Management",
+    "currentSection": "Current section",
     "buttons": {
       "refreshing": "Refreshing...",
       "refreshBalances": "Refresh Balances",
@@ -628,6 +629,11 @@
       "calendar": "Calendar",
       "requests": "Requests",
       "policies": "Policies"
+    },
+    "descriptions": {
+      "calendar": "View absences in calendar format",
+      "requests": "Manage pending absence requests",
+      "policies": "Configure company absence policies"
     },
     "errors": {
       "policyNotFound": "Policy not found for leave type: {leaveType}",
