@@ -1,6 +1,6 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
-// Create the main Supabase client 
+// Create the main Supabase client for client components
 export const supabase = createClientComponentClient()
 
 // Function to configure session persistence based on rememberMe option

@@ -110,7 +110,7 @@ export default function EmployeesPage() {
       if (error) throw error;
       setEmployees(data || []);
     } catch (error) {
-      console.log("Error fetching employees:", error);
+      console.error("Error fetching employees:", error);
     } finally {
       setLoading(false);
     }
@@ -157,7 +157,7 @@ export default function EmployeesPage() {
 
       setEmployees(employeesWithAttendance);
     } catch (error) {
-      console.log("Error fetching employees:", error);
+      console.error("Error fetching employees:", error);
     } finally {
       setLoading(false);
     }
@@ -188,13 +188,13 @@ export default function EmployeesPage() {
       const { data, error } = await supabase.from("departments").select("*").eq("company_id", user.id);
 
       if (error) {
-        console.log("Supabase error:", error);
+        console.error("Supabase error:", error);
         throw error;
       }
 
       setDepartments(data || []);
     } catch (error) {
-      console.log("Error fetching departments:", error);
+      console.error("Error fetching departments:", error);
     }
   }
 

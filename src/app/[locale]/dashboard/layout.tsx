@@ -4,7 +4,9 @@ import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
 import ResponsiveDashboardLayout from '@/components/ResponsiveDashboardLayout'
 import DashboardLoading from '@/components/DashboardLoading'
+import SessionProvider from '@/components/providers/SessionProvider'
 import { constructMetadata } from '@/lib/metadata'
+import { getServerSession } from '@/lib/supabase-server'
 
 export const metadata = constructMetadata({
   title: 'Nodo',
@@ -13,23 +15,24 @@ export const metadata = constructMetadata({
 
 export default async function DashboardLayout({
   children,
+  params
 }: {
   children: React.ReactNode
+  params: { locale: string }
 }) {
-  const cookieStore = cookies()
-  const supabase = createServerComponentClient({ 
-    cookies: () => cookieStore 
-  })
-  const response = await supabase.auth.getSession()
-  const { data: { session }, error } = await supabase.auth.getSession()
+  // Check session on server side
+  const session = await getServerSession()
 
+  // If no session, redirect to login with proper locale
   if (!session) {
-    redirect('/auth/login')
+    redirect(`/${params.locale}/auth/login`)
   }
 
   return (
-    <Suspense fallback={<DashboardLoading />}>
-      <ResponsiveDashboardLayout>{children}</ResponsiveDashboardLayout>
-    </Suspense>
+    <SessionProvider initialSession={session}>
+      <Suspense fallback={<DashboardLoading />}>
+        <ResponsiveDashboardLayout>{children}</ResponsiveDashboardLayout>
+      </Suspense>
+    </SessionProvider>
   )
 }

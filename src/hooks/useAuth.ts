@@ -22,10 +22,14 @@ export const useAuth = () => {
   const params = useParams() as { locale: string }
 
   useEffect(() => {
+    let isMounted = true
+    
     // Check for existing session on component mount
     const getSession = async () => {
       try {
         const { data: { session }, error } = await supabase.auth.getSession()
+        
+        if (!isMounted) return
         
         if (error) {
           console.error('Error getting session:', error)
@@ -40,12 +44,13 @@ export const useAuth = () => {
           isAuthenticated: !!session
         })
 
-        // If user is authenticated and on auth page, redirect to dashboard
-        if (session && window.location.pathname.includes('/auth/')) {
+        // Only redirect if we're on an auth page and user is authenticated
+        if (session && typeof window !== 'undefined' && window.location.pathname.includes('/auth/')) {
           const locale = params?.locale || 'es'
           router.push(`/${locale}/dashboard/employees`)
         }
       } catch (error) {
+        if (!isMounted) return
         console.error('Error in getSession:', error)
         setAuthState({ user: null, session: null, loading: false, isAuthenticated: false })
       }
@@ -56,6 +61,8 @@ export const useAuth = () => {
     // Listen for auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        if (!isMounted) return
+        
         console.log('Auth state changed:', event, session?.user?.email)
         
         setAuthState({
@@ -68,21 +75,24 @@ export const useAuth = () => {
         // Handle different auth events
         if (event === 'SIGNED_IN' && session) {
           const locale = params?.locale || 'es'
-          // Only redirect if not already on dashboard
-          if (!window.location.pathname.includes('/dashboard/')) {
+          // Only redirect if not already on dashboard and window is available
+          if (typeof window !== 'undefined' && !window.location.pathname.includes('/dashboard/')) {
             router.push(`/${locale}/dashboard/employees`)
           }
         } else if (event === 'SIGNED_OUT') {
           const locale = params?.locale || 'es'
-          // Only redirect if not already on auth page
-          if (!window.location.pathname.includes('/auth/')) {
+          // Only redirect if not already on auth page and window is available
+          if (typeof window !== 'undefined' && !window.location.pathname.includes('/auth/')) {
             router.push(`/${locale}/auth/login`)
           }
         }
       }
     )
 
-    return () => subscription.unsubscribe()
+    return () => {
+      isMounted = false
+      subscription.unsubscribe()
+    }
   }, [router, params])
 
   const signOut = async () => {

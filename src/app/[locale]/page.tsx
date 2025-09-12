@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import {
   ArrowRight,
   Users,
@@ -18,6 +19,8 @@ import PricingSection from "@/components/landing/PricingSection";
 import FAQSection from "@/components/landing/FAQSection";
 import FinalCTA from "@/components/landing/FinalCTA";
 import AuthRedirect from "@/components/AuthRedirect";
+import SessionProvider from "@/components/providers/SessionProvider";
+import { getServerSession } from "@/lib/supabase-server";
 
 interface LandingPageProps {
   params: {
@@ -257,10 +260,20 @@ function LandingPageContent({ locale }: { locale: string }) {
   );
 }
 
-export default function LandingPage({ params: { locale } }: LandingPageProps) {
+export default async function LandingPage({ params: { locale } }: LandingPageProps) {
+  // Check session on server side
+  const session = await getServerSession();
+  
+  // If user is authenticated, redirect to dashboard
+  if (session) {
+    redirect(`/${locale}/dashboard/employees`);
+  }
+
   return (
-    <AuthRedirect>
-      <LandingPageContent locale={locale} />
-    </AuthRedirect>
+    <SessionProvider initialSession={session}>
+      <AuthRedirect>
+        <LandingPageContent locale={locale} />
+      </AuthRedirect>
+    </SessionProvider>
   );
 }

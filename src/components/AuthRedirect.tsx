@@ -13,9 +13,17 @@ export default function AuthRedirect({ children }: AuthRedirectProps) {
   const router = useRouter()
   const params = useParams() as { locale: string }
   const [showWelcome, setShowWelcome] = useState(false)
+  const [hasCheckedAuth, setHasCheckedAuth] = useState(false)
 
   useEffect(() => {
-    if (!loading && isAuthenticated) {
+    // Mark that we've completed the initial auth check
+    if (!loading) {
+      setHasCheckedAuth(true)
+    }
+  }, [loading])
+
+  useEffect(() => {
+    if (!loading && isAuthenticated && hasCheckedAuth) {
       // Check if this is a returning user (has remember me set)
       const isRemembered = typeof window !== 'undefined' && 
         localStorage.getItem('supabase.auth.remember-me') === 'true'
@@ -28,7 +36,7 @@ export default function AuthRedirect({ children }: AuthRedirectProps) {
         router.push(`/${locale}/dashboard/employees`)
       }
     }
-  }, [loading, isAuthenticated, router, params])
+  }, [loading, isAuthenticated, hasCheckedAuth, router, params])
 
   const handleWelcomeComplete = () => {
     const locale = params?.locale || 'es'
@@ -36,17 +44,24 @@ export default function AuthRedirect({ children }: AuthRedirectProps) {
   }
 
   // Show welcome back animation for remembered users
-  if (showWelcome && isAuthenticated) {
+  if (showWelcome && isAuthenticated && hasCheckedAuth) {
     return <WelcomeBack isVisible={true} onComplete={handleWelcomeComplete} />
   }
 
   // Show loading while checking authentication
-  if (loading) {
-    return <WelcomeBack isVisible={true} />
+  if (loading || !hasCheckedAuth) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Verificando sesión...</p>
+        </div>
+      </div>
+    )
   }
 
   // If authenticated but not showing welcome, redirect immediately
-  if (isAuthenticated) {
+  if (isAuthenticated && hasCheckedAuth) {
     return <WelcomeBack isVisible={true} onComplete={handleWelcomeComplete} />
   }
 

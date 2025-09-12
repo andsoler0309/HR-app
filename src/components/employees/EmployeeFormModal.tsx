@@ -60,12 +60,6 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
     const [localDepartments, setLocalDepartments] = useState<Department[]>(departments);
     const isEditing = !!employee;
 
-    // Debug: Log translation values
-    console.log('Translation test:', {
-        firstName: t('firstName'),
-        helpTextFirstName: t('helpText.firstName'),
-    });
-
     useEffect(() => {
         setLocalDepartments(departments);
     }, [departments]);
@@ -291,7 +285,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
     };
 
     const onError = (errors: FieldErrors<EmployeeFormValues>) => {
-        console.log("Form Errors:", errors);
+        console.error("Form Errors:", errors);
     };
 
     if (!isOpen) return null;
