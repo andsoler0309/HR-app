@@ -43,65 +43,61 @@ export async function middleware(req: NextRequest) {
   // Create the Supabase middleware client
   const supabase = createMiddlewareClient({ req, res })
   
-  // Refresh session if expired - this will respect the storage settings
-  const { data: { session }, error } = await supabase.auth.getSession()
-  
-  // Log session status for debugging (remove in production)
-  if (process.env.NODE_ENV === 'development') {
-    console.log('Middleware - Session exists:', !!session, 'Path:', pathname)
-  }
-
   const isAuthRoute = pathname.startsWith(`/${locale}/auth`)
   const isPortalRoute = pathname.startsWith(`/${locale}/portal`)
   const isRootLocale = pathname === `/${locale}`
   const isApiRoute = pathname.startsWith('/api')
+  const isDashboardRoute = pathname.startsWith(`/${locale}/dashboard`)
 
-  // Skip auth check for API routes
-  if (isApiRoute) {
+  // Skip auth check for API routes, auth routes, portal routes, and root
+  if (isApiRoute || isAuthRoute || isPortalRoute || isRootLocale) {
     return res
   }
 
-  if (!session && !isAuthRoute && !isPortalRoute && !isRootLocale) {
-    // Redirect to localized login
-    return NextResponse.redirect(new URL(`/${locale}/auth/login`, req.url))
-  }
-
-  if (session && isAuthRoute) {
-    // If user is already logged in and tries to access auth pages, redirect to dashboard
-    return NextResponse.redirect(new URL(`/${locale}/dashboard/employees`, req.url))
-  }
-
-  if (session && pathname === `/${locale}/dashboard`) {
-    return NextResponse.redirect(new URL(`/${locale}/dashboard/employees`, req.url))
-  }
-
-  // Check employee limit for free users on POST to /api/employees
-  if (session && req.method === 'POST' && pathname.includes('/api/employees')) {
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('subscription_status')
-      .eq('id', session.user.id)
-      .single()
-
-    if (profile?.subscription_status === 'free') {
-      const { count } = await supabase
-        .from('employees')
-        .select('*', { count: 'exact' })
-        .eq('company_id', session.user.id)
-
-      if (count && count >= 1) {
-        return new NextResponse(
-          JSON.stringify({ 
-            error: 'Free plan limited to 1 employee. Please upgrade to premium.' 
-          }),
-          { 
-            status: 403,
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }
-        )
+  // Only check session for dashboard routes to improve performance
+  if (isDashboardRoute) {
+    try {
+      // Usar getUser() en lugar de getSession() para ser más rápido
+      const { data: { user }, error } = await supabase.auth.getUser()
+      
+      if (error || !user) {
+        // Redirect to localized login
+        return NextResponse.redirect(new URL(`/${locale}/auth/login`, req.url))
       }
+
+      // Check employee limit for free users on POST to /api/employees
+      if (req.method === 'POST' && pathname.includes('/api/employees')) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('subscription_status')
+          .eq('id', user.id)
+          .single()
+
+        if (profile?.subscription_status === 'free') {
+          const { count } = await supabase
+            .from('employees')
+            .select('*', { count: 'exact' })
+            .eq('company_id', user.id)
+
+          if (count && count >= 1) {
+            return new NextResponse(
+              JSON.stringify({ 
+                error: 'Free plan limited to 1 employee. Please upgrade to premium.' 
+              }),
+              { 
+                status: 403,
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              }
+            )
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Middleware auth error:', error)
+      // En caso de error, redirigir a login
+      return NextResponse.redirect(new URL(`/${locale}/auth/login`, req.url))
     }
   }
 
