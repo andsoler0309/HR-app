@@ -47,18 +47,20 @@ export const useAuth = () => {
           return
         }
 
-        // Si no hay cache válido, verificar con Supabase
-        const { data: { session }, error } = await supabase.auth.getSession()
+        // Si no hay cache válido, verificar con Supabase usando getUser() para seguridad
+        const { data: { user }, error } = await supabase.auth.getUser()
         
         if (!isMountedRef.current) return
         
-        if (error) {
-          console.error('Error getting session:', error)
+        if (error || !user) {
           setAuthState({ user: null, session: null, loading: false, isAuthenticated: false })
           cachedSession = null
           return
         }
 
+        // Si el usuario es válido, obtener la sesión
+        const { data: { session } } = await supabase.auth.getSession()
+        
         // Actualizar cache
         cachedSession = session
         lastSessionCheck = now
@@ -93,8 +95,6 @@ export const useAuth = () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (!isMountedRef.current) return
-        
-        console.log('Auth state changed:', event, session?.user?.email)
         
         // Actualizar cache
         cachedSession = session

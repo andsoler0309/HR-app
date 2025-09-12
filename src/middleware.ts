@@ -14,50 +14,71 @@ const routing = defineRouting({
 const intlMiddleware = createMiddleware(routing);
 
 export async function middleware(req: NextRequest) {
-  // 1. Run the next-intl middleware first
-  const intlResponse = intlMiddleware(req);
-  if (intlResponse) {
-    // If next-intl middleware wants to redirect or respond,
-    // return that response immediately.
-    return intlResponse;
-  }
-
-  // If no response from intl middleware, proceed with your logic
-  const url = req.nextUrl
-  const { pathname } = url
+  // Get pathname and handle locale logic first
+  const { pathname } = req.nextUrl
   const segments = pathname.split('/').filter(Boolean)
   const supportedLocales = ['en', 'es']
   const defaultLocale = 'es'
+
+  // Handle manifest specifically - redirect locale-prefixed manifest to root
+  if (pathname.endsWith('/manifest.webmanifest')) {
+    // Don't redirect if already at root
+    if (pathname === '/manifest.webmanifest') {
+      return NextResponse.next()
+    }
+    const newUrl = new URL('/manifest.webmanifest', req.url)
+    return NextResponse.redirect(newUrl, 301)
+  }
 
   let locale = segments[0]
 
   // If no locale or unsupported locale, redirect to default locale
   if (!locale || !supportedLocales.includes(locale)) {
-    const newUrl = new URL(`/${defaultLocale}${pathname}`, req.url)
+    const newUrl = new URL(`/${defaultLocale}${pathname === '/' ? '' : pathname}`, req.url)
     return NextResponse.redirect(newUrl)
+  }
+
+  // Skip further processing for static files and API routes
+  if (
+    pathname.includes('/_next/') ||
+    pathname.includes('/api/') ||
+    pathname.includes('.') ||
+    pathname.includes('/favicon') ||
+    pathname.includes('/manifest') ||
+    pathname.includes('/robots') ||
+    pathname.includes('/sitemap') ||
+    pathname === '/manifest.webmanifest'
+  ) {
+    return NextResponse.next()
+  }
+
+  // 1. Run the next-intl middleware for non-static requests
+  const intlResponse = intlMiddleware(req);
+  if (intlResponse) {
+    return intlResponse;
   }
 
   // Create a response and pass it to the middleware client
   const res = NextResponse.next()
   
-  // Create the Supabase middleware client
-  const supabase = createMiddlewareClient({ req, res })
-  
+  // Only create Supabase client for protected routes
   const isAuthRoute = pathname.startsWith(`/${locale}/auth`)
   const isPortalRoute = pathname.startsWith(`/${locale}/portal`)
   const isRootLocale = pathname === `/${locale}`
-  const isApiRoute = pathname.startsWith('/api')
   const isDashboardRoute = pathname.startsWith(`/${locale}/dashboard`)
 
-  // Skip auth check for API routes, auth routes, portal routes, and root
-  if (isApiRoute || isAuthRoute || isPortalRoute || isRootLocale) {
+  // Skip auth check for non-protected routes
+  if (isAuthRoute || isPortalRoute || isRootLocale) {
     return res
   }
 
-  // Only check session for dashboard routes to improve performance
+  // Only check session for dashboard routes
   if (isDashboardRoute) {
     try {
-      // Usar getUser() en lugar de getSession() para ser más rápido
+      // Create the Supabase middleware client
+      const supabase = createMiddlewareClient({ req, res })
+      
+      // Use getUser() for better security - it validates the JWT with the server
       const { data: { user }, error } = await supabase.auth.getUser()
       
       if (error || !user) {
@@ -65,35 +86,6 @@ export async function middleware(req: NextRequest) {
         return NextResponse.redirect(new URL(`/${locale}/auth/login`, req.url))
       }
 
-      // Check employee limit for free users on POST to /api/employees
-      if (req.method === 'POST' && pathname.includes('/api/employees')) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('subscription_status')
-          .eq('id', user.id)
-          .single()
-
-        if (profile?.subscription_status === 'free') {
-          const { count } = await supabase
-            .from('employees')
-            .select('*', { count: 'exact' })
-            .eq('company_id', user.id)
-
-          if (count && count >= 1) {
-            return new NextResponse(
-              JSON.stringify({ 
-                error: 'Free plan limited to 1 employee. Please upgrade to premium.' 
-              }),
-              { 
-                status: 403,
-                headers: {
-                  'Content-Type': 'application/json'
-                }
-              }
-            )
-          }
-        }
-      }
     } catch (error) {
       console.error('Middleware auth error:', error)
       // En caso de error, redirigir a login
@@ -106,6 +98,6 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|api|sitemap\\.xml|robots\\.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|js|css|woff|woff2|ttf|eot)$).*)',
   ],
 };

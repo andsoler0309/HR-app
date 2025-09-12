@@ -46,13 +46,18 @@ export default function SessionProvider({ children, initialSession }: SessionPro
 
     const getSession = async () => {
       try {
-        const { data: { session }, error } = await supabase.auth.getSession()
+        // Use getUser() for security validation
+        const { data: { user }, error } = await supabase.auth.getUser()
         
         if (mounted) {
-          if (error) {
-            console.error('Error getting session:', error)
+          if (error || !user) {
+            console.log('No valid session found')
+            setSession(null)
+          } else {
+            // Get the actual session if user is valid
+            const { data: { session: currentSession } } = await supabase.auth.getSession()
+            setSession(currentSession)
           }
-          setSession(session)
           setIsLoading(false)
         }
       } catch (error) {

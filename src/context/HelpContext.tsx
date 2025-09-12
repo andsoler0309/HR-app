@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface HelpContextType {
   showTour: () => void;
@@ -9,6 +9,7 @@ interface HelpContextType {
   helpIsVisible: boolean;
   setTourVisible: (visible: boolean) => void;
   setHelpVisible: (visible: boolean) => void;
+  isInitialized: boolean;
 }
 
 const HelpContext = createContext<HelpContextType | undefined>(undefined);
@@ -20,13 +21,22 @@ interface HelpProviderProps {
 export function HelpProvider({ children }: HelpProviderProps) {
   const [tourIsVisible, setTourVisible] = useState(false);
   const [helpIsVisible, setHelpVisible] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    setIsInitialized(true);
+  }, []);
 
   const showTour = () => {
-    setTourVisible(true);
+    if (isInitialized) {
+      setTourVisible(true);
+    }
   };
 
   const showHelp = () => {
-    setHelpVisible(true);
+    if (isInitialized) {
+      setHelpVisible(true);
+    }
   };
 
   const value: HelpContextType = {
@@ -36,6 +46,7 @@ export function HelpProvider({ children }: HelpProviderProps) {
     helpIsVisible,
     setTourVisible,
     setHelpVisible,
+    isInitialized,
   };
 
   return (

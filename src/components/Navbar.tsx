@@ -21,7 +21,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
   const pathname = usePathname();
   const { locale } = params;
 
-  const { profile, fetchProfile, signOut } = useAuthStore();
+  const { profile, fetchProfile, signOut, isInitialized } = useAuthStore();
   const { resetOnboarding } = useOnboarding();
   const { showTour, showHelp } = useHelp();
   const t = useTranslations('navbar');
@@ -30,10 +30,45 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
   // Modal states
   const [showTourModal, setShowTourModal] = useState(false);
   const [showHelpModal, setShowHelpModal] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    fetchProfile();
-  }, [fetchProfile]);
+    setIsMounted(true);
+    // Only fetch profile if we haven't initialized yet
+    if (!isInitialized) {
+      fetchProfile();
+    }
+  }, [fetchProfile, isInitialized]);
+
+  // Don't render until mounted to prevent hydration mismatch
+  if (!isMounted) {
+    return (
+      <nav className="bg-card border-b border-navbar-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 sm:h-20">
+            <div className="flex items-center space-x-4">
+              {onMenuClick && (
+                <button
+                  onClick={onMenuClick}
+                  className="lg:hidden p-2 rounded-md text-sunset hover:text-platinum hover:bg-background transition-colors"
+                  aria-label="Open sidebar"
+                >
+                  <Menu className="h-5 w-5" />
+                </button>
+              )}
+              <div className="lg:hidden">
+                <h1 className="text-lg font-bold text-primary">Nodo</h1>
+              </div>
+            </div>
+            
+            <div className="flex items-center space-x-3 sm:space-x-4">
+              <div className="h-8 w-8 sm:h-11 sm:w-11 rounded-full bg-gray-200 animate-pulse" />
+            </div>
+          </div>
+        </div>
+      </nav>
+    );
+  }
 
   const handleSignOut = async () => {
     try {
@@ -140,7 +175,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
                   </div>
                   <div className="hidden md:block text-left min-w-0 flex-1">
                     <p className="text-sm sm:text-md font-medium text-foreground truncate">{profile?.full_name || tCommon('loading')}</p>
-                    <p className="text-xs sm:text-sm text-text-secondary truncate">{profile?.company || tCommon('company')}</p>
+                    <p className="text-xs sm:text-sm text-text-secondary truncate">{profile?.company_name || tCommon('company')}</p>
                   </div>
                   <div className="flex-shrink-0">
                     <svg className="h-4 w-4 sm:h-5 sm:w-5 text-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">

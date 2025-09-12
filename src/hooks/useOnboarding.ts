@@ -32,25 +32,11 @@ export function useOnboarding() {
 
   const loadOnboardingState = async () => {
     try {
-      // First check localStorage for quick access
-      const localState = localStorage.getItem('onboarding_state');
-      if (localState) {
-        setOnboardingState(JSON.parse(localState));
-      }
-
-      // Then sync with database if user is authenticated
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('onboarding_state')
-          .eq('id', user.id)
-          .single();
-
-        if (profile?.onboarding_state) {
-          const dbState = profile.onboarding_state as OnboardingState;
-          setOnboardingState(dbState);
-          localStorage.setItem('onboarding_state', JSON.stringify(dbState));
+      // Only use localStorage since onboarding_state column doesn't exist in database
+      if (typeof window !== 'undefined') {
+        const localState = localStorage.getItem('onboarding_state');
+        if (localState) {
+          setOnboardingState(JSON.parse(localState));
         }
       }
     } catch (error) {
@@ -64,20 +50,9 @@ export function useOnboarding() {
     const newState = { ...onboardingState, ...updates };
     setOnboardingState(newState);
 
-    // Save to localStorage
-    localStorage.setItem('onboarding_state', JSON.stringify(newState));
-
-    // Save to database
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        await supabase
-          .from('profiles')
-          .update({ onboarding_state: newState })
-          .eq('id', user.id);
-      }
-    } catch (error) {
-      console.error('Error saving onboarding state:', error);
+    // Save to localStorage only since database column doesn't exist
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('onboarding_state', JSON.stringify(newState));
     }
   };
 

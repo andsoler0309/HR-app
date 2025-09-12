@@ -3,6 +3,8 @@ import {NextIntlClientProvider} from 'next-intl';
 import {notFound} from 'next/navigation';
 import { constructMetadata } from '@/lib/metadata'
 import SchemaOrg from '@/components/SchemaOrg'
+import SessionPreloader from '@/components/SessionPreloader'
+import { Analytics } from "@vercel/analytics/next"
 
 export async function generateMetadata({ params }: { params: { locale: string } }) {
   const isSpanish = params.locale === 'es';
@@ -29,7 +31,6 @@ export const viewport = {
 
 export const dynamic = 'force-dynamic';
 
-
 export async function generateStaticParams() {
   return [{locale: 'en'}, {locale: 'es'}];
 }
@@ -54,12 +55,15 @@ export default async function RootLayout({
         <link rel="icon" href="/nodo-logo.png" type="image/png" />
         <link rel="apple-touch-icon" href="/nodo-logo.png" />
         <link rel="shortcut icon" href="/nodo-logo.png" />
-        <SchemaOrg />
+        <link rel="manifest" href="/manifest.webmanifest" />
       </head>
       <body className="bg-background">
+        <SessionPreloader />
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
         </NextIntlClientProvider>
+        <SchemaOrg />
+        <Analytics />
       </body>
     </html>
   );
