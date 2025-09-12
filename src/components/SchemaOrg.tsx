@@ -2,8 +2,8 @@ export default function SchemaOrg() {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "NodoHR",
-    "alternateName": "NodoHR System",
+    "name": "Nodo",
+    "alternateName": "Nodo System",
     "url": "https://nodohr.com",
     "logo": "https://nodohr.com/nodo-logo.png",
     "description": "Complete HR management solution for modern businesses. Manage employees, time off, documents, and more.",
@@ -21,23 +21,23 @@ export default function SchemaOrg() {
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "NodoHR",
+    "name": "Nodo",
     "author": {
       "@type": "Organization",
-      "name": "NodoHR"
+      "name": "Nodo"
     },
     "url": "https://nodohr.com",
     "description": "Complete HR management solution for modern businesses. Manage employees, time off, documents, payroll, and more.",
     "publisher": {
       "@type": "Organization",
-      "name": "NodoHR"
+      "name": "Nodo"
     }
   }
 
   const softwareSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": "NodoHR",
+    "name": "Nodo",
     "alternateName": "NODO",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "Web",
@@ -45,7 +45,7 @@ export default function SchemaOrg() {
     "description": "Complete HR management solution for modern businesses. Manage employees, time off, documents, payroll, and more.",
     "creator": {
       "@type": "Organization",
-      "name": "NodoHR"
+      "name": "Nodo"
     },
     "offers": [
       {

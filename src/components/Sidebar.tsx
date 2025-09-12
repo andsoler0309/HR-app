@@ -205,7 +205,7 @@ const Sidebar = ({ onClose }: SidebarProps) => {
   return (
     <div className="flex flex-col w-64 h-full bg-card shadow-md border-r border-navbar-border">
       <div className="flex items-center justify-between h-16 sm:h-20 px-4 border-b border-navbar-border">
-        <h1 className="text-xl sm:text-2xl font-bold text-primary">NodoHR</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-primary">Nodo</h1>
         {/* Close button for mobile */}
         {onClose && (
           <button

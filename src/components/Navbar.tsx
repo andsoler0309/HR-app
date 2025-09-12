@@ -117,7 +117,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
             )}
             {/* Mobile logo - only show on mobile when sidebar is closed */}
             <div className="lg:hidden">
-              <h1 className="text-lg font-bold text-primary">NodoHR</h1>
+              <h1 className="text-lg font-bold text-primary">Nodo</h1>
             </div>
           </div>
           

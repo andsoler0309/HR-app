@@ -5,12 +5,12 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   const isSpanish = params.locale === 'es';
   
   const title = isSpanish
-    ? 'Autenticación - NodoHR'
-    : 'Authentication - NodoHR';
+    ? 'Autenticación - Nodo'
+    : 'Authentication - Nodo';
     
   const description = isSpanish
-    ? 'Inicia sesión o regístrate en NodoHR para gestionar tu equipo y procesos de RRHH.'
-    : 'Sign in or register to NodoHR to manage your team and HR processes.';
+    ? 'Inicia sesión o regístrate en Nodo para gestionar tu equipo y procesos de RRHH.'
+    : 'Sign in or register to Nodo to manage your team and HR processes.';
   
   return constructMetadata({
     title,

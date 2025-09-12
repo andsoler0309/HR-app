@@ -2,10 +2,10 @@
 import { Metadata } from 'next'
 
 const defaultMetadata = {
-  title: 'NodoHR - Sistema de Gestión de Recursos Humanos',
+  title: 'Nodo - Sistema de Gestión de Recursos Humanos',
   description: 'Solución completa de gestión de RRHH para empresas modernas. Gestiona empleados, vacaciones, documentos y más.',
-  applicationName: 'NodoHR',
-  authors: [{ name: 'NodoHR' }],
+  applicationName: 'Nodo',
+  authors: [{ name: 'Nodo' }],
   keywords: [
     'software RRHH',
     'gestión recursos humanos',
@@ -20,8 +20,8 @@ const defaultMetadata = {
     'employee management',
     'time off tracking'
   ],
-  creator: 'NodoHR',
-  publisher: 'NodoHR',
+  creator: 'Nodo',
+  publisher: 'Nodo',
   formatDetection: {
     email: false,
     address: false,
@@ -30,7 +30,7 @@ const defaultMetadata = {
 }
 
 export const siteConfig = {
-  name: 'NodoHR',
+  name: 'Nodo',
   url: 'https://nodohr.com',
   ogImage: 'https://nodohr.com/nodo-logo.png',
   description: defaultMetadata.description,

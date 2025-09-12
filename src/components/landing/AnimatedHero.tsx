@@ -27,7 +27,7 @@ export default function AnimatedHero({ locale }: AnimatedHeroProps) {
     >
       {/* Structured Data for SEO */}
       <div className="sr-only">
-        <h1 itemProp="name">NodoHR - {t("heroTitle")}</h1>
+        <h1 itemProp="name">Nodo - {t("heroTitle")}</h1>
         <p itemProp="description">{t("heroSubtitle")}</p>
         <span itemProp="applicationCategory">Business</span>
         <span itemProp="operatingSystem">Web</span>
@@ -39,7 +39,7 @@ export default function AnimatedHero({ locale }: AnimatedHeroProps) {
       {/* Enhanced Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Large Background Orbs */}
-        <motion.div
+        {/* <motion.div
           className="absolute -top-40 -right-40 w-80 h-80 bg-primary/15 rounded-full blur-3xl"
           animate={{
             x: [0, 30, 0],
@@ -64,10 +64,10 @@ export default function AnimatedHero({ locale }: AnimatedHeroProps) {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-        />
+        /> */}
         
         {/* Floating Geometric Shapes */}
-        <motion.div
+        {/* <motion.div
           className="absolute top-32 left-1/4 w-6 h-6 bg-primary/40 rounded-full"
           animate={{
             y: [0, -30, 0],
@@ -104,7 +104,7 @@ export default function AnimatedHero({ locale }: AnimatedHeroProps) {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-        />
+        /> */}
         
         {/* Hexagon Shapes */}
         <motion.div
@@ -172,7 +172,7 @@ export default function AnimatedHero({ locale }: AnimatedHeroProps) {
         </motion.svg>
         
         {/* Floating Particles */}
-        {[...Array(6)].map((_, i) => (
+        {/* {[...Array(6)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-3 h-3 bg-primary/50 rounded-full"
@@ -192,7 +192,7 @@ export default function AnimatedHero({ locale }: AnimatedHeroProps) {
               delay: i * 1.5,
             }}
           />
-        ))}
+        ))} */}
         
         {/* Grid Pattern Overlay */}
         <div className="absolute inset-0 opacity-15">
@@ -252,7 +252,7 @@ export default function AnimatedHero({ locale }: AnimatedHeroProps) {
         />
         
         {/* Additional Floating Elements */}
-        <motion.div
+        {/* <motion.div
           className="absolute top-20 left-3/4 w-6 h-6 bg-gradient-to-r from-primary to-sunset rounded-full pulse-glow"
           animate={{
             y: [0, -40, 0],
@@ -264,10 +264,10 @@ export default function AnimatedHero({ locale }: AnimatedHeroProps) {
             ease: "easeInOut",
             delay: 1,
           }}
-        />
+        /> */}
         
         {/* Animated Icons/Symbols */}
-        <motion.div
+        {/* <motion.div
           className="absolute bottom-1/4 right-1/5 w-12 h-12 opacity-40"
           animate={{
             rotate: [0, 360],
@@ -285,9 +285,9 @@ export default function AnimatedHero({ locale }: AnimatedHeroProps) {
               fill="currentColor"
             />
           </svg>
-        </motion.div>
+        </motion.div> */}
         
-        <motion.div
+        {/* <motion.div
           className="absolute top-1/2 right-10 w-10 h-10 opacity-35"
           animate={{
             rotate: [0, -360],
@@ -303,10 +303,10 @@ export default function AnimatedHero({ locale }: AnimatedHeroProps) {
             <circle cx="12" cy="12" r="3" fill="currentColor"/>
             <path d="M12 1v6m0 8v6m11-7h-6m-8 0H1m15.5-6.5l-4.24 4.24m-8.48 0L7.5 6.5m12.73 12.73l-4.24-4.24m-8.48 0l4.24 4.24" stroke="currentColor" strokeWidth="2"/>
           </svg>
-        </motion.div>
+        </motion.div> */}
         
         {/* DNA Helix Pattern */}
-        <motion.svg
+        {/* <motion.svg
           className="absolute top-0 left-0 w-full h-full opacity-20"
           viewBox="0 0 400 600"
           animate={{
@@ -334,11 +334,11 @@ export default function AnimatedHero({ locale }: AnimatedHeroProps) {
               }}
             />
           ))}
-        </motion.svg>
+        </motion.svg> */}
         
         {/* Constellation Pattern */}
         <div className="absolute inset-0 opacity-25">
-          {[...Array(12)].map((_, i) => (
+          {/* {[...Array(12)].map((_, i) => (
             <motion.div
               key={i}
               className="absolute w-2 h-2 bg-primary rounded-full"
@@ -357,10 +357,10 @@ export default function AnimatedHero({ locale }: AnimatedHeroProps) {
                 delay: i * 0.8,
               }}
             />
-          ))}
+          ))} */}
           
           {/* Connection Lines */}
-          <svg className="absolute inset-0 w-full h-full">
+          {/* <svg className="absolute inset-0 w-full h-full">
             {[...Array(6)].map((_, i) => (
               <motion.line
                 key={i}
@@ -380,7 +380,7 @@ export default function AnimatedHero({ locale }: AnimatedHeroProps) {
                 }}
               />
             ))}
-          </svg>
+          </svg> */}
         </div>
       </div>
 
@@ -481,8 +481,8 @@ export default function AnimatedHero({ locale }: AnimatedHeroProps) {
             className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent"
             dangerouslySetInnerHTML={{ 
               __html: t("heroTitle").replace(
-                "NodoHR", 
-                '<span class="bg-gradient-to-r from-primary via-sunset to-primary bg-clip-text text-transparent">NodoHR</span>'
+                "Nodo", 
+                '<span class="bg-gradient-to-r from-primary via-sunset to-primary bg-clip-text text-transparent">Nodo</span>'
               )
             }}
           />

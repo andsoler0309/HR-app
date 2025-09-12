@@ -7,7 +7,7 @@ import DashboardLoading from '@/components/DashboardLoading'
 import { constructMetadata } from '@/lib/metadata'
 
 export const metadata = constructMetadata({
-  title: 'NodoHR',
+  title: 'Nodo',
   description: 'View and manage your HR analytics, employee data, and company metrics.',
 })
 

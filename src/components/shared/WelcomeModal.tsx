@@ -31,7 +31,7 @@ export default function WelcomeModal({
 
   const steps = [
     {
-      title: "Welcome to NodoHR! 🎉",
+      title: "Welcome to Nodo! 🎉",
       subtitle: `Hi ${userName}, let's get you started`,
       content: "We're excited to help you streamline your HR processes. This quick setup will help you get the most out of our platform.",
       features: [

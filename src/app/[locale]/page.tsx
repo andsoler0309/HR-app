@@ -34,7 +34,7 @@ function LandingPageContent({ locale }: { locale: string }) {
       <nav className="fixed w-full bg-card/70 backdrop-blur-sm z-50 border-b border-navbar-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link href={`/${locale}`} className="text-lg sm:text-xl font-bold text-primary tracking-tight">
-            NodoHR
+            Nodo
           </Link>
 
           <div className="flex items-center space-x-2 sm:space-x-4">
@@ -189,7 +189,7 @@ function LandingPageContent({ locale }: { locale: string }) {
                   </div>
                   <hr className="border-primary/20" />
                   <div className="flex items-center justify-between font-semibold">
-                    <span className="text-foreground">NodoHR</span>
+                    <span className="text-foreground">Nodo</span>
                     <span className="text-success">✅</span>
                   </div>
                 </div>
@@ -216,7 +216,7 @@ function LandingPageContent({ locale }: { locale: string }) {
         <div className="max-w-7xl mx-auto py-8 px-6 sm:px-8">
           <div className="flex flex-col sm:flex-row items-center justify-between">
             <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
-              <h1 className="text-xl font-bold text-primary">NodoHR</h1>
+              <h1 className="text-xl font-bold text-primary">Nodo</h1>
               
               {/* Social Media Links */}
               <div className="flex items-center space-x-4">
@@ -248,7 +248,7 @@ function LandingPageContent({ locale }: { locale: string }) {
             </div>
             
             <p className="text-text-muted mt-4 sm:mt-0 text-sm">
-              © {new Date().getFullYear()} NodoHR. {t("allRightsReserved")}
+              © {new Date().getFullYear()} Nodo. {t("allRightsReserved")}
             </p>
           </div>
         </div>

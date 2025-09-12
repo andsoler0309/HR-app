@@ -8,8 +8,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   const isSpanish = params.locale === 'es';
   
   const title = isSpanish
-    ? 'NodoHR - Sistema de Gestión de Recursos Humanos'
-    : 'NodoHR - Human Resources Management System';
+    ? 'Nodo - Sistema de Gestión de Recursos Humanos'
+    : 'Nodo - Human Resources Management System';
     
   return constructMetadata({
     title,

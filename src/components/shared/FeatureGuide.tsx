@@ -175,7 +175,7 @@ export default function FeatureGuide({ isOpen, onClose }: FeatureGuideProps) {
           <div className="w-80 bg-background border-r border-card-border p-6 overflow-y-auto">
             <div className="mb-6">
               <h2 className="text-2xl font-bold text-foreground mb-2">Feature Guide</h2>
-              <p className="text-text-secondary">Explore what NodoHR can do for your organization</p>
+              <p className="text-text-secondary">Explore what Nodo can do for your organization</p>
             </div>
 
             <div className="space-y-2">

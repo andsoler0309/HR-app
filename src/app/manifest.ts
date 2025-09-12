@@ -2,8 +2,8 @@ import { MetadataRoute } from 'next'
  
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'NodoHR - Sistema de Gestión de Recursos Humanos',
-    short_name: 'NodoHR',
+    name: 'Nodo - Sistema de Gestión de Recursos Humanos',
+    short_name: 'Nodo',
     description: 'Solución completa de gestión de RRHH para empresas modernas. Gestiona empleados, vacaciones, documentos y más.',
     start_url: '/',
     display: 'standalone',
