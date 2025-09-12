@@ -11,12 +11,12 @@ import {
   ClipboardList,
 } from "lucide-react";
 import AnimatedHero from "@/components/landing/AnimatedHero";
-import AnimatedPymeSection from "@/components/landing/AnimatedPymeSection";
-import AnimatedFeaturesSection from "@/components/landing/AnimatedFeaturesSection";
-import AnimatedTestimonialsSection from "@/components/landing/AnimatedTestimonialsSection";
-import AnimatedPricingSection from "@/components/landing/AnimatedPricingSection";
-import AnimatedFAQSection from "@/components/landing/AnimatedFAQSection";
-import AnimatedFinalCTA from "@/components/landing/AnimatedFinalCTA";
+import PymeSection from "@/components/landing/PymeSection";
+import FeaturesSection from "@/components/landing/FeaturesSection";
+import TestimonialsSection from "@/components/landing/TestimonialsSection";
+import PricingSection from "@/components/landing/PricingSection";
+import FAQSection from "@/components/landing/FAQSection";
+import FinalCTA from "@/components/landing/FinalCTA";
 import AuthRedirect from "@/components/AuthRedirect";
 
 interface LandingPageProps {
@@ -111,10 +111,10 @@ function LandingPageContent({ locale }: { locale: string }) {
       <AnimatedHero locale={locale} />
 
       {/* PYME Value Proposition Section */}
-      <AnimatedPymeSection />
+      <PymeSection />
 
       {/* Key Features Section */}
-      <AnimatedFeaturesSection />
+      <FeaturesSection />
 
       {/* Why Choose NodoHR Section */}
       <section className="py-20 px-6 sm:px-8">
@@ -200,16 +200,16 @@ function LandingPageContent({ locale }: { locale: string }) {
       </section>
 
       {/* Testimonials */}
-      <AnimatedTestimonialsSection />
+      <TestimonialsSection />
 
       {/* Pricing */}
-      <AnimatedPricingSection locale={locale} />
+      <PricingSection locale={locale} />
 
       {/* FAQ Section */}
-      <AnimatedFAQSection />
+      <FAQSection />
 
       {/* Final CTA */}
-      <AnimatedFinalCTA locale={locale} />
+      <FinalCTA locale={locale} />
 
       {/* Footer */}
       <footer className="bg-card border-t border-navbar-border">
