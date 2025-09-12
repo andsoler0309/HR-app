@@ -440,7 +440,8 @@
             "departmentDistribution": "Distribución de Departamentos",
             "loading": "Cargando...",
             "error": {
-                "saveDepartment": "Error al guardar el departamento"
+                "saveDepartment": "Error al guardar el departamento",
+                "noAuthenticatedUser": "No hay usuario autenticado"
             },
             "noData": "No hay datos de departamentos disponibles"
         }

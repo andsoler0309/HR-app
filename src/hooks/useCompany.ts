@@ -10,7 +10,12 @@ export function useCompany() {
   useEffect(() => {
     async function fetchCompanyInfo() {
       try {
-        const { data: { user } } = await supabase.auth.getUser()
+        const { data: { user }, error: userError } = await supabase.auth.getUser()
+        
+        if (userError) {
+          console.error('Auth error:', userError)
+          throw userError
+        }
         
         if (!user) {
           throw new Error('No authenticated user')
@@ -26,6 +31,34 @@ export function useCompany() {
 
         if (profileError) {
           console.error('Profile fetch error:', profileError)
+          
+          // If profile doesn't exist, it might need to be created
+          if (profileError.code === 'PGRST116') {
+            console.log('Profile not found, creating new profile...')
+            
+            // Try to create a profile for the user
+            const { data: newProfile, error: createError } = await supabase
+              .from('profiles')
+              .insert([{
+                id: user.id,
+                email: user.email || '',
+                full_name: user.user_metadata?.full_name || '',
+                company_name: user.user_metadata?.company_name || 'My Company'
+              }])
+              .select('id, company_name')
+              .single()
+            
+            if (createError) {
+              console.error('Error creating profile:', createError)
+              throw createError
+            }
+            
+            console.log('New profile created:', newProfile)
+            setCompanyId(newProfile.id)
+            setCompanyName(newProfile.company_name)
+            return
+          }
+          
           throw profileError
         }
 

@@ -440,7 +440,8 @@
       "departmentDistribution": "Department Distribution",
       "loading": "Loading...",
       "error": {
-        "saveDepartment": "An error occurred while saving the department"
+        "saveDepartment": "An error occurred while saving the department",
+        "noAuthenticatedUser": "No authenticated user"
       },
       "noData": "No department data available"
     }

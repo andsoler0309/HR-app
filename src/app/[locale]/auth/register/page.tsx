@@ -59,7 +59,7 @@ export default function RegisterPage() {
           options: {
             data: {
               full_name: data.name,
-              company: data.company,
+              company_name: data.company, // Fixed: using company_name instead of company
             },
             emailRedirectTo: `${window.location.origin}/auth/login`,
           },
@@ -74,7 +74,7 @@ export default function RegisterPage() {
           {
             id: authData.user.id,
             full_name: data.name,
-            company: data.company,
+            company_name: data.company, // Fixed: using company_name instead of company
             email: data.email,
             subscription_status: "free", // default value
             created_at: new Date().toISOString(),

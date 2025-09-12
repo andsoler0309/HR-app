@@ -34,7 +34,7 @@ export default function DepartmentFormModal({ isOpen, onClose, department, onSuc
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [subscriptionLimitError, setSubscriptionLimitError] = useState<any>(null);
-  const { companyId } = useCompany();
+  const { companyId, isLoading: isCompanyLoading, error: companyError } = useCompany();
   const isEditing = !!department;
   const t = useTranslations('departments.form');
 
@@ -69,7 +69,27 @@ export default function DepartmentFormModal({ isOpen, onClose, department, onSuc
       setIsLoading(true);
       setError(null);
       
-      if (!companyId) throw new Error(t('error.noAuthenticatedUser'));
+      // Check for company loading state first
+      if (isCompanyLoading) {
+        throw new Error(t('loading'));
+      }
+      
+      // Check for company error
+      if (companyError) {
+        console.error('Company error:', companyError);
+        throw new Error(companyError.message);
+      }
+      
+      if (!companyId) {
+        console.error('No company ID available. Auth state:', {
+          isCompanyLoading,
+          companyError,
+          companyId
+        });
+        throw new Error(t('error.noAuthenticatedUser'));
+      }
+
+      console.log('Creating department with company_id:', companyId);
 
       await checkResourceLimits(supabase, { departments: true }, isEditing);
 
@@ -130,7 +150,16 @@ export default function DepartmentFormModal({ isOpen, onClose, department, onSuc
           />
         )}
 
+        {companyError && <ErrorMessage message={companyError.message} className="mb-4 sm:mb-6" />}
         {error && <ErrorMessage message={error} className="mb-4 sm:mb-6" />}
+        {isCompanyLoading && (
+          <div className="mb-4 sm:mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <p className="text-blue-700 text-sm flex items-center gap-2">
+              <LoadingSpinner className="w-4 h-4" />
+              Loading company information...
+            </p>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
           <div className="space-y-2">
@@ -142,6 +171,7 @@ export default function DepartmentFormModal({ isOpen, onClose, department, onSuc
               {...register('name')}
               className="input-base w-full"
               placeholder={t('name')}
+              disabled={isLoading || isCompanyLoading}
             />
             {errors.name && (
               <p className="text-sm text-error flex items-center gap-2">
@@ -160,6 +190,7 @@ export default function DepartmentFormModal({ isOpen, onClose, department, onSuc
               rows={4}
               className="input-base w-full resize-none"
               placeholder={t('description')}
+              disabled={isLoading || isCompanyLoading}
             />
             {errors.description && (
               <p className="text-sm text-error flex items-center gap-2">
@@ -175,7 +206,7 @@ export default function DepartmentFormModal({ isOpen, onClose, department, onSuc
               onClick={handleClose}
               variant="secondary"
               className="px-4 py-2.5 rounded-lg text-sm font-medium w-full sm:w-auto"
-              disabled={isLoading}
+              disabled={isLoading || isCompanyLoading}
             >
               {t('cancel')}
             </Button>
@@ -183,9 +214,9 @@ export default function DepartmentFormModal({ isOpen, onClose, department, onSuc
               type="submit"
               variant="default"
               className="px-6 py-2.5 rounded-lg text-sm font-medium min-w-[100px] flex items-center justify-center w-full sm:w-auto"
-              disabled={isLoading}
+              disabled={isLoading || isCompanyLoading}
             >
-              {isLoading ? (
+              {isLoading || isCompanyLoading ? (
                 <LoadingSpinner className="w-4 sm:w-5 h-4 sm:h-5" />
               ) : isEditing ? (
                 t('update')
