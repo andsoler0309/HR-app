@@ -31,12 +31,14 @@ interface SessionProviderProps {
 
 export default function SessionProvider({ children, initialSession }: SessionProviderProps) {
   const [session, setSession] = useState<Session | null>(initialSession || null)
+  const [user, setUser] = useState<User | null>(initialSession?.user || null)
   const [isLoading, setIsLoading] = useState(!initialSession)
 
   useEffect(() => {
     // Si tenemos una sesión inicial del servidor, usar esa y no hacer verificación adicional
     if (initialSession) {
       setSession(initialSession)
+      setUser(initialSession.user)
       setIsLoading(false)
       return
     }
@@ -44,26 +46,28 @@ export default function SessionProvider({ children, initialSession }: SessionPro
     // Solo verificar con Supabase si no tenemos sesión inicial
     let mounted = true
 
-    const getSession = async () => {
+    const checkAuth = async () => {
       try {
-        // Use getUser() for security validation
+        // Use getUser() for security validation instead of getSession()
         const { data: { user }, error } = await supabase.auth.getUser()
         
         if (mounted) {
           if (error || !user) {
-            console.log('No valid session found')
+            console.log('No valid user found')
             setSession(null)
+            setUser(null)
           } else {
-            // Get the actual session if user is valid
-            const { data: { session: currentSession } } = await supabase.auth.getSession()
-            setSession(currentSession)
+            // Only set user, don't fetch session to avoid security warnings
+            setUser(user)
+            setSession(null) // We don't need the session for most use cases
           }
           setIsLoading(false)
         }
       } catch (error) {
-        console.error('Session error:', error)
+        console.error('Auth check error:', error)
         if (mounted) {
           setSession(null)
+          setUser(null)
           setIsLoading(false)
         }
       }
@@ -72,16 +76,26 @@ export default function SessionProvider({ children, initialSession }: SessionPro
     // Pequeño delay para evitar flash de loading si la sesión se carga rápidamente
     const timer = setTimeout(() => {
       if (mounted) {
-        getSession()
+        checkAuth()
       }
     }, 50)
 
-    // Escuchar cambios de autenticación
+    // Escuchar cambios de autenticación - pero validar usuario de forma segura
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (mounted) {
-        setSession(session)
+        if (event === 'SIGNED_IN' && session) {
+          // Re-validate user with getUser() for security
+          const { data: { user }, error } = await supabase.auth.getUser()
+          if (user && !error) {
+            setUser(user)
+            setSession(null) // Don't store session to avoid warnings
+          }
+        } else if (event === 'SIGNED_OUT') {
+          setSession(null)
+          setUser(null)
+        }
         setIsLoading(false)
       }
     })
@@ -97,7 +111,7 @@ export default function SessionProvider({ children, initialSession }: SessionPro
     <SessionContext.Provider
       value={{
         session,
-        user: session?.user || null,
+        user,
         isLoading,
       }}
     >

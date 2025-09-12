@@ -12,9 +12,9 @@ export interface AuthState {
 }
 
 // Cache para evitar múltiples verificaciones
-let cachedSession: Session | null = null
-let lastSessionCheck = 0
-const SESSION_CACHE_DURATION = 30000 // 30 segundos
+let cachedUser: User | null = null
+let lastUserCheck = 0
+const USER_CACHE_DURATION = 30000 // 30 segundos
 
 export const useAuth = () => {
   const [authState, setAuthState] = useState<AuthState>({
@@ -31,15 +31,15 @@ export const useAuth = () => {
   useEffect(() => {
     isMountedRef.current = true
     
-    const getSession = async () => {
+    const checkAuth = async () => {
       try {
         // Verificar cache primero
         const now = Date.now()
-        if (cachedSession && (now - lastSessionCheck) < SESSION_CACHE_DURATION) {
+        if (cachedUser && (now - lastUserCheck) < USER_CACHE_DURATION) {
           if (isMountedRef.current) {
             setAuthState({
-              user: cachedSession.user,
-              session: cachedSession,
+              user: cachedUser,
+              session: null, // Don't cache session for security
               loading: false,
               isAuthenticated: true
             })
@@ -47,73 +47,82 @@ export const useAuth = () => {
           return
         }
 
-        // Si no hay cache válido, verificar con Supabase usando getUser() para seguridad
+        // Usar getUser() para verificación segura sin depender de sessions inseguras
         const { data: { user }, error } = await supabase.auth.getUser()
         
         if (!isMountedRef.current) return
         
         if (error || !user) {
           setAuthState({ user: null, session: null, loading: false, isAuthenticated: false })
-          cachedSession = null
+          cachedUser = null
           return
         }
 
-        // Si el usuario es válido, obtener la sesión
-        const { data: { session } } = await supabase.auth.getSession()
-        
-        // Actualizar cache
-        cachedSession = session
-        lastSessionCheck = now
+        // Actualizar cache solo del usuario
+        cachedUser = user
+        lastUserCheck = now
 
         setAuthState({
-          user: session?.user || null,
-          session,
+          user,
+          session: null, // Don't store session to avoid security warnings
           loading: false,
-          isAuthenticated: !!session
+          isAuthenticated: true
         })
 
         // Solo redirigir si estamos en una página de auth y el usuario está autenticado
-        if (session && typeof window !== 'undefined' && window.location.pathname.includes('/auth/')) {
+        if (user && typeof window !== 'undefined' && window.location.pathname.includes('/auth/')) {
           const locale = params?.locale || 'es'
           router.push(`/${locale}/dashboard/employees`)
         }
       } catch (error) {
         if (!isMountedRef.current) return
-        console.error('Error in getSession:', error)
+        console.error('Error in checkAuth:', error)
         setAuthState({ user: null, session: null, loading: false, isAuthenticated: false })
-        cachedSession = null
+        cachedUser = null
       }
     }
 
     // Solo ejecutar la verificación inicial una vez
     if (!hasInitialized.current) {
       hasInitialized.current = true
-      getSession()
+      checkAuth()
     }
 
-    // Escuchar cambios de autenticación
+    // Escuchar cambios de autenticación - pero validar con getUser() en lugar de confiar en session
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (!isMountedRef.current) return
         
-        // Actualizar cache
-        cachedSession = session
-        lastSessionCheck = Date.now()
-        
-        setAuthState({
-          user: session?.user || null,
-          session,
-          loading: false,
-          isAuthenticated: !!session
-        })
-
-        // Manejar eventos de autenticación
+        // Para mayor seguridad, re-verificar con getUser() en lugar de usar session directamente
         if (event === 'SIGNED_IN' && session) {
-          const locale = params?.locale || 'es'
-          if (typeof window !== 'undefined' && !window.location.pathname.includes('/dashboard/')) {
-            router.push(`/${locale}/dashboard/employees`)
+          const { data: { user }, error } = await supabase.auth.getUser()
+          if (user && !error) {
+            cachedUser = user
+            lastUserCheck = Date.now()
+            
+            setAuthState({
+              user,
+              session: null,
+              loading: false,
+              isAuthenticated: true
+            })
+
+            const locale = params?.locale || 'es'
+            if (typeof window !== 'undefined' && !window.location.pathname.includes('/dashboard/')) {
+              router.push(`/${locale}/dashboard/employees`)
+            }
           }
         } else if (event === 'SIGNED_OUT') {
+          cachedUser = null
+          lastUserCheck = 0
+          
+          setAuthState({
+            user: null,
+            session: null,
+            loading: false,
+            isAuthenticated: false
+          })
+
           const locale = params?.locale || 'es'
           if (typeof window !== 'undefined' && !window.location.pathname.includes('/auth/')) {
             router.push(`/${locale}/auth/login`)
@@ -134,8 +143,8 @@ export const useAuth = () => {
       await supabase.auth.signOut()
       
       // Limpiar cache
-      cachedSession = null
-      lastSessionCheck = 0
+      cachedUser = null
+      lastUserCheck = 0
       
       // Limpiar preferencia de recordar
       if (typeof window !== 'undefined') {

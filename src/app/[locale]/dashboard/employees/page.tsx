@@ -63,11 +63,11 @@ export default function EmployeesPage() {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchEmployees();
+    // Only call fetchEmployeesWithAttendance as it includes everything fetchEmployees does
+    fetchEmployeesWithAttendance();
     fetchDepartments();
     fetchExistingTokens();
     fetchPolicies();
-    fetchEmployeesWithAttendance();
   }, []);
 
   async function fetchDocuments() {
@@ -96,10 +96,11 @@ export default function EmployeesPage() {
 
   async function fetchEmployees() {
     try {
-      setLoading(true);
-
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError || !user) {
+        console.error("User authentication error:", userError);
+        return;
+      }
 
       const { data, error } = await supabase.from("employees").select(`
           *,
@@ -111,8 +112,7 @@ export default function EmployeesPage() {
       setEmployees(data || []);
     } catch (error) {
       console.error("Error fetching employees:", error);
-    } finally {
-      setLoading(false);
+      setEmployees([]);
     }
   }
 
@@ -120,8 +120,12 @@ export default function EmployeesPage() {
     try {
       setLoading(true);
 
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError || !user) {
+        console.error("User authentication error:", userError);
+        setLoading(false);
+        return;
+      }
 
       // First, fetch employees
       const { data: employeesData, error: employeesError } =
@@ -144,10 +148,15 @@ export default function EmployeesPage() {
         .is("clock_out", null)
         .eq("company_id", user.id);
 
-      if (attendanceError) throw attendanceError;
+      if (attendanceError) {
+        console.warn("Attendance data error (non-critical):", attendanceError);
+        // Don't throw for attendance errors, just set employees without attendance
+        setEmployees(employeesData || []);
+        return;
+      }
 
       // Combine the data
-      const employeesWithAttendance = employeesData.map((employee) => ({
+      const employeesWithAttendance = (employeesData || []).map((employee) => ({
         ...employee,
         current_attendance:
           attendanceData?.find(
@@ -158,6 +167,8 @@ export default function EmployeesPage() {
       setEmployees(employeesWithAttendance);
     } catch (error) {
       console.error("Error fetching employees:", error);
+      // Even on error, try to clear loading state
+      setEmployees([]);
     } finally {
       setLoading(false);
     }
@@ -165,8 +176,11 @@ export default function EmployeesPage() {
 
   async function fetchPolicies() {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError || !user) {
+        console.error("User authentication error:", userError);
+        return;
+      }
 
       const { data, error } = await supabase
         .from("time_off_policies")
@@ -177,13 +191,17 @@ export default function EmployeesPage() {
       setPolicies(data || []);
     } catch (error) {
       console.error("Error fetching policies:", error);
+      setPolicies([]);
     }
   }
 
   async function fetchDepartments() {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError || !user) {
+        console.error("User authentication error:", userError);
+        return;
+      }
 
       const { data, error } = await supabase.from("departments").select("*").eq("company_id", user.id);
 
@@ -195,13 +213,17 @@ export default function EmployeesPage() {
       setDepartments(data || []);
     } catch (error) {
       console.error("Error fetching departments:", error);
+      setDepartments([]);
     }
   }
 
   async function fetchExistingTokens() {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError || !user) {
+        console.error("User authentication error:", userError);
+        return;
+      }
 
       const { data, error } = await supabase
         .from("employee_portal_access")
@@ -210,7 +232,7 @@ export default function EmployeesPage() {
 
       if (error) throw error;
 
-      const tokens = data.reduce(
+      const tokens = (data || []).reduce(
         (acc, curr) => ({
           ...acc,
           [curr.employee_id]: curr.access_token,
@@ -221,6 +243,7 @@ export default function EmployeesPage() {
       setAccessTokens(tokens);
     } catch (error) {
       console.error("Error fetching tokens:", error);
+      setAccessTokens({});
     }
   }
 
