@@ -34,58 +34,25 @@ export default function SessionProvider({ children, initialSession }: SessionPro
   const [isLoading, setIsLoading] = useState(!initialSession)
 
   useEffect(() => {
-    // Si tenemos una sesión inicial del servidor, usar esa y no hacer verificación adicional
-    if (initialSession) {
-      setSession(initialSession)
+    // If we don't have an initial session, get it from Supabase
+    if (!initialSession) {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        setSession(session)
+        setIsLoading(false)
+      })
+    } else {
       setIsLoading(false)
-      return
     }
 
-    // Solo verificar con Supabase si no tenemos sesión inicial
-    let mounted = true
-
-    const getSession = async () => {
-      try {
-        const { data: { session }, error } = await supabase.auth.getSession()
-        
-        if (mounted) {
-          if (error) {
-            console.error('Error getting session:', error)
-          }
-          setSession(session)
-          setIsLoading(false)
-        }
-      } catch (error) {
-        console.error('Session error:', error)
-        if (mounted) {
-          setSession(null)
-          setIsLoading(false)
-        }
-      }
-    }
-
-    // Pequeño delay para evitar flash de loading si la sesión se carga rápidamente
-    const timer = setTimeout(() => {
-      if (mounted) {
-        getSession()
-      }
-    }, 50)
-
-    // Escuchar cambios de autenticación
+    // Listen for auth changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (mounted) {
-        setSession(session)
-        setIsLoading(false)
-      }
+      setSession(session)
+      setIsLoading(false)
     })
 
-    return () => {
-      mounted = false
-      clearTimeout(timer)
-      subscription.unsubscribe()
-    }
+    return () => subscription.unsubscribe()
   }, [initialSession])
 
   return (

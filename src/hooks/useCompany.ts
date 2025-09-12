@@ -62,6 +62,8 @@ export function useCompany() {
           throw profileError
         }
 
+        console.log('Profile data:', profile)
+
         // The profile.id IS the company_id
         setCompanyId(profile.id)
         setCompanyName(profile.company_name) // CORRECTED: Using company_name

@@ -13,10 +13,9 @@ export default function WelcomeBack({ isVisible, onComplete }: WelcomeBackProps)
   useEffect(() => {
     if (!isVisible) return
 
-    // Hacer las transiciones más rápidas
-    const timer1 = setTimeout(() => setStep('found'), 300)
-    const timer2 = setTimeout(() => setStep('redirecting'), 800)
-    const timer3 = setTimeout(() => onComplete?.(), 1200)
+    const timer1 = setTimeout(() => setStep('found'), 500)
+    const timer2 = setTimeout(() => setStep('redirecting'), 1500)
+    const timer3 = setTimeout(() => onComplete?.(), 2500)
 
     return () => {
       clearTimeout(timer1)
@@ -32,26 +31,26 @@ export default function WelcomeBack({ isVisible, onComplete }: WelcomeBackProps)
       <div className="text-center max-w-md mx-auto px-6">
         <div className="mb-6">
           {step === 'checking' && (
-            <Loader2 className="w-8 h-8 animate-spin mx-auto text-primary" />
+            <Loader2 className="w-12 h-12 animate-spin mx-auto text-primary" />
           )}
           {step === 'found' && (
-            <CheckCircle className="w-8 h-8 mx-auto text-success animate-scale-in" />
+            <CheckCircle className="w-12 h-12 mx-auto text-success animate-scale-in" />
           )}
           {step === 'redirecting' && (
-            <Loader2 className="w-8 h-8 animate-spin mx-auto text-primary" />
+            <Loader2 className="w-12 h-12 animate-spin mx-auto text-primary" />
           )}
         </div>
         
-        <h2 className="text-xl font-bold text-foreground mb-2">
+        <h2 className="text-2xl font-bold text-platinum mb-2">
           {step === 'checking' && 'Verificando sesión...'}
           {step === 'found' && '¡Bienvenido de vuelta!'}
           {step === 'redirecting' && 'Redirigiendo...'}
         </h2>
         
-        <p className="text-muted-foreground text-sm">
-          {step === 'checking' && 'Comprobando tu sesión'}
-          {step === 'found' && 'Sesión activa encontrada'}
-          {step === 'redirecting' && 'Llevándote al dashboard'}
+        <p className="text-sunset">
+          {step === 'checking' && 'Comprobando si ya has iniciado sesión'}
+          {step === 'found' && 'Encontramos tu sesión activa'}
+          {step === 'redirecting' && 'Te llevamos a tu panel de control'}
         </p>
       </div>
     </div>
