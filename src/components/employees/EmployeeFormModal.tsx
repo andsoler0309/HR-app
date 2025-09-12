@@ -21,7 +21,10 @@ const employeeSchema = z.object({
     last_name: z.string().min(2, 'validation.lastNameRequired'),
     email: z.string().email('validation.invalidEmail'),
     phone: z.string().optional(),
-    department_id: z.string().optional().or(z.literal('')),
+    department_id: z.union([z.string().min(1), z.null(), z.literal(''), z.undefined()]).optional().transform((val) => {
+        if (!val || val === '') return null;
+        return val;
+    }),
     position: z.string().min(2, 'validation.positionRequired'),
     status: z.enum(['FULL_TIME', 'PART_TIME', 'CONTRACTOR', 'TEMPORARY'], {
         errorMap: () => ({ message: 'validation.invalidStatus' }),
@@ -115,7 +118,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
             last_name: employee.last_name,
             email: employee.email,
             phone: employee.phone || '',
-            department_id: employee.department_id,
+            department_id: employee.department_id || '',
             position: employee.position,
             status: employee.status,
             hire_date: employee.hire_date,
@@ -125,8 +128,18 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
             document_id: employee.document_id,
             birthday: employee.birthday
         } : {
+            first_name: '',
+            last_name: '',
+            email: '',
+            phone: '',
+            department_id: '',
+            position: '',
             status: 'FULL_TIME',
-            is_active: true
+            hire_date: '',
+            salary: undefined,
+            is_active: true,
+            document_id: '',
+            birthday: ''
         }
     });
 
@@ -137,7 +150,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                 last_name: employee.last_name,
                 email: employee.email,
                 phone: employee.phone || '',
-                department_id: employee.department_id,
+                department_id: employee.department_id || '',
                 position: employee.position,
                 status: employee.status,
                 hire_date: employee.hire_date,
@@ -149,8 +162,18 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
             });
         } else {
             reset({
+                first_name: '',
+                last_name: '',
+                email: '',
+                phone: '',
+                department_id: '',
+                position: '',
                 status: 'FULL_TIME',
-                is_active: true
+                hire_date: '',
+                salary: undefined,
+                is_active: true,
+                document_id: '',
+                birthday: ''
             });
         }
     }, [employee, reset]);
@@ -192,24 +215,26 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
             await checkResourceLimits(supabase, { employees: true }, isEditing);
 
             if (isEditing && employee?.id) {
+                const updateData = {
+                    first_name: data.first_name,
+                    last_name: data.last_name,
+                    email: data.email,
+                    phone: data.phone,
+                    department_id: data.department_id,
+                    position: data.position,
+                    status: data.status,
+                    hire_date: data.hire_date,
+                    birthday: data.birthday,
+                    salary: data.salary || null,
+                    // manager_id: data.manager_id || null,
+                    updated_at: new Date().toISOString(),
+                    is_active: data.is_active,
+                    document_id: data.document_id
+                };
+                
                 const { error } = await supabase
                     .from('employees')
-                    .update({
-                        first_name: data.first_name,
-                        last_name: data.last_name,
-                        email: data.email,
-                        phone: data.phone,
-                        department_id: data.department_id || null,
-                        position: data.position,
-                        status: data.status,
-                        hire_date: data.hire_date,
-                        birthday: data.birthday,
-                        salary: data.salary || null,
-                        // manager_id: data.manager_id || null,
-                        updated_at: new Date().toISOString(),
-                        is_active: data.is_active,
-                        document_id: data.document_id
-                    })
+                    .update(updateData)
                     .eq('id', employee.id)
                     .select();
 
@@ -218,16 +243,25 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                     throw error;
                 }
             } else {
+                const insertData = {
+                    first_name: data.first_name,
+                    last_name: data.last_name,
+                    email: data.email,
+                    phone: data.phone,
+                    department_id: data.department_id,
+                    position: data.position,
+                    status: data.status,
+                    hire_date: data.hire_date,
+                    birthday: data.birthday,
+                    salary: data.salary || null,
+                    company_id: user.id,
+                    is_active: data.is_active,
+                    document_id: data.document_id
+                };
+                
                 const { error } = await supabase
                     .from('employees')
-                    .insert([{
-                        ...data,
-                        department_id: data.department_id || null,
-                        company_id: user.id,
-                        birthday: data.birthday,
-                        is_active: data.is_active,
-                        document_id: data.document_id
-                    }]);
+                    .insert([insertData]);
 
                 if (error) throw error;
             }
@@ -547,7 +581,9 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                             >
                                 <select
                                     {...register('is_active', {
-                                        setValueAs: (value) => value === 'true'
+                                        setValueAs: (value) => {
+                                            return value === 'true' || value === true;
+                                        }
                                     })}
                                     className="select-custom w-full"
                                 >

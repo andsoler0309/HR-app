@@ -799,7 +799,7 @@ export default function EmployeesPage() {
           onClose={handleModalClose}
           employee={selectedEmployee}
           departments={departments}
-          onSuccess={fetchEmployees}
+          onSuccess={fetchEmployeesWithAttendance}
         />
 
         <DepartmentFormModal

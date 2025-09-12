@@ -16,7 +16,7 @@ export interface Employee {
   last_name: string
   email: string
   phone?: string
-  department_id: string
+  department_id: string | null
   position: string
   status: EmploymentStatus
   hire_date: string
