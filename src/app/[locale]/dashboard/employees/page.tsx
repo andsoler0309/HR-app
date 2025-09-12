@@ -257,12 +257,6 @@ export default function EmployeesPage() {
   }
 
   function handleAddEmployee() {
-    // Check if there are departments before allowing employee creation
-    if (departments.length === 0) {
-      setIsDepartmentModalOpen(true);
-      return;
-    }
-    
     setSelectedEmployee(undefined);
     setIsModalOpen(true);
   }
@@ -347,25 +341,14 @@ export default function EmployeesPage() {
             <span className="sm:hidden">Portal</span>
             <span className="hidden sm:inline">{t("goToPortal")}</span>
           </button>
-          <div className="relative group">
-            <button
-              onClick={handleAddEmployee}
-              data-tour="add-employee"
-              className={`btn-primary flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium w-full sm:w-auto ${
-                departments.length === 0 
-                  ? "opacity-75 cursor-help" 
-                  : ""
-              }`}
-            >
-              <Plus className="w-4 h-4" />
-              {t("addEmployee")}
-            </button>
-            {departments.length === 0 && (
-              <div className="absolute right-0 top-full mt-2 w-64 p-3 bg-card text-platinum text-sm rounded-lg shadow-lg border border-card-border opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                {t("alerts.departmentRequired.message")}
-              </div>
-            )}
-          </div>
+          <button
+            onClick={handleAddEmployee}
+            data-tour="add-employee"
+            className="btn-primary flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium w-full sm:w-auto"
+          >
+            <Plus className="w-4 h-4" />
+            {t("addEmployee")}
+          </button>
         </div>
       </div>
 
@@ -394,22 +377,6 @@ export default function EmployeesPage() {
             <AlertCircle className="h-4 w-4" />
             <AlertTitle className="text-sm sm:text-base">{t("alerts.policyRequired.title")}</AlertTitle>
             <AlertDescription className="text-sm">{t("alerts.policyRequired.message")}</AlertDescription>
-          </Alert>
-        )}
-
-        {departments.length === 0 && (
-          <Alert variant="infoblack">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle className="text-sm sm:text-base">{t("alerts.departmentRequired.title")}</AlertTitle>
-            <AlertDescription className="text-sm">
-              {t("alerts.departmentRequired.message")}{" "}
-              <button 
-                onClick={() => setIsDepartmentModalOpen(true)}
-                className="text-primary hover:text-vanilla underline font-medium"
-              >
-                {t("alerts.departmentRequired.createNow")}
-              </button>
-            </AlertDescription>
           </Alert>
         )}
       </div>

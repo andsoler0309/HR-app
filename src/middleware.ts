@@ -43,12 +43,23 @@ export async function middleware(req: NextRequest) {
   // Create the Supabase middleware client
   const supabase = createMiddlewareClient({ req, res })
   
-  // Refresh session if expired
-  const { data: { session } } = await supabase.auth.getSession()
+  // Refresh session if expired - this will respect the storage settings
+  const { data: { session }, error } = await supabase.auth.getSession()
+  
+  // Log session status for debugging (remove in production)
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Middleware - Session exists:', !!session, 'Path:', pathname)
+  }
 
   const isAuthRoute = pathname.startsWith(`/${locale}/auth`)
   const isPortalRoute = pathname.startsWith(`/${locale}/portal`)
   const isRootLocale = pathname === `/${locale}`
+  const isApiRoute = pathname.startsWith('/api')
+
+  // Skip auth check for API routes
+  if (isApiRoute) {
+    return res
+  }
 
   if (!session && !isAuthRoute && !isPortalRoute && !isRootLocale) {
     // Redirect to localized login
@@ -56,10 +67,11 @@ export async function middleware(req: NextRequest) {
   }
 
   if (session && isAuthRoute) {
+    // If user is already logged in and tries to access auth pages, redirect to dashboard
     return NextResponse.redirect(new URL(`/${locale}/dashboard/employees`, req.url))
   }
 
-  if (pathname === `/${locale}/dashboard`) {
+  if (session && pathname === `/${locale}/dashboard`) {
     return NextResponse.redirect(new URL(`/${locale}/dashboard/employees`, req.url))
   }
 

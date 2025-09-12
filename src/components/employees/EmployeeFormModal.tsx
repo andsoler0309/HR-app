@@ -21,16 +21,19 @@ const employeeSchema = z.object({
     last_name: z.string().min(2, 'validation.lastNameRequired'),
     email: z.string().email('validation.invalidEmail'),
     phone: z.string().optional(),
-    department_id: z.string().uuid('validation.departmentRequired'),
+    department_id: z.string().optional().or(z.literal('')),
     position: z.string().min(2, 'validation.positionRequired'),
     status: z.enum(['FULL_TIME', 'PART_TIME', 'CONTRACTOR', 'TEMPORARY'], {
         errorMap: () => ({ message: 'validation.invalidStatus' }),
     }),
     hire_date: z.string().nonempty('validation.hireDateRequired'),
     birthday: z.string().nonempty('validation.birthdayRequired'),
-    salary: z.number().positive().optional(),
+    salary: z.number().positive().optional().or(z.nan().transform(() => undefined)),
     // manager_id: z.string().uuid('validation.invalidManagerId').nullable().optional(),
-    is_active: z.boolean().default(true),
+    is_active: z.union([z.boolean(), z.string()]).transform((val) => {
+        if (typeof val === 'boolean') return val;
+        return val === 'true';
+    }),
     document_id: z.string().nonempty('validation.documentIdRequired')
 });
 
@@ -47,9 +50,14 @@ interface Props {
 export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess, departments }: Props) {
     const t = useTranslations('employees.form');
     const tAlerts = useTranslations('employees.alerts');
+    const tDept = useTranslations('departments.form');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [subscriptionLimitError, setSubscriptionLimitError] = useState<any>(null);
+    const [showNewDepartmentField, setShowNewDepartmentField] = useState(false);
+    const [newDepartmentName, setNewDepartmentName] = useState('');
+    const [isCreatingDepartment, setIsCreatingDepartment] = useState(false);
+    const [localDepartments, setLocalDepartments] = useState<Department[]>(departments);
     const isEditing = !!employee;
 
     // Debug: Log translation values
@@ -58,11 +66,54 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
         helpTextFirstName: t('helpText.firstName'),
     });
 
+    useEffect(() => {
+        setLocalDepartments(departments);
+    }, [departments]);
+
+    const createNewDepartment = async () => {
+        if (!newDepartmentName.trim()) return;
+        
+        try {
+            setIsCreatingDepartment(true);
+            
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) throw new Error('No authenticated user');
+
+            const { data, error } = await supabase
+                .from('departments')
+                .insert([{ 
+                    name: newDepartmentName.trim(), 
+                    company_id: user.id 
+                }])
+                .select()
+                .single();
+
+            if (error) throw error;
+
+            // Add to local departments list
+            setLocalDepartments(prev => [...prev, data]);
+            
+            // Select the new department
+            setValue('department_id', data.id);
+            
+            // Reset the form
+            setNewDepartmentName('');
+            setShowNewDepartmentField(false);
+            
+        } catch (err) {
+            console.error('Error creating department:', err);
+            setError(err instanceof Error ? err.message : 'Error creating department');
+        } finally {
+            setIsCreatingDepartment(false);
+        }
+    };
+
     const {
         register,
         handleSubmit,
         formState: { errors },
-        reset
+        reset,
+        setValue
     } = useForm<EmployeeFormValues>({
         resolver: zodResolver(employeeSchema),
         defaultValues: employee ? {
@@ -130,6 +181,8 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                 });
             }
             setError(null);
+            setShowNewDepartmentField(false);
+            setNewDepartmentName('');
         }
     }, [isOpen, reset, isEditing]);
 
@@ -152,7 +205,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                         last_name: data.last_name,
                         email: data.email,
                         phone: data.phone,
-                        department_id: data.department_id,
+                        department_id: data.department_id || null,
                         position: data.position,
                         status: data.status,
                         hire_date: data.hire_date,
@@ -175,6 +228,7 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                     .from('employees')
                     .insert([{
                         ...data,
+                        department_id: data.department_id || null,
                         company_id: user.id,
                         birthday: data.birthday,
                         is_active: data.is_active,
@@ -231,6 +285,8 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
         }
         setError(null);
         setSubscriptionLimitError(null);
+        setShowNewDepartmentField(false);
+        setNewDepartmentName('');
         onClose();
     };
 
@@ -358,20 +414,78 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                             <FormField
                                 label={t('department')}
                                 helpText={t('helpText.department')}
-                                required
                                 error={errors.department_id ? t(`validation.${errors.department_id.message}`) : undefined}
                             >
-                                <select
-                                    {...register('department_id')}
-                                    className="select-custom w-full"
-                                >
-                                    <option value="">{t('selectDepartment')}</option>
-                                    {departments.map((dept) => (
-                                        <option key={dept.id} value={dept.id}>
-                                            {dept.name}
-                                        </option>
-                                    ))}
-                                </select>
+                                <div className="space-y-3">
+                                    <select
+                                        {...register('department_id')}
+                                        className="select-custom w-full"
+                                    >
+                                        <option value="">{t('selectDepartment')} (opcional)</option>
+                                        {localDepartments.map((dept) => (
+                                            <option key={dept.id} value={dept.id}>
+                                                {dept.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    
+                                    {!showNewDepartmentField ? (
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowNewDepartmentField(true)}
+                                            className="text-sm text-primary hover:text-vanilla underline font-medium"
+                                        >
+                                            + Crear nuevo departamento/área
+                                        </button>
+                                    ) : (
+                                        <div className="space-y-2 p-3 bg-background/50 rounded-lg border border-card-border">
+                                            <label className="block text-sm font-medium text-sunset">
+                                                Nombre del nuevo departamento/área
+                                            </label>
+                                            <div className="flex gap-2">
+                                                <input
+                                                    type="text"
+                                                    value={newDepartmentName}
+                                                    onChange={(e) => setNewDepartmentName(e.target.value)}
+                                                    className="input-base flex-1"
+                                                    placeholder="Ej: Marketing, Ventas, IT..."
+                                                    onKeyDown={(e) => {
+                                                        if (e.key === 'Enter') {
+                                                            e.preventDefault();
+                                                            createNewDepartment();
+                                                        }
+                                                        if (e.key === 'Escape') {
+                                                            setShowNewDepartmentField(false);
+                                                            setNewDepartmentName('');
+                                                        }
+                                                    }}
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={createNewDepartment}
+                                                    disabled={!newDepartmentName.trim() || isCreatingDepartment}
+                                                    className="btn-primary px-3 py-2 text-sm disabled:opacity-50"
+                                                >
+                                                    {isCreatingDepartment ? (
+                                                        <LoadingSpinner className="w-4 h-4" />
+                                                    ) : (
+                                                        'Crear'
+                                                    )}
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setShowNewDepartmentField(false);
+                                                        setNewDepartmentName('');
+                                                    }}
+                                                    className="btn-secondary px-3 py-2 text-sm"
+                                                >
+                                                    Cancelar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
                             </FormField>
 
                             <FormField
@@ -438,7 +552,9 @@ export default function EmployeeFormModal({ isOpen, onClose, employee, onSuccess
                                 error={errors.is_active ? t(`validation.${errors.is_active.message}`) : undefined}
                             >
                                 <select
-                                    {...register('is_active')}
+                                    {...register('is_active', {
+                                        setValueAs: (value) => value === 'true'
+                                    })}
                                     className="select-custom w-full"
                                 >
                                     <option value="true">{t('isActiveOptions.true')}</option>

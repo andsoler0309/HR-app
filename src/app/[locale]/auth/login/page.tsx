@@ -1,9 +1,10 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import Link from 'next/link'
 import { useRouter, useParams } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
+import { supabase, configureSessionPersistence } from '@/lib/supabase'
+import { useAuth } from '@/hooks/useAuth'
 import { Mail, Lock, AlertCircle, Loader2 } from 'lucide-react'
 import {useTranslations} from 'next-intl'
 
@@ -17,19 +18,42 @@ type LoginFormValues = {
 export default function LoginPage() {
   const t = useTranslations('LoginPage');
   const params = useParams() as { locale: string };
-  
+  const { loading: authLoading, isAuthenticated } = useAuth()
 
   const [isLoading, setIsLoading] = useState(false)
   const [loadingStep, setLoadingStep] = useState<'idle' | 'authenticating' | 'redirecting'>('idle')
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
-  const { register, handleSubmit } = useForm<LoginFormValues>()
+  const { register, handleSubmit, setValue } = useForm<LoginFormValues>()
+
+  // Check if user is already authenticated and redirect
+  useEffect(() => {
+    if (!authLoading && isAuthenticated) {
+      router.push(`/${params.locale}/dashboard/employees`)
+    }
+  }, [authLoading, isAuthenticated, router, params.locale])
+
+  // Load remember me preference and last email on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const rememberMe = localStorage.getItem('supabase.auth.remember-me') === 'true'
+      const lastEmail = localStorage.getItem('supabase.auth.last-email')
+      
+      setValue('rememberMe', rememberMe)
+      if (rememberMe && lastEmail) {
+        setValue('email', lastEmail)
+      }
+    }
+  }, [setValue])
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
       setIsLoading(true)
       setLoadingStep('authenticating')
       setError(null)
+
+      // Configure session persistence based on rememberMe checkbox
+      configureSessionPersistence(data.rememberMe || false)
   
       const { data: authData, error: signInError } = await supabase.auth.signInWithPassword({
         email: data.email,
@@ -40,6 +64,17 @@ export default function LoginPage() {
   
       if (authData.user && authData.session) {
         setLoadingStep('redirecting')
+        
+        // Save remember me preference
+        if (data.rememberMe) {
+          localStorage.setItem('supabase.auth.remember-me', 'true')
+          // Store user email for convenience (optional)
+          localStorage.setItem('supabase.auth.last-email', data.email)
+        } else {
+          localStorage.removeItem('supabase.auth.remember-me')
+          localStorage.removeItem('supabase.auth.last-email')
+        }
+
         router.refresh()
         router.push(`/${params.locale}/dashboard/employees`)
       }
@@ -65,6 +100,30 @@ export default function LoginPage() {
       default:
         return t('signInButton', { defaultValue: 'Sign In' })
     }
+  }
+
+  // Show loading state while checking authentication
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-primary" />
+          <p className="text-sunset">Checking authentication...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Don't render login form if user is already authenticated
+  if (isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-primary" />
+          <p className="text-sunset">Redirecting to dashboard...</p>
+        </div>
+      </div>
+    )
   }
 
   return (

@@ -16,13 +16,17 @@ type Profile = {
 type AuthStore = {
   isLoading: boolean
   profile: Profile | null
+  isAuthenticated: boolean
   fetchProfile: () => Promise<void>
   signOut: () => Promise<void>
+  checkRememberMe: () => boolean
 }
 
-export const useAuthStore = create<AuthStore>((set) => ({
+export const useAuthStore = create<AuthStore>((set, get) => ({
   isLoading: true,
   profile: null,
+  isAuthenticated: false,
+  
   fetchProfile: async () => {
     try {
       const { data: { session } } = await supabase.auth.getSession()
@@ -34,17 +38,51 @@ export const useAuthStore = create<AuthStore>((set) => ({
           .eq('id', session.user.id)
           .single()
 
-        set({ profile, isLoading: false })
+        set({ 
+          profile, 
+          isLoading: false, 
+          isAuthenticated: true 
+        })
       } else {
-        set({ profile: null, isLoading: false })
+        set({ 
+          profile: null, 
+          isLoading: false, 
+          isAuthenticated: false 
+        })
       }
     } catch (error) {
       console.error('Error fetching profile:', error)
-      set({ profile: null, isLoading: false })
+      set({ 
+        profile: null, 
+        isLoading: false, 
+        isAuthenticated: false 
+      })
     }
   },
+  
   signOut: async () => {
-    await supabase.auth.signOut()
-    set({ profile: null })
+    try {
+      await supabase.auth.signOut()
+      
+      // Clear remember me preference
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('supabase.auth.remember-me')
+        localStorage.removeItem('supabase.auth.last-email')
+      }
+      
+      set({ 
+        profile: null, 
+        isAuthenticated: false 
+      })
+    } catch (error) {
+      console.error('Error signing out:', error)
+    }
+  },
+  
+  checkRememberMe: () => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('supabase.auth.remember-me') === 'true'
+    }
+    return false
   }
 }))

@@ -17,6 +17,7 @@ import AnimatedTestimonialsSection from "@/components/landing/AnimatedTestimonia
 import AnimatedPricingSection from "@/components/landing/AnimatedPricingSection";
 import AnimatedFAQSection from "@/components/landing/AnimatedFAQSection";
 import AnimatedFinalCTA from "@/components/landing/AnimatedFinalCTA";
+import AuthRedirect from "@/components/AuthRedirect";
 
 interface LandingPageProps {
   params: {
@@ -24,7 +25,7 @@ interface LandingPageProps {
   };
 }
 
-export default function LandingPage({ params: { locale } }: LandingPageProps) {
+function LandingPageContent({ locale }: { locale: string }) {
   const t = useTranslations("landing");
 
   return (
@@ -253,5 +254,13 @@ export default function LandingPage({ params: { locale } }: LandingPageProps) {
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function LandingPage({ params: { locale } }: LandingPageProps) {
+  return (
+    <AuthRedirect>
+      <LandingPageContent locale={locale} />
+    </AuthRedirect>
   );
 }

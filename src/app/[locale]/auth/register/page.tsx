@@ -1,14 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import {
   createRegisterSchema,
   type RegisterFormValues,
 } from "@/lib/validations/auth";
 import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/hooks/useAuth";
 import {
   AlertCircle,
   User,
@@ -22,10 +23,19 @@ import { useTranslations } from "next-intl";
 
 export default function RegisterPage() {
   const t = useTranslations("register");
+  const params = useParams() as { locale: string };
+  const { loading: authLoading, isAuthenticated } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isRegistered, setIsRegistered] = useState(false);
   const router = useRouter();
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (!authLoading && isAuthenticated) {
+      router.push(`/${params.locale}/dashboard/employees`)
+    }
+  }, [authLoading, isAuthenticated, router, params.locale])
 
   const validationMessages = {
     nameMin: t("passwordValidation.nameMin"),
@@ -96,6 +106,30 @@ export default function RegisterPage() {
       setIsLoading(false);
     }
   };
+
+  // Show loading while checking authentication
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-primary" />
+          <p className="text-sunset">Checking authentication...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Don't render register form if user is already authenticated
+  if (isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-primary" />
+          <p className="text-sunset">Redirecting to dashboard...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-background flex flex-col justify-center py-16 sm:px-8 lg:px-10">
